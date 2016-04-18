@@ -3,7 +3,7 @@
 //  POS
 //
 //  Created by Gal Blank on 12/7/15.
-//  Gal Blank. All rights reserved.
+//  Copyright © 2015 1stPayGateway. All rights reserved.
 //
 
 import Foundation
@@ -15,19 +15,27 @@ extension NSObject {
 }
 
 extension String {
-    subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+    
+    subscript(integerIndex: Int) -> Character {
+        let index = startIndex.advancedBy(integerIndex)
+        return self[index]
     }
+    
+    subscript(integerRange: Range<Int>) -> String {
+        let start = startIndex.advancedBy(integerRange.startIndex)
+        let end = startIndex.advancedBy(integerRange.endIndex)
+        let range = start..<end
+        return self[range]
+    }
+    
+
     
     subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
     
-    subscript (r: Range<Int>) -> String {
-        return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
-    }
-    
-    func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
+
+    public func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
         let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
         if let from = String.Index(from16, within: self),
@@ -43,7 +51,7 @@ extension String {
     }
     
     
-    func validateEmail(email:String) -> Bool{
+    public func validateEmail(email:String) -> Bool{
         let emailRegex:String = String("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
         let emailTest: NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailTest.evaluateWithObject(email)
@@ -61,7 +69,18 @@ extension String {
         return first.uppercaseString + String(characters.dropFirst())
     }
     
-
+  
+    public func toBool() -> Bool? {
+        switch self {
+        case "True", "true", "yes", "1":
+            return true
+        case "False", "false", "no", "0":
+            return false
+        default:
+            return nil
+        }
+    }
+    
     
 }
 

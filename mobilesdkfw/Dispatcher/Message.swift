@@ -3,7 +3,7 @@
 //  POS
 //
 //  Created by Gal Blank on 1/27/16.
-//  Gal Blank All rights reserved.
+//  Copyright © 2016 1stPayGateway. All rights reserved.
 //
 
 import UIKit
@@ -11,6 +11,7 @@ import UIKit
 public class Message:NSObject {
     public var routingKey:String = String("")
     public var httpMethod:String = String("")
+    public var passthruAPI:String = String("")
     public var params:AnyObject?
     public var ttl:Float = 0.1
     public var shouldselfdestruct:Bool = false

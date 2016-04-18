@@ -3,7 +3,7 @@
 //  POS
 //
 //  Created by Gal Blank on 1/13/16.
-//  Gal Blank All rights reserved.
+//  Copyright © 2016 1stPayGateway. All rights reserved.
 //
 
 import Foundation

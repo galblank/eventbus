@@ -52,8 +52,13 @@
 }
 
 
-
-
+- (NSString *) base64EncodedString
+{
+    NSData *nsdata = [self dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // Get NSString from NSData object in Base64
+    return [nsdata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+}
 
 @end
 

@@ -17,6 +17,7 @@
 -(BOOL)isValidEmail;
 -(NSString*)urlEncode;
 - (NSString *)urlDecode;
+- (NSString *) base64EncodedString;
 @end
 
 @interface NSMutableString(Helper)

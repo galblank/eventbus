@@ -33,7 +33,7 @@ public class MessageDispatcher:NSObject {
     }
     
     public func addMessageToBus(newmessage: Message) {
-        if(newmessage.routingKey.caseInsensitiveCompare("msg.selfdestruct") == NSComparisonResult.OrderedSame)
+        if(newmessage.shouldselfdestruct == false && newmessage.routingKey.caseInsensitiveCompare("msg.selfdestruct") == NSComparisonResult.OrderedSame)
         {
             let index:Int = messageBus.indexOf(newmessage)!
             if(index >= 0 ){

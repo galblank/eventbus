@@ -405,7 +405,7 @@ forHTTPHeaderField:(NSString *)field
     }
 
     mutableRequest = [[self requestBySerializingRequest:mutableRequest withParameters:parameters error:error] mutableCopy];
-
+    NSString* newStr = [NSString stringWithUTF8String:[mutableRequest.HTTPBody bytes]];
 	return mutableRequest;
 }
 

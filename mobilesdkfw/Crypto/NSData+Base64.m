@@ -214,10 +214,7 @@ static char encodingTable[64] = {
 }
 
 
-- (NSString *)base64EncodedString
-{
-    return [self base64EncodedStringWithWrapWidth:0];
-}
+
 
 
 @end
