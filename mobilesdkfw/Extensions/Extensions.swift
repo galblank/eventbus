@@ -14,6 +14,30 @@ extension NSObject {
     }
 }
 
+
+extension Character {
+    func utf8Value() -> UInt8 {
+        for s in String(self).utf8 {
+            return s
+        }
+        return 0
+    }
+    
+    func utf16Value() -> UInt16 {
+        for s in String(self).utf16 {
+            return s
+        }
+        return 0
+    }
+    
+    func unicodeValue() -> UInt32 {
+        for s in String(self).unicodeScalars {
+            return s.value
+        }
+        return 0
+    }
+}
+
 extension String {
     
     subscript(integerIndex: Int) -> Character {
@@ -28,10 +52,10 @@ extension String {
         return self[range]
     }
     
-
-    
     subscript (i: Int) -> String {
-        return String(self[i] as Character)
+        let index = self.startIndex.advancedBy(i)
+        return String(self[index] as! Character) // returns Character 'o'
+        //return String(self[i] as Character)
     }
     
 

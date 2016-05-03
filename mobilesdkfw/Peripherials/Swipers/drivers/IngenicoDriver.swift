@@ -38,10 +38,21 @@ public class TxnStateMachine:NSObject{
     override init() {
         super.init()
     }
-    
-    
-    
     public var currentState = RBAStates.Idle
+}
+
+
+public class RbaPoint{
+    public var x:Int = 0
+    public var y:Int = 0
+
+    
+    func toDic() -> [String:Int]
+    {
+        let dic = ["x":x,"y":y]
+        return dic
+    }
+    
 }
 
 public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
@@ -49,7 +60,10 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     var inputStream:NSInputStream!
     var outputStream:NSOutputStream!
     var statemachine:Observable<RBAStates> = Observable<RBAStates>(RBAStates.Idle)
-    
+    var signatureBlockCount = 0
+    var fetchingsignatureBlockNum = 0
+    var signatureData = ""
+    var shouldWaitForSignatureCapture = false
     override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.discovernetowrkswipers", object: nil)
@@ -64,6 +78,15 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief Handles open / close and errors on streams between This Driver and RBA.
+     
+     @discussion Do NOT call this method explicitly this is going to be called after sockets are open / closed etc...
+     
+     @param  Not Applicable here
+     
+     @return None
+     */
     public func stream(aStream: NSStream, handleEvent aStreamEvent: NSStreamEvent) {
         switch aStreamEvent {
         case NSStreamEvent.OpenCompleted:
@@ -80,7 +103,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         case NSStreamEvent.EndEncountered:
             break
         case NSStreamEvent.None:
-          break
+            break
         case NSStreamEvent.ErrorOccurred:
             print("NSStreamEvent.ErrorOccurred")
         default:
@@ -88,7 +111,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         }
     }
     
-    public func parseEMVStatus(data:String){
+    /*public func parseEMVStatus(data:String){
         //33.01.000000IS-MA-------------------S--I-----?
         let flags = data.substringFromIndex(data.startIndex.advancedBy(13))
         for i in 0 ..< flags.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) {
@@ -198,9 +221,18 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             }
         }
     }
-
+    */
     
     
+    /*!
+     @brief Sends NACK on each ACK
+     
+     @discussion For each packet we receive from RBA we MUST send back NACK ( acknowledge ), otherwise RBA will be resending the same packet over and over
+     
+     @param  Not Applicable here
+     
+     @return None
+     */
     func sendNack()
     {
         var buffer = [UInt8](count: 2048, repeatedValue: 0)
@@ -208,6 +240,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(nil, buffer: buffer)
     }
     
+    
+    /*!
+     @brief reads from stream
+     
+     @discussion called from Stream function
+     
+     @param  Not Applicable here
+     
+     @return None
+     */
     func read(){
         var buffer = [UInt8](count: 2048, repeatedValue: 0)
         var output: String = ""
@@ -231,6 +273,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         }
     }
     
+    /*!
+     @brief sends message to RBA
+     
+     @discussion sending messages to RBA
+     
+     @param  message:NSData ( optional ) - sometimes we are sending NSData
+             buffer:[UInt8] ( optional ) - sometimes we are sending pre-built buffer
+     
+     @return None
+     */
     func send(message:NSData?,buffer:[UInt8]?){
         if (self.outputStream.hasSpaceAvailable){
             var bytesWritten = 0
@@ -250,6 +302,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         }
     }
     
+    
+    /*!
+     @brief centralized method to consume all EventBus messages
+     
+     @discussion this method should be implemented in each object that wants to be a part of EventBus communication flow
+     
+     @param  notif:NSNotification - holds the abstract object of Message
+     
+     @return None
+     */
     func consumeMessage(notif:NSNotification){
         let msg:Message = notif.userInfo!["message"] as! Message
         switch(msg.routingKey){
@@ -281,7 +343,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             self.sendEmvResponseToTerminal(msg.params as! NSDictionary)
             break
         case "internal.connectrba":
-            self.connectToIngenico("192.168.100.118")
+            self.connectToIngenico("192.168.100.155")
             break
         case "internal.txndetails":
             var amount:String = msg.params!["amount"] as! String
@@ -300,11 +362,30 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief following up on the RBA State
+     
+     @discussion following up on the RBA State
+     
+     @param  newstate: RBAStates - new state of RBA
+     
+     @return None
+     */
     func stateChanged(newstate: RBAStates) {
         NSLog("stateChanged", "")
         
     }
     
+    
+    /*!
+     @brief called when the driver finished discovering all available RBA devices on the network
+     
+     @discussion called when the driver finished discovering all available RBA devices on the network
+     
+     @param  devices: [AnyObject] - list of devices found
+     
+     @return None
+     */
     func foundDevices(devices: [AnyObject]) {
         NSLog("Found ingenico devices %@", devices)
         let msg:Message = Message(routKey: "internal.discovereddevices")
@@ -318,6 +399,66 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief call this if flow requires user to electronically sign EMV transaction
+     
+     @discussion this is only initiation of the signature process
+     
+     @param  data: String - string to show on RBA device
+     
+     @return None
+     */
+    func requestSignature(data: String) {
+        let str: String = "20.165\u{1C}".stringByAppendingString(data)
+        let msg: NSData = self.buildMessage(str)
+        self.send(msg,buffer: nil)
+    }
+    
+    
+    /*!
+     @brief after we know that there is a signature data available we first must initiate signature data transfer from RBA to the driver
+     
+     @discussion This method requests to initiate signature packets data transfer from RBA
+     
+     @param  None
+     
+     @return None
+     */
+    func requestSignatureData() {
+        let str: String = "29.10000712"
+        let msg: NSData = self.buildMessage(str)
+        self.send(msg,buffer: nil)
+    }
+    
+    
+    /*!
+     @brief Requests actual blocks of signature data from RBA
+     
+     @discussion  fetchingsignatureBlockNum holds the current number of data block that we are going to request from RBA
+                  so the message is going to look like  "29.10000700", "29.10000701", "29.10000702"  etc...
+     
+     @param  None
+     
+     @return None
+     */
+    func requestSignatureBlock()
+    {
+        let str: String = "29.1000070" + String(fetchingsignatureBlockNum)
+        let msg: NSData = self.buildMessage(str)
+        fetchingsignatureBlockNum += 1
+        self.send(msg,buffer: nil)
+    }
+    
+    
+    /*!
+     @brief Must be called to initiated EMV transactions
+     
+     @discussion
+     
+     @param  data: String - message to display to user on the RBA in case no predefined message is embedded into RBA
+     
+     @return None
+     */
     func initiateTransaction(data: String) {
         let str: String = "23.".stringByAppendingString(data)
         let msg: NSData = self.buildMessage(str)
@@ -325,6 +466,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(msg,buffer: nil)
     }
     
+    
+    /*!
+     @brief sendEmvResponseToTerminal sends response of EMV Switch back to RBA which writes some of the values into the card memory chip
+     
+     @discussion must be called every time we approve / decline transaction
+     
+     @param  response:NSDictionary list of RBA Tags
+     
+     @return None
+     */
     func sendEmvResponseToTerminal(response:NSDictionary){
         var str:String = "33.04.0000\u{1C}"
         let emvtags = response["emvTags"] as? NSDictionary
@@ -346,7 +497,17 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(msg,buffer: nil)
     }
     
-    func initiateEMVTransaction()
+    
+    /*!
+     @brief EMVCardDetected sends acknowledge back to RBA that we've detected inserted EMV card and ready to proceed with EMV transaction
+     
+     @discussion must be called every time we detect EMV card.
+     
+     @param  None
+     
+     @return None
+     */
+    func EMVCardDetected()
     {
         statemachine.set(RBAStates.TxnInitiated)
         NSLog("Initiated Smart EMV", "")
@@ -358,6 +519,15 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief sends transaction type to RBA
+     
+     @discussion transaction type can be SALE, REFUND etc...
+     
+     @param  txnType:String - transaction type
+     
+     @return None
+     */
     func sendEMVTransactionTypeToTerminal(txnType:String)
     {
         var str = "14."
@@ -366,6 +536,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(msg,buffer: nil)
     }
     
+    
+    /*!
+     @brief payment types selection sent to RBA
+     
+     @discussion payment types can be CreditCard, DebitCard
+     
+     @param currently it's set to  - RBAProtocolConst.sharedRBAConstsInstance.creditCardType
+     
+     @return None
+     */
     func sendPaymentRequestTypeToTerminal()
     {
         var str = "04.0"
@@ -374,6 +554,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(msg,buffer: nil)
     }
     
+    
+    /*!
+     @brief sends amount to be charged / refunded etc.. to RBA
+     
+     @discussion payment types can be CreditCard, DebitCard
+     
+     @param amount:String - amount duh.....
+     
+     @return None
+     */
     func sendAmount(amount:String)
     {
         var str = "13."
@@ -383,6 +573,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    
+    /*!
+     @brief sets RBA availability
+     
+     @discussion 01 - ONLINE, 00 - OFFLINE
+     
+     @param running: Bool
+     
+     @return None
+     */
     func setavailability(running: Bool) {
         var data: NSData
         if running {
@@ -394,6 +594,17 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(data,buffer: nil)
     }
     
+    
+    
+    /*!
+     @brief requestTerminalStatus
+     
+     @discussion at any point in time we can request current status in the flow of EMV transaction
+     
+     @param None
+     
+     @return None
+     */
     func requestTerminalStatus()
     {
         var str = "33.01.0000"
@@ -402,6 +613,17 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.send(msg,buffer: nil)
     }
     
+    
+    
+    /*!
+     @brief building message to send to RBA
+     
+     @discussion DO NOT TOUCH or EDIT this
+     
+     @param None
+     
+     @return None
+     */
     func buildMessage(text: String) -> NSData {
         //NSLog("MSG->OUT: %@", text)
         let bytes = self.stringToHex(text)
@@ -413,6 +635,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         return sendData
     }
     
+    
+    /*!
+     @brief connects to ingenico on the network
+     
+     @discussion connects and opens Read & Write streams between RBA and the Driver
+     
+     @param address:String - RBA IP Address
+     
+     @return None
+     */
     func connectToIngenico(address:String) {
         /*NSString *thePath = [[NSBundle mainBundle] pathForResource:@"CLIENT2" ofType:@"p12"];
          NSData *PKCS12Data = [[NSData alloc] initWithContentsOfFile:thePath];
@@ -452,16 +684,46 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief clears display from any messages that we might have sent to it during the transaction
+     
+     @discussion
+     
+     @param None
+     
+     @return None
+     */
     func clearDisplay()
     {
         self.send(nil,buffer: RBAProtocolConst.sharedRBAConstsInstance.CLR_15)
     }
     
+    /*!
+     @brief hard resets RBA
+     
+     @discussion - puts RBA into "Lane Closed" state at the end of each transaction we should call this method
+     
+     @param None
+     
+     @return None
+     */
     func hardReset()
     {
         self.send(nil,buffer: RBAProtocolConst.sharedRBAConstsInstance.OFFLINE)
     }
     
+    
+    
+    
+    /*!
+     @brief processResponseBytes - any input from RBA is being processed here
+     
+     @discussion - anything that comes from sockets will end up here for processing
+     
+     @param output: String - raw data
+     
+     @return None
+     */
     func processResponseBytes(output: String) {
         let byteArray = output.utf8
         let data: NSMutableData = NSMutableData()
@@ -484,7 +746,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         
         if newstring.rangeOfString("23.0S") != nil {
             self.clearDisplay()
-            self.initiateEMVTransaction()
+            self.EMVCardDetected()
             return;
         }
         else if(newstring.rangeOfString("23.1S") != nil) {
@@ -502,13 +764,38 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             NSLog("Offline Response Message %@", newstring)
             return
         }
+        else if(newstring.rangeOfString("20.0") != nil) {
+            NSLog("Signature Data", "")
+            self.requestSignatureData()
+            return
+        }
+        else if(newstring.rangeOfString("29.20000712") != nil) {
+            let range = Range<String.Index>(start: newstring.startIndex.advancedBy(11), end: newstring.startIndex.advancedBy(12))
+            let blok = newstring.substringWithRange(range)
+            //let numblocks:NSString = blok.stringByMatching("(.*?)\u{3}\u{12}",capture:1)
+            signatureBlockCount = Int(blok)!
+            NSLog("Signature Block Count %@", blok)
+            self.requestSignatureBlock()
+            
+            return
+        }
+        else if(newstring.rangeOfString("29.2000070") != nil){
+            signatureData += newstring.substringFromIndex(newstring.startIndex.advancedBy(11))
+            NSLog("%@", signatureData)
+            if(fetchingsignatureBlockNum < signatureBlockCount){
+                self.requestSignatureBlock()
+            }
+            else{
+                self.parseSignatureData(signatureData, SigLen: signatureData.lengthOfBytesUsingEncoding(NSUTF8StringEncoding), crop: false)
+            }
+            return
+        }
         
         
         switch command {
         case 1:
             break
         case 9:
-  
             if(output.rangeOfString("09.020201R") != nil){
                 NSLog("Card removed", "")
                 self.clearDisplay()
@@ -519,7 +806,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             let msg:Message = Message(routKey: "internal.confirmamountrequest")
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
         case 7:
-        break
+            break
         //self.lblOutput.text = [@"Terminal stats: " stringByAppendingString:output];
         case 10:
             NSLog("User cancelled transaction", "")
@@ -545,8 +832,13 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             case 5:
                 if(statemachine.get() == RBAStates.TxnAuthorizing){
                     statemachine.set(RBAStates.TxnAuthorized)
+                    
+                    shouldWaitForSignatureCapture = true
+                    
+                    self.requestSignature("Sign Please")
                     self.parseEMVCardData(output,messagetype: RBAProtocolConst.sharedRBAConstsInstance.AuthorizationConfirmationResponseMessage)
-                    self.hardReset()
+                    
+                    //self.hardReset()
                 }
                 else{
                     NSLog("33.05 with invalid state", "")
@@ -573,7 +865,16 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
-    
+    /*!
+     @brief parseEMVCardData - extracting tags and card data of EMV chip happens here
+     
+     @discussion - EMV card data is being processed here, name, expiration date, card number etc....
+     
+     @param param:String - EMV Data
+                  messagetype:String - current EMV state ( AuthorizationConfirmationResponseMessage / AuthorizationRequestMessage)
+     
+     @return None
+     */
     func parseEMVCardData(param:String, messagetype:String)
     {
         let components = param.componentsSeparatedByString("\u{1C}")
@@ -622,12 +923,25 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             //send data to emv switch
             let msg:Message = Message(routKey: "internal.carddata")
             let st = NSNumber(integer: statemachine.get().rawValue)
-            msg.params = ["carddata":tags,"emvtags":arrayOfTagsToSend,"messagetype":messagetype,"currentstate":st]
+            msg.params = ["carddata":tags,"emvtags":arrayOfTagsToSend,"messagetype":messagetype,"currentstate":st,"shouldwaitforsignature":shouldWaitForSignatureCapture]
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
         }
     }
     
+   
     
+    /* NONE - EMV RELATED */
+    
+    
+    /*!
+     @brief parseCardData - extracting tags and card data of EMV chip happens here
+     
+     @discussion - Regular swipe, NFC etc... card data read is being processed here, name, expiration date, card number etc....
+     
+     @param param:String - card Data
+     
+     @return None
+     */
     func parseCardData(param:String)
     {
         let byteArray = param.utf8
@@ -685,6 +999,15 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    /*!
+     @brief parseTrack2 - extracting track2 of data when paying by swiping / nfc or Apple pay
+     
+     @discussion - Regular swipe, NFC etc... card data read is being processed here, name, expiration date, card number etc....
+     
+     @param track2:String - card Data, only track 2 relevant data
+     
+     @return None
+     */
     func parseTrack2(track2:String) -> [String : String]
     {
         var track2Data:[String : String] = [String : String]()
@@ -716,7 +1039,15 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     
     
     
-    
+    /*!
+     @brief parseTrack1 - extracting track1 of data when paying by swiping / nfc or Apple pay
+     
+     @discussion - Regular swipe, NFC etc... card data read is being processed here, name, expiration date, card number etc....
+     
+     @param track2:String - card Data, only track 1 relevant data
+     
+     @return None
+     */
     func parseTrack1(track1: String) -> [String : String] {
         var track1Data: [String : String]?
         if track1.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
@@ -745,4 +1076,203 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     }
     
     
+    
+    
+    /*!
+     @brief parseSignatureData - parse coordinates of signature from RBA
+     
+     @discussion - After we've collected all signature data blocks we will enter this method and decrypt & extract X/Y coordinate of every pixel touched on the RBA device creating a replica of of signature
+     
+     @param SigData3BA:String - all collected blocks combined
+     
+     @return None
+     */
+    func parseSignatureData(SigData3BA:String)
+    {
+        var points:NSMutableArray = NSMutableArray()
+        var minX = 2147483647
+        var maxX = -2147483647
+        var minY = 2147483647
+        var maxY = -2147483647
+        var X:Int = 0
+        var Y:Int = 0
+        var idx:Int = 0
+        var numPts = 0
+        var DX:Int = 0
+        var DY:Int = 0
+        
+        var point1 = RbaPoint()
+        point1.x = 0
+        point1.y = 0
+        points.addObject(point1)
+        numPts += 1
+        
+        let byteArray = SigData3BA.utf8
+        
+        
+        
+        for idx=0; idx<SigData3BA.lengthOfBytesUsingEncoding(NSUTF8StringEncoding); idx+=1{
+            if(idx + 2  >= SigData3BA.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)){
+                break
+            }
+            
+            var index = SigData3BA.startIndex.advancedBy(idx)
+            var source:Int = Int(SigData3BA[index].utf8Value())
+            var apoint = RbaPoint()
+            apoint.x = 0
+            apoint.y = 0
+            
+            if (source == 0x70)
+            {
+                numPts += 1
+                X = 0;
+                Y = 0;
+            }
+            else if (source >= 0x60 && source <= 0x6f)
+            {
+                //segment start
+                var index = SigData3BA.startIndex.advancedBy(idx + 1)
+                let value2 = SigData3BA[index]
+                
+                index = SigData3BA.startIndex.advancedBy(idx + 3)
+                let value3 = SigData3BA[index]
+                
+                let uin2:Int = Int(value2.utf8Value())
+                let uin3:Int =  Int(value3.utf8Value())
+
+                
+                X = ((source - 0x60) & 0x0c) << 7
+                X |= (uin2 - 0x20) << 3
+                X |= ((uin3 - 0x20) & 0x38) >> 3
+                
+                
+                index = SigData3BA.startIndex.advancedBy(idx + 2)
+                let value4 = SigData3BA[index]
+                var uin4:Int = Int(value4.utf8Value())
+                
+                Y = (((source - 0x60) & 0x03) << 9) |
+                    ((uin4 - 0x20) << 3) |
+                    (((uin3 - 0x20) & 0x07))
+                
+                idx += 3
+                
+                apoint.x = X
+                apoint.y = Y
+                numPts += 1
+                
+                if (X < minX) {
+                    minX = X
+                }
+                if (X > maxX) {
+                   maxX = X
+                }
+                if (Y < minY){
+                    minY = Y
+                }
+                if (Y > maxY){
+                    maxY = Y
+                }
+            }
+            else
+            {
+                //actual values
+                var index = SigData3BA.startIndex.advancedBy(idx + 2)
+                let value2 = SigData3BA[index]
+                var uin2:Int = Int(value2.utf8Value())
+                
+                DX = ((source - 0x20)) << 3  | (( (uin2 - 0x20) & 0x38) >> 3)
+                //may have to sign extend offset
+                DX = (DX << 7) >> 7
+                idx += 1
+                
+                
+                index = SigData3BA.startIndex.advancedBy(idx + 1)
+                let value1 = SigData3BA[index]
+                var uin1:Int = Int(value1.utf8Value())
+                
+                DY = (((source - 0x20) << 3) | ((uin1 - 0x20) & 0x07))
+                //may have to sign extend offset
+                DY = (DY << 7) >> 7
+                idx += 1
+                
+                X = X + DX
+                Y = Y + DY
+                
+                apoint.x = X
+                apoint.y = Y
+                //NSLog("%d:%d", X,Y)
+                if (X < minX) {
+                    minX = X
+                }
+                if (X > maxX) {
+                    maxX = X
+                }
+                if (Y < minY){
+                    minY = Y
+                }
+                if (Y > maxY){
+                    maxY = Y
+                }
+            }
+            
+            points.addObject(apoint)
+        }
+        
+        
+        var pointsArray:NSMutableArray = NSMutableArray()
+        for onepoint:RbaPoint in points as! [RbaPoint]{
+            pointsArray.addObject(onepoint.toDic())
+        }
+        
+        let msg:Message = Message(routKey: "internal.drawpoints")
+        msg.params = pointsArray
+        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+        
+        /*
+        _sigPtData.points = new Point[numPts];
+        for (idx = 0; idx < numPts; idx++)
+        {
+            _sigPtData.points[idx].X = pts[idx].X;
+            
+            if (pts[idx].Y == -1L)
+            _sigPtData.points[idx].Y = pts[idx].Y;
+            else
+            _sigPtData.points[idx].Y = minY + (maxY - pts[idx].Y);
+        }
+        
+        _sigPtData.bounds = new Rect();
+        _sigPtData.numPoints = numPts;
+        _sigPtData.bounds.left = minX;
+        _sigPtData.bounds.top = minY;
+        _sigPtData.bounds.right = maxX + minX;
+        _sigPtData.bounds.bottom = maxY + minY;
+        
+        if (Crop){
+         SigDecoder.Crop();
+         }*/
+    }
+    
+    /*
+     public static void Crop()
+     {
+     int minWidth = Math.Min(_sigPtData.bounds.left, _sigPtData.bounds.right);
+     int minHeight = Math.Min(_sigPtData.bounds.top, _sigPtData.bounds.bottom);
+     
+     // crop the signature so that it starts at 0,0
+     for (int i = 0; i < _sigPtData.numPoints; i++)
+     {
+     if (_sigPtData.points[i].X != -1 && _sigPtData.points[i].Y != -1)
+     {
+     _sigPtData.points[i].X -= minWidth;
+     _sigPtData.points[i].Y -= minHeight;
+     }
+     }
+     
+     // adjust the bounds of the rectangle of the signature
+     _sigPtData.bounds.right -= (_sigPtData.bounds.left + minWidth);
+     _sigPtData.bounds.bottom -= (_sigPtData.bounds.top + minHeight);
+     _sigPtData.bounds.left = 0;
+     _sigPtData.bounds.top = 0;
+     }
+     */
 }
