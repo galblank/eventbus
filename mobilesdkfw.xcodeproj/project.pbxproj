@@ -86,6 +86,7 @@
 		C1F220001C63B901005CB9D3 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FFE1C63B901005CB9D3 /* DBManager.m */; };
 		C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
+		CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,8 @@
 		C1F21FFE1C63B901005CB9D3 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
+		CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SdkTextField.swift; sourceTree = "<group>"; };
+		CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpErrorHeaders.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				C1F21F751C63B701005CB9D3 /* Extensions.swift */,
+				CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,6 +304,7 @@
 				C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */,
 				C1964D6B1C87629100FA9F89 /* endian.swift */,
 				C133CC2F1C99EE4300C74716 /* RegEx.swift */,
+				CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				C1F21FB71C63B702005CB9D3 /* NSData+Base64.m in Sources */,
 				C1F21FD41C63B702005CB9D3 /* AFURLRequestSerialization.m in Sources */,
 				C1F21FE81C63B702005CB9D3 /* UIProgressView+AFNetworking.m in Sources */,
+				CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */,
 				C1F21FB41C63B702005CB9D3 /* GTMBase64.m in Sources */,
 				C1F21FCB1C63B702005CB9D3 /* AFHTTPSessionManager.m in Sources */,
 				C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */,

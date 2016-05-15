@@ -405,8 +405,13 @@ forHTTPHeaderField:(NSString *)field
     }
 
     mutableRequest = [[self requestBySerializingRequest:mutableRequest withParameters:parameters error:error] mutableCopy];
-    NSString* newStr = [NSString stringWithUTF8String:[mutableRequest.HTTPBody bytes]];
-	return mutableRequest;
+    
+    //debug body
+    if(mutableRequest.HTTPBody != nil){
+        //NSString* newStr = [NSString stringWithUTF8String:[mutableRequest.HTTPBody bytes]];
+        //NSLog(@"%@",newStr);
+    }
+    return mutableRequest;
 }
 
 - (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method

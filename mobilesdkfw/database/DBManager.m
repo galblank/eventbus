@@ -71,7 +71,7 @@ static DBManager *sharedDBSingletonDelegate = nil;
     NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
     
     
-    dbname = [infoDict objectForKey:@"DatabaseName"];
+    dbname = [infoDict objectForKey:@"databasename"];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsPath = [paths objectAtIndex:0];
     databaseFullPath = [docsPath stringByAppendingPathComponent:dbname];

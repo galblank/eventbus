@@ -786,7 +786,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                 self.requestSignatureBlock()
             }
             else{
-                self.parseSignatureData(signatureData, SigLen: signatureData.lengthOfBytesUsingEncoding(NSUTF8StringEncoding), crop: false)
+                self.parseSignatureData(signatureData)
             }
             return
         }

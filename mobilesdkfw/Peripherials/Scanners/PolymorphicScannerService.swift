@@ -17,7 +17,7 @@ class PolymorphicScannerService: NSObject {
     func calculateCheckDigitOfUPC(upc: String) -> Float {
         var total: Int = 0
         var characters: [AnyObject] = NSMutableArray(capacity: upc.characters.count) as [AnyObject]
-        for var i = 0; i < upc.characters.count; i++ {
+        for i in 0 ..< upc.characters.count {
             characters.append(upc[i])
         }
         for var x = 0; x < characters.count; x += 2 {

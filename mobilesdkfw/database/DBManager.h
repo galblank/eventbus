@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define DB_BUNDLE_VERSION_KEY  @"kDB_BUNDLE_VERSION_KEY"
-#define DB_QUEUE_NAME          "com.goe.app.dbqueue"
+#define DB_QUEUE_NAME          "com.pplx.app.dbqueue"
 
 
 @interface DBManager : NSObject

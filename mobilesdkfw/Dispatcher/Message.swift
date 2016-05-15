@@ -12,6 +12,8 @@ public class Message:NSObject {
     public var routingKey:String = String("")
     public var httpMethod:String = String("")
     public var passthruAPI:String = String("")
+    public var callBackPoint:String = String("")
+    public var authtoken:String = String("")
     public var params:AnyObject?
     public var ttl:Float = 0.1
     public var shouldselfdestruct:Bool = false

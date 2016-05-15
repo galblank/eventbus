@@ -64,8 +64,8 @@ public class MessageDispatcher:NSObject {
     
     
     func startDispatching() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "consumeMessage:", name: "msg.selfdestruct", object: nil)
-        dispsatchTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "leave", userInfo: nil, repeats: true)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageDispatcher.consumeMessage(_:)), name: "msg.selfdestruct", object: nil)
+        dispsatchTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(MessageDispatcher.leave), userInfo: nil, repeats: true)
     }
     
     func stopDispathing() {
@@ -93,6 +93,10 @@ public class MessageDispatcher:NSObject {
     func dispatchMessage(message: Message) {
         var messageDic: [NSObject : AnyObject] = [NSObject : AnyObject]()
         messageDic["message"] = message
+        if(message.routingKey == "api.*"){
+            //make sure comms are initialized
+            CommManager.sharedCommSingletonDelegate
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(message.routingKey, object: nil, userInfo: messageDic)
     }
     
