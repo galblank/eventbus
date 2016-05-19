@@ -140,10 +140,10 @@ public class CommManager : NSObject {
         }
         
         if msg.httpMethod.caseInsensitiveCompare("get") == NSComparisonResult.OrderedSame {
-            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken)
+            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI)
         }
         else if msg.httpMethod.caseInsensitiveCompare("post") == NSComparisonResult.OrderedSame {
-            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken)
+            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI)
         }
         else if msg.httpMethod.caseInsensitiveCompare("batchPost") == NSComparisonResult.OrderedSame {
             self.batchPostAPI(paramsDict["api"] as! String, andParams: payload)
@@ -171,13 +171,12 @@ public class CommManager : NSObject {
     }
     
     
-    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String) {
+    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String) {
         let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
         manager.responseSerializer.acceptableContentTypes = NSSet(array: ["text/plain","application/json","text/html"]) as Set<NSObject>
         
         if(authtoken.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             let hdr = "Bearer \(authtoken)"
-            print(hdr)
             manager.requestSerializer.setValue(hdr, forHTTPHeaderField: "AUTHORIZATION")
         }
         
@@ -187,8 +186,9 @@ public class CommManager : NSObject {
             let msg: Message = Message(routKey: "internal.apiresponse")
             msg.callBackPoint = callbackpoint
             msg.params = ["api":api, "data":responseObject]
+            msg.passthruAPI = passThruAPI
             var _:AFHTTPRequestOperation?
-            print(responseObject)
+    
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
             }, failure: {(operation, error: NSError) -> Void in
                 NSLog("Error: %@", error)
@@ -196,16 +196,17 @@ public class CommManager : NSObject {
                 print("%d",err)
                 if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
                 {
-                    let msg: Message = Message(routKey: "internal.displayerror")
-                    msg.params = ["title":"Error", "message":"User is not recognized"]
+                    let msg: Message = Message(routKey: "internal.apierror")
+                    msg.params = ["title":"Error", "message":"User is not recognized","errno":err]
                     msg.callBackPoint = callbackpoint
+                    msg.passthruAPI = passThruAPI
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
                 //let status = error.userInfo["]
         })
     }
     
-    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String) {
+    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String) {
         let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
 
         
@@ -215,16 +216,16 @@ public class CommManager : NSObject {
         muSet.addIndex(403)
         muSet.addIndex(404)
         manager.responseSerializer.acceptableStatusCodes = muSet
-        
+        manager.requestSerializer = AFJSONRequestSerializer()
         if(authtoken.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             let hdr = "Bearer \(authtoken)"
-            manager.requestSerializer.setValue(hdr, forHTTPHeaderField: "HTTP_AUTHORIZATION")
+            manager.requestSerializer.setValue(hdr, forHTTPHeaderField: "AUTHORIZATION")
         }
         
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
         
         manager.POST(fullAPI, parameters: params, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
-            print("response ",responseObject)
+            //print(responseObject)
             
             let err:Int = Int((operation.response?.statusCode)!)
             let msg: Message?
@@ -234,17 +235,19 @@ public class CommManager : NSObject {
                 msg = Message(routKey: "internal.displayerror")
                 msg!.params = ["title":"Error", "message":responseObject[0]]
                 msg!.callBackPoint = callbackpoint
+                msg!.passthruAPI = passThruAPI
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg!)
             }
             else{
                 msg = Message(routKey: "internal.apiresponse")
                 msg!.callBackPoint = callbackpoint
                 msg!.params = ["api":api, "data":responseObject]
+                msg!.passthruAPI = passThruAPI
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg!)
             }
 
             }, failure: {(operation, error: NSError) -> Void in
-                
+                print(error);
         })
     }
     
