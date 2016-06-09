@@ -408,8 +408,8 @@ forHTTPHeaderField:(NSString *)field
     
     //debug body
     if(mutableRequest.HTTPBody != nil){
-        //NSString* newStr = [NSString stringWithUTF8String:[mutableRequest.HTTPBody bytes]];
-        //NSLog(@"%@",newStr);
+        NSString* newStr = [NSString stringWithUTF8String:[mutableRequest.HTTPBody bytes]];
+        NSLog(@"%@",newStr);
     }
     return mutableRequest;
 }

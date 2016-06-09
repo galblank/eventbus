@@ -86,6 +86,8 @@
 		C1F220001C63B901005CB9D3 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FFE1C63B901005CB9D3 /* DBManager.m */; };
 		C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
+		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
+		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +173,8 @@
 		C1F21FFE1C63B901005CB9D3 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
+		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
+		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SdkTextField.swift; sourceTree = "<group>"; };
 		CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpErrorHeaders.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,6 +294,8 @@
 			children = (
 				C1F21F751C63B701005CB9D3 /* Extensions.swift */,
 				CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */,
+				CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */,
+				CE2153151D09EF7900094F8B /* DynamicTextView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -489,7 +495,7 @@
 				TargetAttributes = {
 					C1F21F531C63B6D6005CB9D3 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = G669PFN3X3;
+						DevelopmentTeam = BZ76K4Y69D;
 					};
 				};
 			};
@@ -527,8 +533,10 @@
 			files = (
 				C1F21FC21C63B702005CB9D3 /* WaitingOverlay.swift in Sources */,
 				C1F21FDE1C63B702005CB9D3 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */,
 				C1F21FEA1C63B702005CB9D3 /* UIRefreshControl+AFNetworking.m in Sources */,
 				C1F21FE21C63B702005CB9D3 /* UIButton+AFNetworking.m in Sources */,
+				CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */,
 				C1F21FE01C63B702005CB9D3 /* UIAlertView+AFNetworking.m in Sources */,
 				C1F21FF11C63B702005CB9D3 /* PolymorphicSwiperService.swift in Sources */,
 				C1F21FC01C63B702005CB9D3 /* MessageDispatcher.swift in Sources */,
@@ -678,6 +686,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -687,8 +696,9 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.goemerchant.mobilesdkfw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galblank.mobilesdkfw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
@@ -699,6 +709,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -708,8 +719,9 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.goemerchant.mobilesdkfw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.galblank.mobilesdkfw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -20,9 +20,8 @@ public class WaitingOverlay:UIView  {
         self.alpha = 0.7
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 10.0
-        let activityWheel: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        let activityWheel: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
         activityWheel.center = self.center
-        activityWheel.activityIndicatorViewStyle = .White
         activityWheel.startAnimating()
         self.addSubview(activityWheel)
     }
@@ -33,7 +32,7 @@ public class WaitingOverlay:UIView  {
     }
     
     public override func drawRect(rect: CGRect) {
-        let labelCaption: UILabel = UILabel(frame: CGRectMake(5, self.frame.size.height / 2, self.frame.size.width - 5, 60))
+        let labelCaption: UILabel = UILabel(frame: CGRectMake(5, 5, self.frame.size.width - 10, self.frame.size.height - 10))
         // /*CGRectMake(0, 500, 768,100)*/
         labelCaption.text = caption
         labelCaption.layer.cornerRadius = 10.0

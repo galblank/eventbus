@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyJSON
+
 
 public enum HTTPERRORCODES: Int {
     // Informational
@@ -140,10 +140,10 @@ public class CommManager : NSObject {
         }
         
         if msg.httpMethod.caseInsensitiveCompare("get") == NSComparisonResult.OrderedSame {
-            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI)
+            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams:  msg.passthruParams)
         }
         else if msg.httpMethod.caseInsensitiveCompare("post") == NSComparisonResult.OrderedSame {
-            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI)
+            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams: msg.passthruParams)
         }
         else if msg.httpMethod.caseInsensitiveCompare("batchPost") == NSComparisonResult.OrderedSame {
             self.batchPostAPI(paramsDict["api"] as! String, andParams: payload)
@@ -171,7 +171,7 @@ public class CommManager : NSObject {
     }
     
     
-    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String) {
+    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
         let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
         manager.responseSerializer.acceptableContentTypes = NSSet(array: ["text/plain","application/json","text/html"]) as Set<NSObject>
         
@@ -185,6 +185,9 @@ public class CommManager : NSObject {
         manager.GET(fullAPI, parameters: params, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
             let msg: Message = Message(routKey: "internal.apiresponse")
             msg.callBackPoint = callbackpoint
+            if(passThruParams != nil){
+                msg.passthruParams = passThruParams
+            }
             msg.params = ["api":api, "data":responseObject]
             msg.passthruAPI = passThruAPI
             var _:AFHTTPRequestOperation?
@@ -200,13 +203,16 @@ public class CommManager : NSObject {
                     msg.params = ["title":"Error", "message":"User is not recognized","errno":err]
                     msg.callBackPoint = callbackpoint
                     msg.passthruAPI = passThruAPI
+                    if(passThruParams != nil){
+                        msg.passthruParams = passThruParams
+                    }
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
                 //let status = error.userInfo["]
         })
     }
     
-    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String) {
+    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
         let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
 
         
@@ -220,10 +226,11 @@ public class CommManager : NSObject {
         if(authtoken.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             let hdr = "Bearer \(authtoken)"
             manager.requestSerializer.setValue(hdr, forHTTPHeaderField: "AUTHORIZATION")
+            print(hdr)
         }
         
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
-        
+      
         manager.POST(fullAPI, parameters: params, success: {(operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
             //print(responseObject)
             
@@ -236,6 +243,9 @@ public class CommManager : NSObject {
                 msg!.params = ["title":"Error", "message":responseObject[0]]
                 msg!.callBackPoint = callbackpoint
                 msg!.passthruAPI = passThruAPI
+                if(passThruParams != nil){
+                    msg!.passthruParams = passThruParams
+                }
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg!)
             }
             else{
@@ -243,6 +253,9 @@ public class CommManager : NSObject {
                 msg!.callBackPoint = callbackpoint
                 msg!.params = ["api":api, "data":responseObject]
                 msg!.passthruAPI = passThruAPI
+                if(passThruParams != nil){
+                    msg!.passthruParams = passThruParams
+                }
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg!)
             }
 
