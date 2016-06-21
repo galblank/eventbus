@@ -15,9 +15,11 @@ public protocol DynamicTextViewDelegate {
 public class DynamicTextView: UITextView {
     
     public var dynamicDelegate: DynamicTextViewDelegate?
+    public var addBottomBorder = false
     var minHeight: CGFloat!
     var maxHeight: CGFloat?
     private var contentOffsetCenterY: CGFloat!
+    var bottomborder:CALayer? = nil
     
     public init(frame: CGRect, offset: CGFloat = 0.0) {
         super.init(frame: frame, textContainer: nil)
@@ -29,7 +31,6 @@ public class DynamicTextView: UITextView {
         
         //listen for text changes
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textChanged), name: UITextViewTextDidChangeNotification, object: nil)
-        
         //update offsets
         layoutSubviews()
     }
@@ -39,21 +40,25 @@ public class DynamicTextView: UITextView {
     }
     
     
-    func addBottomBorder()
+    func applyaBottomBorder()
     {
-        let border = CALayer()
         let height = CGFloat(1.0)
-        border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0, y: self.frame.size.height - height, width:  self.frame.size.width, height: height)
-        
-        border.borderWidth = 1.0
-        self.layer.addSublayer(border)
-        self.layer.masksToBounds = false
+        if(bottomborder == nil){
+            bottomborder = CALayer()
+            bottomborder!.borderColor = UIColor.darkGrayColor().CGColor
+            bottomborder!.borderWidth = 1.0
+            self.layer.addSublayer(bottomborder!)
+            self.layer.masksToBounds = false
+        }
+        bottomborder!.frame = CGRect(x: 0, y: self.frame.size.height - height, width:  self.frame.size.width, height: height)
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
         
+        if(addBottomBorder == true){
+            applyaBottomBorder()
+        }
         //Use content size if more than min size, compensate for Y offset
         var height = max(self.contentSize.height - (contentOffsetCenterY * 2.0), minHeight)
         var updateContentOffsetY: CGFloat?
@@ -87,7 +92,4 @@ public class DynamicTextView: UITextView {
             }
         }
     }
-    
-    
-    
 }
