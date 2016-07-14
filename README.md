@@ -8,7 +8,7 @@ Currently Used by such companies as : <br />
 <b>Comcast X1 Communications systems</b></a>
 <br />
 <a href="http://www.goemerchant.com">
-<img src="http://www.goemerchant.com/images/goe-logo-shadow.png" width="200" height="100"><br />
+<img src="http://www.goemerchant.com/images/goe-logo-shadow.png" width="300" height="100"><br />
 <b>First American Payment Systems</b></a>
 <br />
 <a href="http://www.peoplelinx.com">
