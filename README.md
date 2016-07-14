@@ -3,6 +3,8 @@ swift based event bus framework to use inside internal and external communicatio
 
 Currently Used by such companies as :
 
+Comcast X1 Communications systems
+
 First American Payment Systems. - www.goemerchant.com
 
 PeopleLinx. - www.peoplelinx.com
