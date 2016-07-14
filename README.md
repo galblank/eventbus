@@ -17,5 +17,5 @@ swift based event bus framework to use inside internal and external communicatio
 <br />
 <a href=" http://www.huffingtonpost.com/entry/khloe-kardashian-app-begroupd_us_55c2621ae4b0f7f0bebb675a">
 <img src="https://pbs.twimg.com/profile_images/615619857300783108/yaMclnKa_400x400.png" width="100" height="100"><br />
-<b>Begroupd Inc. - www.peoplelinx.com</b></a>
+<b>Begroupd Inc. - Khloe Kardashian App/b></a>
 <br />
