@@ -3,7 +3,7 @@
 //  mobilesdkfw
 //
 //  Created by Gal Blank on 3/9/16.
-//  Copyright © 2016 Goemerchant. All rights reserved.
+//  Copyright © 2016 Gal Blank. All rights reserved.
 //
 
 import Foundation
@@ -53,7 +53,7 @@ public class RBAProtocolConst:NSObject
     
     /*
     Company ID number assigned by FAPS.
-    000001 – GoEmerchant
+    000001 – Gal Blank
     000002 – iATS
     000003 – Govolution
     000004 – ACC

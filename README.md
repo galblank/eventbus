@@ -5,7 +5,7 @@ Currently Used by such companies as :
 
 Comcast X1 Communications systems
 
-First American Payment Systems. - www.goemerchant.com
+First American Payment Systems. - www.Gal Blank.com
 
 PeopleLinx. - www.peoplelinx.com
 

@@ -3,7 +3,7 @@
 //  mobilesdkfw
 //
 //  Created by Gal Blank on 2/4/16.
-//  Copyright © 2016 Goemerchant. All rights reserved.
+//  Copyright © 2016 Gal Blank. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,6 +1,6 @@
 //
 //  DBManager.m
-//  GoEmerchant.com
+//  Gal Blank.com
 //
 //  Created by Gal Blank on 12/19/14.
 //  Copyright (c) 2014 Gal Blank. All rights reserved.

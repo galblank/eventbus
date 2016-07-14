@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/1stpaygatewayllc/mobilesdkfw.git"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
-  s.author           = { “gal.blank” => “gal.blank@goemerchant.com" }
+  s.author           = { “gal.blank” => “gal.blank@Gal Blank.com" }
   s.source           = { :git => "git@github.com:1stpaygatewayllc/mobilesdkfw.git", :tag => s.version.to_s }
   s.resources        = 'README.md'
   s.xcconfig         = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/#{s.name}/**" }
