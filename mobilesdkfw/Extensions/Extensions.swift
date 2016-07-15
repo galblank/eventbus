@@ -3,7 +3,7 @@
 //  POS
 //
 //  Created by Gal Blank on 12/7/15.
-//  Copyright © 2015 1stPayGateway. All rights reserved.
+//  Copyright © 2015 Gal Blank. All rights reserved.
 //
 
 import Foundation
@@ -98,9 +98,9 @@ extension String {
   
     public func toBool() -> Bool? {
         switch self {
-        case "True", "true", "yes", "1":
+        case "True", "true", "yes", "1", "ENABLE", "Enable", "enable", "Success", "SUCCESS", "success":
             return true
-        case "False", "false", "no", "0":
+        case "False", "false", "no", "0", "DISABLE", "Disable", "disable":
             return false
         default:
             return nil
