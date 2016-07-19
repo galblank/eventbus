@@ -9,30 +9,13 @@
 /* Begin PBXBuildFile section */
 		C11311891C889609009CF1FD /* socketsutils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11311881C889609009CF1FD /* socketsutils.swift */; };
 		C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */; };
-		C133CC301C99EE4300C74716 /* RegEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C133CC2F1C99EE4300C74716 /* RegEx.swift */; };
 		C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = C133CC311C99F34600C74716 /* RegexKitLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = C133CC321C99F34600C74716 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C133CC361C99F38000C74716 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C133CC351C99F38000C74716 /* libicucore.tbd */; };
-		C18504181C907ED10000FB49 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18504171C907ED10000FB49 /* Constants.swift */; };
 		C18F52BD1C6B9D78009D6805 /* SystemUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */; };
 		C194EE661C89F0CC000397D8 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C194EE651C89F0CC000397D8 /* Observable.swift */; };
 		C1964D6C1C87629100FA9F89 /* endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1964D6B1C87629100FA9F89 /* endian.swift */; };
 		C1F21F581C63B6D6005CB9D3 /* mobilesdkfw.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F571C63B6D6005CB9D3 /* mobilesdkfw.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FAF1C63B702005CB9D3 /* CryptoHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F601C63B701005CB9D3 /* CryptoHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB01C63B702005CB9D3 /* CryptoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F611C63B701005CB9D3 /* CryptoHelper.m */; };
-		C1F21FB11C63B702005CB9D3 /* Encryption.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F621C63B701005CB9D3 /* Encryption.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB21C63B702005CB9D3 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F631C63B701005CB9D3 /* Encryption.m */; };
-		C1F21FB31C63B702005CB9D3 /* GTMBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F651C63B701005CB9D3 /* GTMBase64.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB41C63B702005CB9D3 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F661C63B701005CB9D3 /* GTMBase64.m */; };
-		C1F21FB51C63B702005CB9D3 /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F671C63B701005CB9D3 /* GTMDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB61C63B702005CB9D3 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F681C63B701005CB9D3 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB71C63B702005CB9D3 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F691C63B701005CB9D3 /* NSData+Base64.m */; };
-		C1F21FB81C63B702005CB9D3 /* NSData+Helper.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F6A1C63B701005CB9D3 /* NSData+Helper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FB91C63B702005CB9D3 /* NSData+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F6B1C63B701005CB9D3 /* NSData+Helper.m */; };
-		C1F21FBA1C63B702005CB9D3 /* NSString+Helper.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F6C1C63B701005CB9D3 /* NSString+Helper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FBB1C63B702005CB9D3 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F6D1C63B701005CB9D3 /* NSString+Helper.m */; };
-		C1F21FBC1C63B702005CB9D3 /* UICKeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21F6E1C63B701005CB9D3 /* UICKeyChainStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FBD1C63B702005CB9D3 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F6F1C63B701005CB9D3 /* UICKeyChainStore.m */; };
 		C1F21FBE1C63B702005CB9D3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F711C63B701005CB9D3 /* Message.swift */; };
 		C1F21FC01C63B702005CB9D3 /* MessageDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F731C63B701005CB9D3 /* MessageDispatcher.swift */; };
 		C1F21FC11C63B702005CB9D3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21F751C63B701005CB9D3 /* Extensions.swift */; };
@@ -80,8 +63,6 @@
 		C1F21FF11C63B702005CB9D3 /* PolymorphicSwiperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */; };
 		C1F21FF41C63B714005CB9D3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */; };
 		C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */; };
-		C1F21FFA1C63B8F7005CB9D3 /* StringHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21FF81C63B8F7005CB9D3 /* StringHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F21FFB1C63B8F7005CB9D3 /* StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FF91C63B8F7005CB9D3 /* StringHelper.m */; };
 		C1F21FFF1C63B901005CB9D3 /* DBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21FFD1C63B901005CB9D3 /* DBManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1F220001C63B901005CB9D3 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FFE1C63B901005CB9D3 /* DBManager.m */; };
 		C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */; };
@@ -90,37 +71,22 @@
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
 		CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */; };
+		CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CECC9A491D3C5014007E4B60 /* eventbus.podspec */; };
+		CECC9A4C1D3C515E007E4B60 /* DriversConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECC9A4B1D3C515E007E4B60 /* DriversConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C11311881C889609009CF1FD /* socketsutils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = socketsutils.swift; sourceTree = "<group>"; };
 		C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngenicoDriver.swift; sourceTree = "<group>"; };
-		C133CC2F1C99EE4300C74716 /* RegEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegEx.swift; sourceTree = "<group>"; };
 		C133CC311C99F34600C74716 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		C133CC321C99F34600C74716 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		C133CC351C99F38000C74716 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
-		C18504171C907ED10000FB49 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtils.swift; sourceTree = "<group>"; };
 		C194EE651C89F0CC000397D8 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		C1964D6B1C87629100FA9F89 /* endian.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = endian.swift; sourceTree = "<group>"; };
 		C1F21F541C63B6D6005CB9D3 /* mobilesdkfw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mobilesdkfw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1F21F571C63B6D6005CB9D3 /* mobilesdkfw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mobilesdkfw.h; sourceTree = "<group>"; };
 		C1F21F591C63B6D6005CB9D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C1F21F601C63B701005CB9D3 /* CryptoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoHelper.h; sourceTree = "<group>"; };
-		C1F21F611C63B701005CB9D3 /* CryptoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoHelper.m; sourceTree = "<group>"; };
-		C1F21F621C63B701005CB9D3 /* Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encryption.h; sourceTree = "<group>"; };
-		C1F21F631C63B701005CB9D3 /* Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encryption.m; sourceTree = "<group>"; };
-		C1F21F651C63B701005CB9D3 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
-		C1F21F661C63B701005CB9D3 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
-		C1F21F671C63B701005CB9D3 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		C1F21F681C63B701005CB9D3 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		C1F21F691C63B701005CB9D3 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-		C1F21F6A1C63B701005CB9D3 /* NSData+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Helper.h"; sourceTree = "<group>"; };
-		C1F21F6B1C63B701005CB9D3 /* NSData+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Helper.m"; sourceTree = "<group>"; };
-		C1F21F6C1C63B701005CB9D3 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
-		C1F21F6D1C63B701005CB9D3 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
-		C1F21F6E1C63B701005CB9D3 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
-		C1F21F6F1C63B701005CB9D3 /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		C1F21F711C63B701005CB9D3 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		C1F21F731C63B701005CB9D3 /* MessageDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDispatcher.swift; sourceTree = "<group>"; };
 		C1F21F751C63B701005CB9D3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -168,8 +134,6 @@
 		C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolymorphicSwiperService.swift; sourceTree = "<group>"; };
 		C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		C1F21FF81C63B8F7005CB9D3 /* StringHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelper.h; sourceTree = "<group>"; };
-		C1F21FF91C63B8F7005CB9D3 /* StringHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringHelper.m; sourceTree = "<group>"; };
 		C1F21FFD1C63B901005CB9D3 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
 		C1F21FFE1C63B901005CB9D3 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -179,6 +143,8 @@
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
 		CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SdkTextField.swift; sourceTree = "<group>"; };
 		CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpErrorHeaders.h; sourceTree = "<group>"; };
+		CECC9A491D3C5014007E4B60 /* eventbus.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eventbus.podspec; sourceTree = "<group>"; };
+		CECC9A4B1D3C515E007E4B60 /* DriversConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriversConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,8 +173,8 @@
 		C1C57D321C873ED500A3DAD5 /* drivers */ = {
 			isa = PBXGroup;
 			children = (
+				CECC9A4B1D3C515E007E4B60 /* DriversConstants.swift */,
 				C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */,
-				C18504171C907ED10000FB49 /* Constants.swift */,
 			);
 			path = drivers;
 			sourceTree = "<group>";
@@ -216,6 +182,7 @@
 		C1F21F4A1C63B6D6005CB9D3 = {
 			isa = PBXGroup;
 			children = (
+				CECC9A491D3C5014007E4B60 /* eventbus.podspec */,
 				C133CC351C99F38000C74716 /* libicucore.tbd */,
 				C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */,
 				C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */,
@@ -238,7 +205,6 @@
 			children = (
 				C194EE641C89F0A7000397D8 /* Observables */,
 				C1F21FFC1C63B901005CB9D3 /* database */,
-				C1F21F5F1C63B701005CB9D3 /* Crypto */,
 				C1F21F701C63B701005CB9D3 /* Dispatcher */,
 				C1F21F741C63B701005CB9D3 /* Extensions */,
 				C1F21F761C63B701005CB9D3 /* Helpers */,
@@ -248,38 +214,6 @@
 				C1F21F591C63B6D6005CB9D3 /* Info.plist */,
 			);
 			path = mobilesdkfw;
-			sourceTree = "<group>";
-		};
-		C1F21F5F1C63B701005CB9D3 /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				C1F21FF81C63B8F7005CB9D3 /* StringHelper.h */,
-				C1F21FF91C63B8F7005CB9D3 /* StringHelper.m */,
-				C1F21F601C63B701005CB9D3 /* CryptoHelper.h */,
-				C1F21F611C63B701005CB9D3 /* CryptoHelper.m */,
-				C1F21F621C63B701005CB9D3 /* Encryption.h */,
-				C1F21F631C63B701005CB9D3 /* Encryption.m */,
-				C1F21F641C63B701005CB9D3 /* GTM */,
-				C1F21F681C63B701005CB9D3 /* NSData+Base64.h */,
-				C1F21F691C63B701005CB9D3 /* NSData+Base64.m */,
-				C1F21F6A1C63B701005CB9D3 /* NSData+Helper.h */,
-				C1F21F6B1C63B701005CB9D3 /* NSData+Helper.m */,
-				C1F21F6C1C63B701005CB9D3 /* NSString+Helper.h */,
-				C1F21F6D1C63B701005CB9D3 /* NSString+Helper.m */,
-				C1F21F6E1C63B701005CB9D3 /* UICKeyChainStore.h */,
-				C1F21F6F1C63B701005CB9D3 /* UICKeyChainStore.m */,
-			);
-			path = Crypto;
-			sourceTree = "<group>";
-		};
-		C1F21F641C63B701005CB9D3 /* GTM */ = {
-			isa = PBXGroup;
-			children = (
-				C1F21F651C63B701005CB9D3 /* GTMBase64.h */,
-				C1F21F661C63B701005CB9D3 /* GTMBase64.m */,
-				C1F21F671C63B701005CB9D3 /* GTMDefines.h */,
-			);
-			path = GTM;
 			sourceTree = "<group>";
 		};
 		C1F21F701C63B701005CB9D3 /* Dispatcher */ = {
@@ -312,7 +246,6 @@
 				C1F21F771C63B701005CB9D3 /* WaitingOverlay.swift */,
 				C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */,
 				C1964D6B1C87629100FA9F89 /* endian.swift */,
-				C133CC2F1C99EE4300C74716 /* RegEx.swift */,
 				CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */,
 			);
 			path = Helpers;
@@ -439,30 +372,21 @@
 				C1F21FC61C63B702005CB9D3 /* AFHTTPRequestOperation.h in Headers */,
 				C1F21FC81C63B702005CB9D3 /* AFHTTPRequestOperationManager.h in Headers */,
 				C1F21FCA1C63B702005CB9D3 /* AFHTTPSessionManager.h in Headers */,
-				C1F21FB61C63B702005CB9D3 /* NSData+Base64.h in Headers */,
-				C1F21FFA1C63B8F7005CB9D3 /* StringHelper.h in Headers */,
 				C1F21FD71C63B702005CB9D3 /* AFURLSessionManager.h in Headers */,
 				C1F21FD11C63B702005CB9D3 /* AFURLConnectionOperation.h in Headers */,
 				C1F21FE41C63B702005CB9D3 /* UIImageView+AFNetworking.h in Headers */,
 				C1F21FFF1C63B901005CB9D3 /* DBManager.h in Headers */,
-				C1F21FB11C63B702005CB9D3 /* Encryption.h in Headers */,
 				C1F21FDB1C63B702005CB9D3 /* AFNetworkActivityIndicatorManager.h in Headers */,
 				C1F21FEB1C63B702005CB9D3 /* UIWebView+AFNetworking.h in Headers */,
 				C1F21FE11C63B702005CB9D3 /* UIButton+AFNetworking.h in Headers */,
 				C1F21FE31C63B702005CB9D3 /* UIImage+AFNetworking.h in Headers */,
-				C1F21FBA1C63B702005CB9D3 /* NSString+Helper.h in Headers */,
 				C1F21FDF1C63B702005CB9D3 /* UIAlertView+AFNetworking.h in Headers */,
 				C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */,
-				C1F21FB81C63B702005CB9D3 /* NSData+Helper.h in Headers */,
 				C1F21FE91C63B702005CB9D3 /* UIRefreshControl+AFNetworking.h in Headers */,
 				C1F21FDD1C63B702005CB9D3 /* UIActivityIndicatorView+AFNetworking.h in Headers */,
-				C1F21FB51C63B702005CB9D3 /* GTMDefines.h in Headers */,
 				C1F21FE61C63B702005CB9D3 /* UIKit+AFNetworking.h in Headers */,
-				C1F21FB31C63B702005CB9D3 /* GTMBase64.h in Headers */,
 				C1F21FE71C63B702005CB9D3 /* UIProgressView+AFNetworking.h in Headers */,
-				C1F21FBC1C63B702005CB9D3 /* UICKeyChainStore.h in Headers */,
 				C1F21FCF1C63B702005CB9D3 /* AFSecurityPolicy.h in Headers */,
-				C1F21FAF1C63B702005CB9D3 /* CryptoHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +448,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,37 +470,28 @@
 				C1F21FC01C63B702005CB9D3 /* MessageDispatcher.swift in Sources */,
 				C1F21FC91C63B702005CB9D3 /* AFHTTPRequestOperationManager.m in Sources */,
 				C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */,
-				C1F21FB21C63B702005CB9D3 /* Encryption.m in Sources */,
 				C1F21FEF1C63B702005CB9D3 /* PolymorphicPrinterService.swift in Sources */,
 				C1F21FD21C63B702005CB9D3 /* AFURLConnectionOperation.m in Sources */,
 				C1F220001C63B901005CB9D3 /* DBManager.m in Sources */,
 				C1F21FEE1C63B702005CB9D3 /* PeripheralsDiscoveryPolymorphic.swift in Sources */,
 				C1964D6C1C87629100FA9F89 /* endian.swift in Sources */,
-				C1F21FB91C63B702005CB9D3 /* NSData+Helper.m in Sources */,
 				C194EE661C89F0CC000397D8 /* Observable.swift in Sources */,
-				C1F21FB71C63B702005CB9D3 /* NSData+Base64.m in Sources */,
 				C1F21FD41C63B702005CB9D3 /* AFURLRequestSerialization.m in Sources */,
 				C1F21FE81C63B702005CB9D3 /* UIProgressView+AFNetworking.m in Sources */,
 				CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */,
-				C1F21FB41C63B702005CB9D3 /* GTMBase64.m in Sources */,
 				C1F21FCB1C63B702005CB9D3 /* AFHTTPSessionManager.m in Sources */,
 				C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */,
 				C1F21FC71C63B702005CB9D3 /* AFHTTPRequestOperation.m in Sources */,
-				C18504181C907ED10000FB49 /* Constants.swift in Sources */,
-				C1F21FFB1C63B8F7005CB9D3 /* StringHelper.m in Sources */,
-				C1F21FB01C63B702005CB9D3 /* CryptoHelper.m in Sources */,
 				C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */,
-				C133CC301C99EE4300C74716 /* RegEx.swift in Sources */,
 				C1F21FD01C63B702005CB9D3 /* AFSecurityPolicy.m in Sources */,
 				C1F21FBE1C63B702005CB9D3 /* Message.swift in Sources */,
 				C11311891C889609009CF1FD /* socketsutils.swift in Sources */,
 				C1F21FCE1C63B702005CB9D3 /* AFNetworkReachabilityManager.m in Sources */,
 				C1F21FD81C63B702005CB9D3 /* AFURLSessionManager.m in Sources */,
 				C1F21FE51C63B702005CB9D3 /* UIImageView+AFNetworking.m in Sources */,
-				C1F21FBD1C63B702005CB9D3 /* UICKeyChainStore.m in Sources */,
 				CE3967821D18718200153F9C /* ImageLabel.swift in Sources */,
-				C1F21FBB1C63B702005CB9D3 /* NSString+Helper.m in Sources */,
 				C1F21FF01C63B702005CB9D3 /* PolymorphicScannerService.swift in Sources */,
+				CECC9A4C1D3C515E007E4B60 /* DriversConstants.swift in Sources */,
 				C1F21FDC1C63B702005CB9D3 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				C1F21FC11C63B702005CB9D3 /* Extensions.swift in Sources */,
 				C1F21FEC1C63B702005CB9D3 /* UIWebView+AFNetworking.m in Sources */,
@@ -689,6 +605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
@@ -713,6 +630,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;

@@ -22,8 +22,8 @@ FOUNDATION_EXPORT const unsigned char mobilesdkfwVersionString[];
 #include <netinet/in.h>
 #include <unistd.h>
 #import "AFNetworking.h"
-#import "NSData+Base64.h"
-#import "StringHelper.h"
+//#import "NSData+Base64.h"
+//#import "StringHelper.h"
 #import "DBManager.h"
 #import "UIKit+AFNetworking.h"
 #import "RegexKitLite.h"

@@ -18,12 +18,15 @@ Pod::Spec.new do |s|
 
   s.name         = "eventbus"
   s.version      = "0.0.1"
-  s.summary      = "foundation framework"
+  s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
   s.xcconfig         = { 'HEADER_SEARCH_PATHS' => '${PODS_ROOT}/#{s.name}/**' }
-s.social_media_url = 'https://twitter.com/galblank'
-s.platform     = :ios, '8.0'
-s.requires_arc = true
+  s.social_media_url = 'https://twitter.com/galblank'
+  s.platform     = :ios, '8.1'
+  s.requires_arc = true
+  s.library = 'sqlite3','icucore'
+  s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
+  non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
@@ -67,7 +70,7 @@ s.requires_arc = true
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  s.platform     = :ios, "8.1"
+  # s.platform     = :ios, "8.1"
   # s.platform     = :ios, "5.0"
 
   #  When using multiple platforms
@@ -93,104 +96,14 @@ s.requires_arc = true
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-  s.source_files  = "eventbus", "*.*"
-  # s.exclude_files = "Classes/Exclude"
+  s.source_files  = "**/*"
+  s.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files
 
   # s.public_header_files = "Classes/**/*.h"
-#---------------------------------------------
-# Database
-#---------------------------------------------
-s.subspec 'Database' do |database|
-database.source_files   = 'mobilesdkfw/database/*.{h,m}'
+
+s.subspec 'no-arc' do |sp|
+sp.source_files = non_arc_files
+sp.requires_arc = false
 end
-
-#---------------------------------------------
-# Networking - AFNetworking
-#---------------------------------------------
-s.subspec 'Networking' do |net|
-net.source_files   = 'mobilesdkfw/Networking/AFNetworking/*.{h,m}', 'mobilesdkfw/Networking/UIKit+AFNetworking/*.{h,m}', 'mobilesdkfw/Networking/*.{h,m}'
-end
-
-#---------------------------------------------
-# Dispatcher
-#---------------------------------------------
-s.subspec 'Dispatcher' do |dispatcher|
-dispatcher.source_files   = 'mobilesdkfw/Dispatcher/*.{swift}'
-end
-
-
-#---------------------------------------------
-# Crypto
-#---------------------------------------------
-s.subspec 'Crypto' do |crypto|
-crypto.source_files   = 'mobilesdkfw/Crypto/GTM/*.{h,m}', 'mobilesdkfw/Crypto/*.{h,m}'
-end
-
-#---------------------------------------------
-# Extensions
-#---------------------------------------------
-s.subspec 'Extensions' do |extensions|
-extensions.source_files   = 'mobilesdkfw/Extensions/*.{swift}'
-end
-
-#---------------------------------------------
-# Helpers
-#---------------------------------------------
-s.subspec 'Helpers' do |helpers|
-helpers.source_files   = 'mobilesdkfw/Helpers/*.{swift}'
-end
-
-#---------------------------------------------
-# Peripherials
-#---------------------------------------------
-s.subspec 'Peripherials' do |peripherials|
-peripherials.source_files   = 'mobilesdkfw/Peripherials/Printers/*.{h,m}', 'mobilesdkfw/Peripherials/Scanners/*.{h,m}', 'mobilesdkfw/Peripherials/Swipers/*.{h,m}', 'mobilesdkfw/Peripherials/*.{swift}'
-end
-
-#---------------------------------------------
-# Observables
-#---------------------------------------------
-s.subspec 'Observables' do |observables|
-observables.source_files   = 'mobilesdkfw/Observables/*.{swift}'
-end
-
-
-  # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  A list of resources included with the Pod. These are copied into the
-  #  target bundle with a build phase script. Anything else will be cleaned.
-  #  You can preserve files from being cleaned, please don't preserve
-  #  non-essential files like tests, examples and documentation.
-  #
-
-  # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
-
-  # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
-
-
-  # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  Link your library with frameworks, or libraries. Libraries do not include
-  #  the lib prefix of their name.
-  #
-
-  # s.framework  = "SomeFramework"
-  # s.frameworks = "SomeFramework", "AnotherFramework"
-
-  # s.library   = "iconv"
-  # s.libraries = "iconv", "xml2"
-
-
-  # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  #
-  #  If your library depends on compiler flags you can set them in the xcconfig hash
-  #  where they will only apply to your library. If you depend on other Podspecs
-  #  you can include multiple dependencies to ensure it works.
-
-  # s.requires_arc = true
-
-  # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # s.dependency "JSONKit", "~> 1.4"
 
 end

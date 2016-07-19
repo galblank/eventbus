@@ -109,11 +109,11 @@ public class CommManager : NSObject {
     
     public static let sharedCommSingletonDelegate = CommManager()
     
-    var isInitialized = false
+    public var isInitialized = false
     
-    var ROOT_API:String?
+    public var ROOT_API:String?
     
-    let imagesDownloadQueue = [NSObject : AnyObject]()
+    public let imagesDownloadQueue = [NSObject : AnyObject]()
     override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommManager.consumeMessage(_:)), name: "api.*", object: nil)

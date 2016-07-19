@@ -11,14 +11,14 @@ public class MessageDispatcher:NSObject {
     
     public static let sharedDispacherInstance = MessageDispatcher()
     
-    var dispsatchTimer:NSTimer?
-    var messageBus:[Message] = [Message]()
-    var dispatchedMessages:[Message] = [Message]()
+    public var dispsatchTimer:NSTimer?
+    public var messageBus:[Message] = [Message]()
+    public var dispatchedMessages:[Message] = [Message]()
     struct Static {
         static var token: dispatch_once_t = 0
     }
     
-    func consumeMessage(notif:NSNotification){
+    public func consumeMessage(notif:NSNotification){
         let msg:Message = notif.userInfo!["message"] as! Message
         switch(msg.routingKey){
         case "msg.selfdestruct":
@@ -52,7 +52,7 @@ public class MessageDispatcher:NSObject {
         }
     }
     
-    func clearDispastchedMessages() {
+    public func clearDispastchedMessages() {
         for msg:Message in dispatchedMessages {
             let Index = messageBus.indexOf(msg)
             if(Index >= 0){
@@ -63,19 +63,19 @@ public class MessageDispatcher:NSObject {
     }
     
     
-    func startDispatching() {
+    public func startDispatching() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageDispatcher.consumeMessage(_:)), name: "msg.selfdestruct", object: nil)
         dispsatchTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(MessageDispatcher.leave), userInfo: nil, repeats: true)
     }
     
-    func stopDispathing() {
+    public func stopDispathing() {
         if dispsatchTimer != nil {
             dispsatchTimer!.invalidate()
             dispsatchTimer = nil
         }
     }
     
-    func leave() {
+    public func leave() {
         let goingAwayBus:[Message] = NSArray(array: messageBus) as! [Message]
         for msg: Message in goingAwayBus {
             if(msg.shouldselfdestruct == false){
@@ -90,17 +90,17 @@ public class MessageDispatcher:NSObject {
         }
     }
     
-    func dispatchMessage(message: Message) {
+    public func dispatchMessage(message: Message) {
         var messageDic: [NSObject : AnyObject] = [NSObject : AnyObject]()
         messageDic["message"] = message
         if(message.routingKey == "api.*"){
             //make sure comms are initialized
-            CommManager.sharedCommSingletonDelegate
+            //CommManager.sharedCommSingletonDelegate
         }
         NSNotificationCenter.defaultCenter().postNotificationName(message.routingKey, object: nil, userInfo: messageDic)
     }
     
-    func routeMessageToServerWithType(message: Message) {
+    public func routeMessageToServerWithType(message: Message) {
         if message.params == nil {
             message.params? = [NSObject : AnyObject]()
         }
@@ -110,7 +110,7 @@ public class MessageDispatcher:NSObject {
         }
     }
     
-    func canSendMessage(message: Message) -> Bool {
+    public func canSendMessage(message: Message) -> Bool {
         return true
     }
 }
