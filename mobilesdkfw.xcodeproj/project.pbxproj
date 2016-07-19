@@ -63,10 +63,9 @@
 		C1F21FF11C63B702005CB9D3 /* PolymorphicSwiperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */; };
 		C1F21FF41C63B714005CB9D3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */; };
 		C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */; };
-		C1F21FFF1C63B901005CB9D3 /* DBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C1F21FFD1C63B901005CB9D3 /* DBManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C1F220001C63B901005CB9D3 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FFE1C63B901005CB9D3 /* DBManager.m */; };
 		C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
+		C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339E1341D3E698D0078D2A5 /* DBManager.swift */; };
 		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
@@ -134,10 +133,10 @@
 		C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolymorphicSwiperService.swift; sourceTree = "<group>"; };
 		C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		C1F21FFD1C63B901005CB9D3 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
-		C1F21FFE1C63B901005CB9D3 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
 		C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
+		C339E1341D3E698D0078D2A5 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		C339E13B1D3E924B0078D2A5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
@@ -203,6 +202,7 @@
 		C1F21F561C63B6D6005CB9D3 /* mobilesdkfw */ = {
 			isa = PBXGroup;
 			children = (
+				C339E13A1D3E92330078D2A5 /* sqlite3 */,
 				C194EE641C89F0A7000397D8 /* Observables */,
 				C1F21FFC1C63B901005CB9D3 /* database */,
 				C1F21F701C63B701005CB9D3 /* Dispatcher */,
@@ -351,10 +351,17 @@
 		C1F21FFC1C63B901005CB9D3 /* database */ = {
 			isa = PBXGroup;
 			children = (
-				C1F21FFD1C63B901005CB9D3 /* DBManager.h */,
-				C1F21FFE1C63B901005CB9D3 /* DBManager.m */,
+				C339E1341D3E698D0078D2A5 /* DBManager.swift */,
 			);
 			path = database;
+			sourceTree = "<group>";
+		};
+		C339E13A1D3E92330078D2A5 /* sqlite3 */ = {
+			isa = PBXGroup;
+			children = (
+				C339E13B1D3E924B0078D2A5 /* module.modulemap */,
+			);
+			path = sqlite3;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,7 +382,6 @@
 				C1F21FD71C63B702005CB9D3 /* AFURLSessionManager.h in Headers */,
 				C1F21FD11C63B702005CB9D3 /* AFURLConnectionOperation.h in Headers */,
 				C1F21FE41C63B702005CB9D3 /* UIImageView+AFNetworking.h in Headers */,
-				C1F21FFF1C63B901005CB9D3 /* DBManager.h in Headers */,
 				C1F21FDB1C63B702005CB9D3 /* AFNetworkActivityIndicatorManager.h in Headers */,
 				C1F21FEB1C63B702005CB9D3 /* UIWebView+AFNetworking.h in Headers */,
 				C1F21FE11C63B702005CB9D3 /* UIButton+AFNetworking.h in Headers */,
@@ -472,9 +478,9 @@
 				C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */,
 				C1F21FEF1C63B702005CB9D3 /* PolymorphicPrinterService.swift in Sources */,
 				C1F21FD21C63B702005CB9D3 /* AFURLConnectionOperation.m in Sources */,
-				C1F220001C63B901005CB9D3 /* DBManager.m in Sources */,
 				C1F21FEE1C63B702005CB9D3 /* PeripheralsDiscoveryPolymorphic.swift in Sources */,
 				C1964D6C1C87629100FA9F89 /* endian.swift in Sources */,
+				C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */,
 				C194EE661C89F0CC000397D8 /* Observable.swift in Sources */,
 				C1F21FD41C63B702005CB9D3 /* AFURLRequestSerialization.m in Sources */,
 				C1F21FE81C63B702005CB9D3 /* UIProgressView+AFNetworking.m in Sources */,
@@ -547,6 +553,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/mobilesdkfw/sqlite3";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -592,6 +599,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/mobilesdkfw/sqlite3";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -604,6 +612,7 @@
 		C1F21F5D1C63B6D6005CB9D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -618,10 +627,13 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "";
+				MODULEMAP_PRIVATE_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.galblank.mobilesdkfw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/mobilesdkfw/sqlite3";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
@@ -629,6 +641,7 @@
 		C1F21F5E1C63B6D6005CB9D3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -643,10 +656,13 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "";
+				MODULEMAP_PRIVATE_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.galblank.mobilesdkfw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "${SRCROOT}/mobilesdkfw/sqlite3";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
