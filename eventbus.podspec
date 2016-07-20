@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
   s.version      = "0.0.1"
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
-  s.public_header_files = 'mobilesdkfw/sqlite3/*.modulemap'
+  s.module_name = 'sqlite3'
+#s.public_header_files = 'mobilesdkfw/sqlite3/*.modulemap'
   non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
   other_excludefiles = "mobilesdkfw/sqlite3/**"
 #s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap'
