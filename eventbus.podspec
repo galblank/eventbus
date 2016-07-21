@@ -34,6 +34,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.library = 'sqlite3','icucore'
   s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
+  s.dependency  'Alamofire'
+  s.dependency  'AlamofireImage'
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
