@@ -1,6 +1,6 @@
 # eventbus
-swift based event bus framework to use inside internal and external communications systems
-PARADIGM</b>
+swift based event bus framework to use inside internal and external communications systems<br />
+<b>PARADIGM</b><br />
 
 
 <b>Currently Used by companies and products at:</b> <br />
