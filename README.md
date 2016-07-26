@@ -7,6 +7,7 @@ Contains the following modules:<br />
 4. Perhiperals - Connection to third party hardware for payment processing such as Ingenico swipers, Star printers, barcode scanners and more...<br />
 5. RegularExpresion library ( curtesy of ReExkitLite )<br />
 6. Extension helpers<br /><br />
+<b> The heart of the framework is MESSAGEDISPATCHER </b><br />
 
 <b>PARADIGM</b><br />
 <img src="https://i.imgsafe.org/77e504f127.png"></a>
