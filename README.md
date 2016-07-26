@@ -4,9 +4,10 @@ Contains the following modules:<br />
 1. DBManager- SQLite manager - thread safe <br />
 2. Networking - everything you need for networking <br />
 3. Observables - Reactive objects <br />
-4. Perhiperals - Connection to third party hardware for payment processing such as Ingenico swipers, Star printers etc...<br />
+4. Perhiperals - Connection to third party hardware for payment processing such as Ingenico swipers, Star printers, barcode scanners and more...<br />
 5. RegularExpresion library ( curtesy of ReExkitLite )<br />
-6. 
+6. Extension helpers<br /><br />
+
 <b>PARADIGM</b><br />
 <img src="https://i.imgsafe.org/77e504f127.png"></a>
 
