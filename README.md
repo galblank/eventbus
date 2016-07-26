@@ -22,5 +22,5 @@ swift based event bus framework to use inside internal and external communicatio
 <b>Begroupd Inc. - Khloe Kardashian App</b></a>
 <br />
 <a href="http://www.rdalabs.com/">
-<img src="http://www.rdalabs.com/wp-content/themes/rdalabs/img/logo.png" width="200" height="100"><br />
+<img src="http://www.rdalabs.com/wp-content/themes/rdalabs/img/logo.png" width="200" height="80"><br />
 <b>RDALabs - Enterprise solutions</b></a>
