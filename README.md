@@ -14,7 +14,7 @@ swift based event bus framework to use inside internal and external communicatio
 <b>First American Payment Systems</b></a>
 <br />
 <a href="http://www.peoplelinx.com">
-<img src="http://ww1.prweb.com/prfiles/2015/01/21/12496492/gI_86724_peoplelinx_logo_new.png" width="300" height="100"><br />
+<img src="http://ww1.prweb.com/prfiles/2015/01/21/12496492/gI_86724_peoplelinx_logo_new.png" width="300" height="60"><br />
 <b>PeopleLinx. - www.peoplelinx.com</b></a>
 <br />
 <a href=" http://www.huffingtonpost.com/entry/khloe-kardashian-app-begroupd_us_55c2621ae4b0f7f0bebb675a">
