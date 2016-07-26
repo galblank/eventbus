@@ -19,4 +19,9 @@ public class Watchdog: NSObject {
     }
     
     
+    public func registerSelf(anytype:AnyObject)
+    {
+        
+    }
+    
 }
