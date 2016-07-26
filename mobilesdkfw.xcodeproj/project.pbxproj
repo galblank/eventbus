@@ -31,6 +31,7 @@
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
 		C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339E1341D3E698D0078D2A5 /* DBManager.swift */; };
 		C339E1AB1D3FE14C0078D2A5 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C339E1AA1D3FE14C0078D2A5 /* Podfile */; };
+		C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37C56B81D47A5A400BE187C /* Watchdog.swift */; };
 		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
@@ -68,7 +69,8 @@
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
 		C339E1341D3E698D0078D2A5 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		C339E13B1D3E924B0078D2A5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		C339E1AA1D3FE14C0078D2A5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		C339E1AA1D3FE14C0078D2A5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C37C56B81D47A5A400BE187C /* Watchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				C1F21F711C63B701005CB9D3 /* Message.swift */,
 				C1F21F731C63B701005CB9D3 /* MessageDispatcher.swift */,
+				C37C56B81D47A5A400BE187C /* Watchdog.swift */,
 			);
 			path = Dispatcher;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */,
 				C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */,
 				C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */,
+				C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */,
 				C1F21FBE1C63B702005CB9D3 /* Message.swift in Sources */,
 				C11311891C889609009CF1FD /* socketsutils.swift in Sources */,
 				CE3967821D18718200153F9C /* ImageLabel.swift in Sources */,

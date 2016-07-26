@@ -11,6 +11,8 @@ public class MessageDispatcher:NSObject {
     
     public static let sharedDispacherInstance = MessageDispatcher()
     
+    public let wtchdog = Watchdog.sharedInstance
+    
     public var dispsatchTimer:NSTimer?
     public var messageBus:[Message] = [Message]()
     public var dispatchedMessages:[Message] = [Message]()
