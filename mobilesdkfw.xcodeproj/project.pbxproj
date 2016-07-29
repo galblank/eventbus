@@ -27,10 +27,11 @@
 		C1F21FF11C63B702005CB9D3 /* PolymorphicSwiperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */; };
 		C1F21FF41C63B714005CB9D3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */; };
 		C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */; };
-		C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
 		C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339E1341D3E698D0078D2A5 /* DBManager.swift */; };
 		C339E1AB1D3FE14C0078D2A5 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C339E1AA1D3FE14C0078D2A5 /* Podfile */; };
+		C359CAAC1D4BF0BA0004DC14 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */; };
+		C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */; };
 		C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37C56B81D47A5A400BE187C /* Watchdog.swift */; };
 		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
@@ -65,11 +66,12 @@
 		C1F21FAD1C63B702005CB9D3 /* PolymorphicSwiperService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolymorphicSwiperService.swift; sourceTree = "<group>"; };
 		C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
 		C339E1341D3E698D0078D2A5 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		C339E13B1D3E924B0078D2A5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		C339E1AA1D3FE14C0078D2A5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = sqlite3.xcconfig; sourceTree = "<group>"; };
+		C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		C37C56B81D47A5A400BE187C /* Watchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
@@ -86,8 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C359CAAC1D4BF0BA0004DC14 /* libsqlite3.tbd in Frameworks */,
 				C133CC361C99F38000C74716 /* libicucore.tbd in Frameworks */,
-				C1F220041C63C807005CB9D3 /* libsqlite3.0.tbd in Frameworks */,
 				C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */,
 				C1F21FF41C63B714005CB9D3 /* ExternalAccessory.framework in Frameworks */,
 				BC61F1D79E9CC58CF0271702 /* Pods_mobilesdkfw.framework in Frameworks */,
@@ -100,6 +102,8 @@
 		049A73C17A31D46668DE1A98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C133CC351C99F38000C74716 /* libicucore.tbd */,
+				C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */,
 				7DF950D752185325892D6F99 /* Pods.framework */,
 				20C8084052280EB0298621D2 /* Pods_mobilesdkfw.framework */,
 			);
@@ -135,10 +139,9 @@
 		C1F21F4A1C63B6D6005CB9D3 = {
 			isa = PBXGroup;
 			children = (
+				C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */,
 				C339E1AA1D3FE14C0078D2A5 /* Podfile */,
 				CECC9A491D3C5014007E4B60 /* eventbus.podspec */,
-				C133CC351C99F38000C74716 /* libicucore.tbd */,
-				C1F220031C63C807005CB9D3 /* libsqlite3.0.tbd */,
 				C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */,
 				C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */,
 				C1F21F561C63B6D6005CB9D3 /* mobilesdkfw */,
@@ -315,7 +318,7 @@
 				TargetAttributes = {
 					C1F21F531C63B6D6005CB9D3 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = BZ76K4Y69D;
+						DevelopmentTeam = Q7BNUEY77Y;
 					};
 				};
 			};
@@ -342,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C339E1AB1D3FE14C0078D2A5 /* Podfile in Resources */,
+				C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */,
 				CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

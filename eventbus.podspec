@@ -20,22 +20,17 @@ Pod::Spec.new do |s|
   s.version      = "0.0.1"
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
-  s.module_name = 'sqlite3'
-#s.public_header_files = 'mobilesdkfw/sqlite3/*.modulemap'
   non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
-  other_excludefiles = "mobilesdkfw/sqlite3/**"
-#s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap'
-  s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3' }
-  #s.xcconfig         = { 'HEADER_SEARCH_PATHS' => '${PODS_ROOT}/#{mobilesdkfw}/**', 'SWIFT_INCLUDE_PATHS' => '${PODS_ROOT}/mobilesdkfw/sqlite3' }
+  s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap'
+  s.xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
+  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
   s.social_media_url = 'https://twitter.com/galblank'
-  s.module_map = 'mobilesdkfw/sqlite3/module.modulemap'
   s.platform     = :ios, '8.1'
   s.requires_arc = true
-  s.library = 'sqlite3','icucore'
+  s.library = 'icucore','sqlite3'
   s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
   s.dependency  'Alamofire'
-  s.dependency  'AlamofireImage'
+  #s.dependency  'AlamofireImage'
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -106,8 +101,8 @@ Pod::Spec.new do |s|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-  s.source_files  = "**/*"
-  s.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files,other_excludefiles
+s.source_files  = '**/*','mobilesdkfw/**'
+  s.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files
 
   # s.public_header_files = "Classes/**/*.h"
 
