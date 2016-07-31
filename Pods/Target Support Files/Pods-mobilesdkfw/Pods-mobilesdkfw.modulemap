@@ -1,6 +1,0 @@
-framework module Pods_mobilesdkfw {
-  umbrella header "Pods-mobilesdkfw-umbrella.h"
-
-  export *
-  module * { export * }
-}

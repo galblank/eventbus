@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC61F1D79E9CC58CF0271702 /* Pods_mobilesdkfw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C8084052280EB0298621D2 /* Pods_mobilesdkfw.framework */; };
 		C11311891C889609009CF1FD /* socketsutils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11311881C889609009CF1FD /* socketsutils.swift */; };
 		C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */; };
 		C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = C133CC311C99F34600C74716 /* RegexKitLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,7 +28,6 @@
 		C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
 		C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339E1341D3E698D0078D2A5 /* DBManager.swift */; };
-		C339E1AB1D3FE14C0078D2A5 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = C339E1AA1D3FE14C0078D2A5 /* Podfile */; };
 		C359CAAC1D4BF0BA0004DC14 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */; };
 		C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */; };
 		C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37C56B81D47A5A400BE187C /* Watchdog.swift */; };
@@ -95,9 +93,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		20C8084052280EB0298621D2 /* Pods_mobilesdkfw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mobilesdkfw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		25C67235FF8EB9D80E7B72BC /* Pods-mobilesdkfw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobilesdkfw.release.xcconfig"; path = "Pods/Target Support Files/Pods-mobilesdkfw/Pods-mobilesdkfw.release.xcconfig"; sourceTree = "<group>"; };
-		7DF950D752185325892D6F99 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C11311881C889609009CF1FD /* socketsutils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = socketsutils.swift; sourceTree = "<group>"; };
 		C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngenicoDriver.swift; sourceTree = "<group>"; };
 		C133CC311C99F34600C74716 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
@@ -122,7 +117,6 @@
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
 		C339E1341D3E698D0078D2A5 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		C339E13B1D3E924B0078D2A5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		C339E1AA1D3FE14C0078D2A5 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = sqlite3.xcconfig; sourceTree = "<group>"; };
 		C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		C37C56B81D47A5A400BE187C /* Watchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
@@ -134,7 +128,6 @@
 		CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpErrorHeaders.h; sourceTree = "<group>"; };
 		CECC9A491D3C5014007E4B60 /* eventbus.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eventbus.podspec; sourceTree = "<group>"; };
 		CECC9A4B1D3C515E007E4B60 /* DriversConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriversConstants.swift; sourceTree = "<group>"; };
-		EA9F21285693DF141D336F43 /* Pods-mobilesdkfw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobilesdkfw.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mobilesdkfw/Pods-mobilesdkfw.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,7 +140,6 @@
 				C133CC361C99F38000C74716 /* libicucore.tbd in Frameworks */,
 				C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */,
 				C1F21FF41C63B714005CB9D3 /* ExternalAccessory.framework in Frameworks */,
-				BC61F1D79E9CC58CF0271702 /* Pods_mobilesdkfw.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,19 +151,8 @@
 			children = (
 				C133CC351C99F38000C74716 /* libicucore.tbd */,
 				C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */,
-				7DF950D752185325892D6F99 /* Pods.framework */,
-				20C8084052280EB0298621D2 /* Pods_mobilesdkfw.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		917D452E7ECCCE9AD9355068 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EA9F21285693DF141D336F43 /* Pods-mobilesdkfw.debug.xcconfig */,
-				25C67235FF8EB9D80E7B72BC /* Pods-mobilesdkfw.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		C194EE641C89F0A7000397D8 /* Observables */ = {
@@ -196,14 +177,12 @@
 			children = (
 				CE6859241D4E9B2000FD72C5 /* Alamofire.xcodeproj */,
 				C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */,
-				C339E1AA1D3FE14C0078D2A5 /* Podfile */,
 				CECC9A491D3C5014007E4B60 /* eventbus.podspec */,
 				C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */,
 				C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */,
 				C1F21F561C63B6D6005CB9D3 /* mobilesdkfw */,
 				C1F21F551C63B6D6005CB9D3 /* Products */,
 				049A73C17A31D46668DE1A98 /* Frameworks */,
-				917D452E7ECCCE9AD9355068 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -361,12 +340,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1F21F5C1C63B6D6005CB9D3 /* Build configuration list for PBXNativeTarget "mobilesdkfw" */;
 			buildPhases = (
-				2AAEF36D9840622DC982A72F /* [CP] Check Pods Manifest.lock */,
 				C1F21F4F1C63B6D6005CB9D3 /* Sources */,
 				C1F21F501C63B6D6005CB9D3 /* Frameworks */,
 				C1F21F511C63B6D6005CB9D3 /* Headers */,
 				C1F21F521C63B6D6005CB9D3 /* Resources */,
-				ED50153785C17DA6A6B7F7BF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -472,46 +449,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C339E1AB1D3FE14C0078D2A5 /* Podfile in Resources */,
 				C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */,
 				CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		2AAEF36D9840622DC982A72F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		ED50153785C17DA6A6B7F7BF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mobilesdkfw/Pods-mobilesdkfw-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C1F21F4F1C63B6D6005CB9D3 /* Sources */ = {
@@ -646,7 +589,6 @@
 		};
 		C1F21F5D1C63B6D6005CB9D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA9F21285693DF141D336F43 /* Pods-mobilesdkfw.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -675,7 +617,6 @@
 		};
 		C1F21F5E1C63B6D6005CB9D3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25C67235FF8EB9D80E7B72BC /* Pods-mobilesdkfw.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
