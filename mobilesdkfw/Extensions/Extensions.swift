@@ -3,12 +3,25 @@
 //  POS
 //
 //  Created by Gal Blank on 12/7/15.
-//  Copyright © 2015 Gal Blank. All rights reserved.
+//  Copyright © 2015 1stPayGateway. All rights reserved.
 //
 
 import Foundation
 
-
+extension String{
+    func urlEncode(toencode:String) -> String
+    {
+        let str:String = CFURLCreateStringByAddingPercentEscapes(
+            nil,
+            toencode,
+            nil,
+            "!*'();:@&=+$,/?%#[]",
+            CFStringBuiltInEncodings.UTF8.rawValue
+        ) as String
+        
+        return str
+    }
+}
 
 extension NSObject {
     var theClassName: String {
@@ -72,7 +85,7 @@ extension String {
     }
     public func urlEncodedString() -> String? {
         let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedString = self.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        let escapedString = self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
         return escapedString
     }
     
@@ -98,13 +111,23 @@ extension String {
   
     public func toBool() -> Bool? {
         switch self {
-        case "True", "true", "yes", "1", "ENABLE", "Enable", "enable", "Success", "SUCCESS", "success":
+        case "True", "true", "yes", "1":
             return true
-        case "False", "false", "no", "0", "DISABLE", "Disable", "disable":
+        case "False", "false", "no", "0":
             return false
         default:
             return nil
         }
+    }
+    
+    public static func stripHTML(html:String) -> String
+    {
+        let HTMLTags = "<[^>]*>"; //regex to remove any html tag
+        
+        var stringWithoutHTML = NSString(string: html)
+        stringWithoutHTML = stringWithoutHTML.stringByReplacingOccurrencesOfRegex(HTMLTags, withString: "")
+        
+        return String(stringWithoutHTML)
     }
     
     

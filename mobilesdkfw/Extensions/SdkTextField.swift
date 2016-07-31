@@ -3,12 +3,12 @@
 //  mobilesdkfw
 //
 //  Created by Gal Blank on 5/9/16.
-//  Copyright © 2016 Gal Blank. All rights reserved.
+//  Copyright © 2016 Goemerchant. All rights reserved.
 //
 
 import UIKit
 
-public class UnderlinedLinedTextField: UITextField {
+public class SdkTextField: UITextField {
 
     
         let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
