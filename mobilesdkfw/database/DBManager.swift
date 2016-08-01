@@ -141,8 +141,6 @@ public class DBManager: NSObject {
     }
     
     public func runQuery(query:String, isQueryExecutable:Bool) -> Bool{
-        
-        
         var didQueryRun = false
         var sqlite3Database:COpaquePointer = nil
         var arrResults:NSMutableArray = NSMutableArray()

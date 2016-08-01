@@ -203,18 +203,38 @@ public class CommManager : NSObject {
                     }
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
+                else if(err == HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
+                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
+                }
             }
             else{
-                let msg: Message = Message(routKey: "internal.apiresponse")
-                msg.callBackPoint = callbackpoint
-                if(passThruParams != nil){
-                    msg.passthruParams = passThruParams
-                }
-                msg.params = ["api":api, "data":responseObject.data!]
-                msg.passthruAPI = passThruAPI
-                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+                self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
             }
         }
+    }
+    
+    
+    func returnResponse(api:String, callbackpoint:String, passThruAPI:String, passThruParams:AnyObject?, responseObject:Response<AnyObject,NSError>)
+    {
+            let msg: Message = Message(routKey: "internal.apiresponse")
+            msg.callBackPoint = callbackpoint
+            if(passThruParams != nil){
+                msg.passthruParams = passThruParams
+            }
+        print(responseObject.data!)
+        if(responseObject.result.value != nil){
+            if((responseObject.result.value?.isKindOfClass(NSDictionary)) != nil){
+                msg.params = ["api":api, "data":responseObject.result.value as! NSDictionary]
+            }
+            else if((responseObject.result.value?.isKindOfClass(NSArray)) != nil){
+                msg.params = ["api":api, "data":responseObject.result.value as! NSArray]
+            }
+        }
+        else{
+            msg.params = ["api":api]
+        }
+            msg.passthruAPI = passThruAPI
+            MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
     }
     
     func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
@@ -248,17 +268,14 @@ public class CommManager : NSObject {
                     }
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
+                else if(err == HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
+                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
+                }
             }
             else{
-                let msg: Message = Message(routKey: "internal.apiresponse")
-                msg.callBackPoint = callbackpoint
-                if(passThruParams != nil){
-                    msg.passthruParams = passThruParams
-                }
-                msg.params = ["api":api, "data":responseObject.data!]
-                msg.passthruAPI = passThruAPI
-                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+                self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
             }
+            
         }
     }
 }
