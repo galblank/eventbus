@@ -53,8 +53,8 @@ extension Character {
     }
 }
 
-extension String {
-    
+extension String {    
+
     subscript(integerIndex: Int) -> Character {
         let index = startIndex.advancedBy(integerIndex)
         return self[index]
@@ -83,6 +83,25 @@ extension String {
         }
         return nil
     }
+    
+    public func urlDecode() -> String? {
+        let encodedData = self.dataUsingEncoding(NSUTF8StringEncoding)!
+        let attributedOptions : [String: AnyObject] = [
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+        ]
+        
+        do {
+            let attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            return attributedString.string
+        }
+        catch{
+            return ""
+        }
+        
+        
+    }
+    
     public func urlEncodedString() -> String? {
         let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
         let escapedString = self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())

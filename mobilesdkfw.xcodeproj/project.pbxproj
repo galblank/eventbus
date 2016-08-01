@@ -35,6 +35,7 @@
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
 		CE68593D1D4EA34900FD72C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6859301D4E9B2000FD72C5 /* Alamofire.framework */; };
+		CE68599C1D4EE3C100FD72C5 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68599B1D4EE3C100FD72C5 /* ImageCache.swift */; };
 		CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */; };
 		CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CECC9A491D3C5014007E4B60 /* eventbus.podspec */; };
 		CECC9A4C1D3C515E007E4B60 /* DriversConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECC9A4B1D3C515E007E4B60 /* DriversConstants.swift */; };
@@ -124,6 +125,7 @@
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
 		CE6859241D4E9B2000FD72C5 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		CE68599B1D4EE3C100FD72C5 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		CEBBE7E41CE1151B00CBEA99 /* SdkTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SdkTextField.swift; sourceTree = "<group>"; };
 		CEBBE7F11CE3A3C200CBEA99 /* HttpErrorHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HttpErrorHeaders.h; sourceTree = "<group>"; };
 		CECC9A491D3C5014007E4B60 /* eventbus.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eventbus.podspec; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */,
 				CE2153151D09EF7900094F8B /* DynamicTextView.swift */,
 				CE3967811D18718200153F9C /* ImageLabel.swift */,
+				CE68599B1D4EE3C100FD72C5 /* ImageCache.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */,
 				C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */,
 				C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */,
+				CE68599C1D4EE3C100FD72C5 /* ImageCache.swift in Sources */,
 				C1F21FBE1C63B702005CB9D3 /* Message.swift in Sources */,
 				C11311891C889609009CF1FD /* socketsutils.swift in Sources */,
 				CE3967821D18718200153F9C /* ImageLabel.swift in Sources */,

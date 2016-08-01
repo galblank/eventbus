@@ -99,7 +99,7 @@ public class DBManager: NSObject {
         }
     }
     
-    func hasDatabaseBeenInstalled() -> Bool
+    public func hasDatabaseBeenInstalled() -> Bool
     {
         var isinstalled = false
         if(databaseFullPath.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
@@ -111,7 +111,7 @@ public class DBManager: NSObject {
         return isinstalled
     }
     
-    func copyDatabaseIntoDocumentsDirectory()
+    public func copyDatabaseIntoDocumentsDirectory()
     {
         var bForceCopy = false
         #if (TARGET_IPHONE_SIMULATOR)
@@ -133,14 +133,14 @@ public class DBManager: NSObject {
         }
     }
     
-    func deleteAllDataFromDB()
+    public func deleteAllDataFromDB()
     {
         let query = "delete from person"
         //[self executeQuery:query];
         print("Deleted the whole DB")
     }
     
-    func runQuery(query:String, isQueryExecutable:Bool) -> Bool{
+    public func runQuery(query:String, isQueryExecutable:Bool) -> Bool{
         
         
         var didQueryRun = false
@@ -217,7 +217,7 @@ public class DBManager: NSObject {
     }
     
     
-    func rowCountForIndex(matrixIndex:Int) -> Int
+    public func rowCountForIndex(matrixIndex:Int) -> Int
      {
         let tempArr = arraysmatrix.objectForKey(matrixIndex)
         if(tempArr != nil){
@@ -226,9 +226,12 @@ public class DBManager: NSObject {
         return 0;
      }
     
-    func hasDataForIndex(matrixIndex:Int) -> Bool
+    public func hasDataForIndex(matrixIndex:Int) -> Bool
     {
      let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        if(tempArr == nil){
+            return false
+        }
      let currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
         if(currentIndexForThisArray < tempArr!.count){
             return true
@@ -240,7 +243,7 @@ public class DBManager: NSObject {
      }
     
     
-    func nextForIndex(matrixIndex:Int) -> NSMutableDictionary?
+    public func nextForIndex(matrixIndex:Int) -> NSMutableDictionary?
      {
       let tempArr = arraysmatrix.objectForKey(matrixIndex)
     var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
@@ -257,7 +260,7 @@ public class DBManager: NSObject {
      return nil
      }
      
-    func loadDataFromDB(query:String) -> Int
+    public func loadDataFromDB(query:String) -> Int
     {
         if(query.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             dispatch_sync(databaseQueue!, { 
@@ -270,7 +273,7 @@ public class DBManager: NSObject {
     }
     
     
-    func executeQuery(query:String) -> Bool
+    public func executeQuery(query:String) -> Bool
     {
         var isQueryExecuted = false
         if(query.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
