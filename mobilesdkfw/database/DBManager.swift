@@ -247,6 +247,9 @@ public class DBManager: NSObject {
     
     public func nextForIndex(matrixIndex:Int) -> NSMutableDictionary?
     {
+        if(currentIndexMatrix.count == 0){
+            return nil
+        }
         let tempArr = arraysmatrix.objectForKey(matrixIndex)
         var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
         if(currentIndexForThisArray < tempArr!.count){
