@@ -253,7 +253,7 @@ public class DBManager: NSObject {
         let tempArr = arraysmatrix.objectForKey(matrixIndex)
         var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
         if(currentIndexForThisArray < tempArr!.count){
-            let valuesMap = tempArr![currentIndexForThisArray] as! NSMutableDictionary
+            let valuesMap = tempArr![currentIndexForThisArray] as! NSDictionary
             currentIndexForThisArray += 1
             currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex)    //(currentIndexForThisArray forKey:matrixIndex)
             return valuesMap;
