@@ -49,8 +49,8 @@ public class DBManager: NSObject {
         dbname = NSBundle.mainBundle().infoDictionary!["databasename"] as! String
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docPath = paths[0]
-        databaseFullPath += "\(docPath)"
-        
+        databaseFullPath += "\(docPath)/" + "\(dbname)"
+        print(databaseFullPath)
         let bundleDBVersionString = NSBundle.mainBundle().infoDictionary!["BundleDBVersion"] as? String
         if(bundleDBVersionString != nil){
             bundleDatabaseVersion = Int(bundleDBVersionString!)!
@@ -117,7 +117,7 @@ public class DBManager: NSObject {
         #if (TARGET_IPHONE_SIMULATOR)
             bForceCopy = true
         #endif
-        if(NSFileManager.defaultManager().fileExistsAtPath(databaseFullPath) || bForceCopy == true){
+        if(NSFileManager.defaultManager().fileExistsAtPath(databaseFullPath) == false || bForceCopy == true){
             let dbnameWithoutSyffix = dbname.stringByDeletingPathExtension
             let dbextension = dbname.pathExtension
             let dbFullPath = NSBundle.mainBundle().pathForResource(dbnameWithoutSyffix, ofType: dbextension)
@@ -146,7 +146,7 @@ public class DBManager: NSObject {
         var didQueryRun = false
         var sqlite3Database:COpaquePointer = nil
         var arrResults:NSMutableArray = NSMutableArray()
-        
+        print(databaseFullPath)
         var openDatabaseResult = SQLITE_ERROR
         openDatabaseResult = sqlite3_open(databaseFullPath, &sqlite3Database)
         if(openDatabaseResult == SQLITE_OK){
