@@ -164,14 +164,18 @@ public class DBManager: NSObject {
                     for i in 0..<totalColumns{
                         let dColumnNameAsChars = sqlite3_column_name(compiledStatement, i)
                         let strColumnName = NSString(UTF8String: dColumnNameAsChars)
-                        // Convert the column data to text (characters).
+                        
+                        // Convert the column data to text (charactes).
                         let dbDataAsChars = sqlite3_column_text(compiledStatement, i)
+                        
                         var columnValue = ""
                         // If there are contents in the currenct column (field) then add them to the current row array.
                         if (dbDataAsChars != nil) {
                             // Convert the characters to string.
-                            columnValue = String(dbDataAsChars)
+                            columnValue = String.fromCString(UnsafePointer<CChar>(dbDataAsChars))!
+                                //String(CString: dbDataAsChars as! UnsafePointer<CChar>, encoding: NSUTF8StringEncoding)!
                         }
+                        print("\(strColumnName) : \(columnValue)")
                         // Keep the current column name.
                         rowValuesMap.setObject(columnValue, forKey: strColumnName!)
                     }
@@ -207,7 +211,7 @@ public class DBManager: NSObject {
             didQueryRun = true
         }
         else{
-             print("Error openning db \(sqlite3_errmsg(sqlite3Database))")
+            print("Error openning db \(sqlite3_errmsg(sqlite3Database))")
         }
         
         
@@ -216,52 +220,52 @@ public class DBManager: NSObject {
     
     
     public func rowCountForIndex(matrixIndex:Int) -> Int
-     {
+    {
         let tempArr = arraysmatrix.objectForKey(matrixIndex)
         if(tempArr != nil){
             return tempArr!.count
         }
         return 0;
-     }
+    }
     
     public func hasDataForIndex(matrixIndex:Int) -> Bool
     {
-     let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        let tempArr = arraysmatrix.objectForKey(matrixIndex)
         if(tempArr == nil){
             return false
         }
-     let currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
+        let currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
         if(currentIndexForThisArray < tempArr!.count){
             return true
         }
-      arraysmatrix.removeObjectForKey(matrixIndex)
+        arraysmatrix.removeObjectForKey(matrixIndex)
         currentIndexMatrix.removeObjectForKey(matrixIndex)
         
-     return false;
-     }
+        return false;
+    }
     
     
     public func nextForIndex(matrixIndex:Int) -> NSMutableDictionary?
-     {
-      let tempArr = arraysmatrix.objectForKey(matrixIndex)
-    var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
-     if(currentIndexForThisArray < tempArr!.count){
-    let valuesMap = tempArr![currentIndexForThisArray] as! NSMutableDictionary
-     currentIndexForThisArray += 1
-     currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex)    //(currentIndexForThisArray forKey:matrixIndex)
-     return valuesMap;
-     }
-     
+    {
+        let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
+        if(currentIndexForThisArray < tempArr!.count){
+            let valuesMap = tempArr![currentIndexForThisArray] as! NSMutableDictionary
+            currentIndexForThisArray += 1
+            currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex)    //(currentIndexForThisArray forKey:matrixIndex)
+            return valuesMap;
+        }
+        
         arraysmatrix.removeObjectForKey(matrixIndex)
         currentIndexMatrix.removeObjectForKey(matrixIndex)
-     
-     return nil
-     }
-     
+        
+        return nil
+    }
+    
     public func loadDataFromDB(query:String) -> Int
     {
         if(query.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
-            dispatch_sync(databaseQueue!, { 
+            dispatch_sync(databaseQueue!, {
                 self.currentMatrixIndex += 1
                 self.runQuery(query, isQueryExecutable: false)
             })

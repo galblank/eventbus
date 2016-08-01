@@ -223,10 +223,10 @@ public class CommManager : NSObject {
             }
         print(responseObject.data!)
         if(responseObject.result.value != nil){
-            if((responseObject.result.value?.isKindOfClass(NSDictionary)) != nil){
+            if((responseObject.result.value?.isKindOfClass(NSDictionary)) == true){
                 msg.params = ["api":api, "data":responseObject.result.value as! NSDictionary]
             }
-            else if((responseObject.result.value?.isKindOfClass(NSArray)) != nil){
+            else if((responseObject.result.value?.isKindOfClass(NSArray)) == true){
                 msg.params = ["api":api, "data":responseObject.result.value as! NSArray]
             }
         }
