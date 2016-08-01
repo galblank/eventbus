@@ -250,13 +250,13 @@ public class DBManager: NSObject {
         if(currentIndexMatrix.count == 0){
             return nil
         }
-        let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        let tempArr = arraysmatrix.objectForKey(matrixIndex) as! NSArray
         var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
-        if(currentIndexForThisArray < tempArr!.count){
-            let valuesMap = tempArr![currentIndexForThisArray] as! NSDictionary
+        if(currentIndexForThisArray < tempArr.count){
+            let valuesMap = tempArr[currentIndexForThisArray] as! NSMutableDictionary
             currentIndexForThisArray += 1
             currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex)    //(currentIndexForThisArray forKey:matrixIndex)
-            return valuesMap;
+            return valuesMap
         }
         
         arraysmatrix.removeObjectForKey(matrixIndex)
