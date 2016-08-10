@@ -186,10 +186,11 @@ public class CommManager : NSObject {
         }
 
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
-        
         Alamofire.request(.GET, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.result.error != nil){
+            if(responseObject.response?.statusCode !=  HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
                 print("Error:\(responseObject.result.error)")
+                responseObject.result.error?.code
+                
                 let err:Int = Int((responseObject.response?.statusCode)!)
                 print("%d",err)
                 if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
@@ -221,7 +222,7 @@ public class CommManager : NSObject {
             if(passThruParams != nil){
                 msg.passthruParams = passThruParams
             }
-        print(responseObject.data!)
+        print(responseObject.result.error)
         if(responseObject.result.value != nil){
             if((responseObject.result.value?.isKindOfClass(NSDictionary)) == true){
                 msg.params = ["api":api, "data":responseObject.result.value as! NSDictionary]

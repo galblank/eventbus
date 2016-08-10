@@ -17,7 +17,7 @@ public class ImageLabel: UIView {
     public  func initLabel(_image:UIImage, _text:String, _font:UIFont) {
         image = _image
         text = _text
-        
+        let fr = image?.size
         imageview = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: image!.size))
         imageview!.image = image
         addSubview(imageview!)
@@ -34,9 +34,11 @@ public class ImageLabel: UIView {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        let frame = CGRect(x: imageview!.frame.size.width + 5, y: 0, width: self.frame.size.width - (imageview!.frame.size.width + 5), height: self.frame.size.height)
-        label.frame = frame
+        let lblframe = CGRect(x: imageview!.frame.size.width + 5, y: 0, width: self.frame.size.width - (imageview!.frame.size.width + 5), height: self.frame.size.height)
+        label.frame = lblframe
         label.sizeToFit()
+        
+        frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: imageview!.frame.size.width + label.frame.size.width, height: frame.size.height)
     }
 
 }

@@ -53,6 +53,8 @@ extension Character {
     }
 }
 
+
+
 extension String {    
 
     subscript(integerIndex: Int) -> Character {
@@ -157,6 +159,26 @@ extension Dictionary {
         for (k, v) in dict {
             self.updateValue(v as! Value, forKey: k as! Key)
         }
+    }
+}
+
+extension UIButton{
+
+    public func centerImageAndTitleEx()
+    {
+        var frame = self.imageView!.frame;
+        var tranced = truncf((Float(self.bounds.size.width) - Float(frame.size.width)) / 2)
+        frame = CGRect(x: CGFloat(tranced), y: 7, width: frame.size.width, height: frame.size.height)
+        
+        self.imageView!.frame = frame
+        
+        frame = self.titleLabel!.frame
+        
+        tranced = truncf((Float(self.bounds.size.width) - Float(frame.size.width)) / 2)
+        
+        frame = CGRect(x:CGFloat(tranced), y:self.imageView!.frame.origin.y + self.imageView!.frame.size.height + 5, width:frame.size.width, height:frame.size.height);
+        
+        self.titleLabel!.frame = frame;
     }
 }
 
