@@ -87,21 +87,7 @@ extension String {
     }
     
     public func urlDecode() -> String? {
-        let encodedData = self.dataUsingEncoding(NSUTF8StringEncoding)!
-        let attributedOptions : [String: AnyObject] = [
-            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
-        ]
-        
-        do {
-            let attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-            return attributedString.string
-        }
-        catch{
-            return ""
-        }
-        
-        
+        return stringByRemovingPercentEncoding
     }
     
     public func urlEncodedString() -> String? {
@@ -171,7 +157,6 @@ extension UIButton{
         frame = CGRect(x: CGFloat(tranced), y: 7, width: frame.size.width, height: frame.size.height)
         
         self.imageView!.frame = frame
-        
         frame = self.titleLabel!.frame
         
         tranced = truncf((Float(self.bounds.size.width) - Float(frame.size.width)) / 2)
@@ -179,6 +164,7 @@ extension UIButton{
         frame = CGRect(x:CGFloat(tranced), y:self.imageView!.frame.origin.y + self.imageView!.frame.size.height + 5, width:frame.size.width, height:frame.size.height);
         
         self.titleLabel!.frame = frame;
+        
     }
 }
 

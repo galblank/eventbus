@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import sqlite3Sim
+import sqlite3
 
 
 public class DBManager: NSObject {

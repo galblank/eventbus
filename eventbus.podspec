@@ -22,15 +22,13 @@ Pod::Spec.new do |s|
   s.resources        = 'README.md'
   non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
   s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap'
-  s.xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
-  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
+#s.xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
+#  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
   s.social_media_url = 'https://twitter.com/galblank'
   s.platform     = :ios, '8.1'
   s.requires_arc = true
   s.library = 'icucore','sqlite3'
   s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
-  s.dependency  'Alamofire'
-  #s.dependency  'AlamofireImage'
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -101,7 +99,7 @@ Pod::Spec.new do |s|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-s.source_files  = '**/*','mobilesdkfw/**'
+  s.source_files  = '**/*','mobilesdkfw/**/*.{swift,info,h,m}'
   s.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files
 
   # s.public_header_files = "Classes/**/*.h"

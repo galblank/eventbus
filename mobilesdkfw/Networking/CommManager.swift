@@ -269,7 +269,7 @@ public class CommManager : NSObject {
                     }
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
-                else if(err == HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
+                else if(err >= HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue && err < HTTPERRORCODES.FTHTTPCodesNo400BadRequest.rawValue){
                     self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
                 }
             }
