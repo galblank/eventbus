@@ -223,6 +223,7 @@ public class CommManager : NSObject {
                 msg.passthruParams = passThruParams
             }
         print(responseObject.result.error)
+        print(responseObject.response?.statusCode)
         if(responseObject.result.value != nil){
             if((responseObject.result.value?.isKindOfClass(NSDictionary)) == true){
                 msg.params = ["api":api, "data":responseObject.result.value as! NSDictionary]

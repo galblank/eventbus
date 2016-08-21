@@ -7,7 +7,12 @@
 //
 
 import UIKit
-import sqlite3
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+    import sqlite3Sim
+#else
+    import sqlite3
+#endif
+
 
 
 public class DBManager: NSObject {
