@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 public enum HTTPERRORCODES: Int {
     // Informational
@@ -157,7 +156,7 @@ public class CommManager : NSObject {
             //"Authorization": "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
             "Accept": "application/json"
         ]
-        Alamofire.request(.POST, api, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
+        Alamofire.sharedInstance.request(.POST, api, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
             if(responseObject.result.error != nil){
                 print("Error:\(responseObject.result.error)")
             }
@@ -186,7 +185,7 @@ public class CommManager : NSObject {
         }
 
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
-        Alamofire.request(.GET, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
+        Alamofire.sharedInstance.request(.GET, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
             if(responseObject.response?.statusCode !=  HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
                 print("Error:\(responseObject.result.error)")
                 responseObject.result.error?.code
@@ -252,7 +251,7 @@ public class CommManager : NSObject {
         
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
         
-        Alamofire.request(.POST, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
+        Alamofire.sharedInstance.request(.POST, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
             if(responseObject.result.error != nil){
                 print("Error:\(responseObject.result.error)")
                 let err:Int = Int((responseObject.response?.statusCode)!)

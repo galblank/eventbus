@@ -21,13 +21,13 @@ Pod::Spec.new do |s|
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
   non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
-  s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap'
+  s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap','mobilesdkfw/Network/Alamofire/Alamofire.modulemap'
 #s.xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
 #  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
   s.social_media_url = 'https://twitter.com/galblank'
   s.platform     = :ios, '8.1'
   s.requires_arc = true
-  s.library = 'icucore','sqlite3'
+  s.library = 'icucore','sqlite3','Alamofire'
   s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
 
   # This description is used to generate tags and improve search results.
