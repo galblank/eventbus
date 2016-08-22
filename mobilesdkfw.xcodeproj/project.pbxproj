@@ -28,8 +28,7 @@
 		C1F21FF61C63B7F4005CB9D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */; };
 		C1F220061C63C904005CB9D3 /* CommManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F220051C63C904005CB9D3 /* CommManager.swift */; };
 		C339E1351D3E698D0078D2A5 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C339E1341D3E698D0078D2A5 /* DBManager.swift */; };
-		C359CAAC1D4BF0BA0004DC14 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */; };
-		C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */; };
+		C359CAAC1D4BF0BA0004DC14 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37C56B81D47A5A400BE187C /* Watchdog.swift */; };
 		C3BF355D1D6B70A500FA881C /* Alamofire-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C3BF354A1D6B70A500FA881C /* Alamofire-umbrella.h */; };
 		C3BF355E1D6B70A500FA881C /* Alamofire.h in Headers */ = {isa = PBXBuildFile; fileRef = C3BF354B1D6B70A500FA881C /* Alamofire.h */; };
@@ -50,6 +49,7 @@
 		C3BF356D1D6B70A500FA881C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355A1D6B70A500FA881C /* Timeline.swift */; };
 		C3BF356E1D6B70A500FA881C /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355B1D6B70A500FA881C /* Upload.swift */; };
 		C3BF356F1D6B70A500FA881C /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355C1D6B70A500FA881C /* Validation.swift */; };
+		C3BF35711D6B915300FA881C /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = C3BF35701D6B915300FA881C /* sqlite3.h */; };
 		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
@@ -84,7 +84,6 @@
 		C1F220051C63C904005CB9D3 /* CommManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommManager.swift; sourceTree = "<group>"; };
 		C339E1341D3E698D0078D2A5 /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		C339E13B1D3E924B0078D2A5 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = sqlite3.xcconfig; sourceTree = "<group>"; };
 		C359CAAB1D4BF0BA0004DC14 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		C37C56B81D47A5A400BE187C /* Watchdog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
 		C3BF35491D6B70A500FA881C /* Alamofire.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = Alamofire.modulemap; sourceTree = "<group>"; };
@@ -107,6 +106,7 @@
 		C3BF355A1D6B70A500FA881C /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		C3BF355B1D6B70A500FA881C /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		C3BF355C1D6B70A500FA881C /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		C3BF35701D6B915300FA881C /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
@@ -161,8 +161,8 @@
 		C1F21F4A1C63B6D6005CB9D3 = {
 			isa = PBXGroup;
 			children = (
-				C359CAAA1D4BECDA0004DC14 /* sqlite3.xcconfig */,
 				CECC9A491D3C5014007E4B60 /* eventbus.podspec */,
+				C3BF35701D6B915300FA881C /* sqlite3.h */,
 				C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */,
 				C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */,
 				C1F21F561C63B6D6005CB9D3 /* mobilesdkfw */,
@@ -332,6 +332,7 @@
 				C3BF355E1D6B70A500FA881C /* Alamofire.h in Headers */,
 				C1F21F581C63B6D6005CB9D3 /* mobilesdkfw.h in Headers */,
 				C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */,
+				C3BF35711D6B915300FA881C /* sqlite3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +394,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C359CAAD1D4BF1070004DC14 /* sqlite3.xcconfig in Resources */,
 				CECC9A4A1D3C5014007E4B60 /* eventbus.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
