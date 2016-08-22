@@ -106,7 +106,7 @@
 		C3BF355A1D6B70A500FA881C /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		C3BF355B1D6B70A500FA881C /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		C3BF355C1D6B70A500FA881C /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
-		C3BF35701D6B915300FA881C /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		C3BF35701D6B915300FA881C /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = ../../sqlite3.h; sourceTree = "<group>"; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
@@ -162,7 +162,6 @@
 			isa = PBXGroup;
 			children = (
 				CECC9A491D3C5014007E4B60 /* eventbus.podspec */,
-				C3BF35701D6B915300FA881C /* sqlite3.h */,
 				C1F21FF51C63B7F4005CB9D3 /* CoreFoundation.framework */,
 				C1F21FF31C63B714005CB9D3 /* ExternalAccessory.framework */,
 				C1F21F561C63B6D6005CB9D3 /* mobilesdkfw */,
@@ -289,6 +288,7 @@
 		C339E13A1D3E92330078D2A5 /* sqlite3 */ = {
 			isa = PBXGroup;
 			children = (
+				C3BF35701D6B915300FA881C /* sqlite3.h */,
 				C339E13B1D3E924B0078D2A5 /* module.modulemap */,
 			);
 			path = sqlite3;
