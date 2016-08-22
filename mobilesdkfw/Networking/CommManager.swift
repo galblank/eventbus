@@ -196,7 +196,7 @@ public class CommManager : NSObject {
                 if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
                 {
                     let msg: Message = Message(routKey: "internal.apierror")
-                    msg.params = ["title":"Error", "message":"User is not recognized","errno":err]
+                    msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
                     msg.callBackPoint = callbackpoint
                     msg.passthruAPI = passThruAPI
                     if(passThruParams != nil){
@@ -204,13 +204,8 @@ public class CommManager : NSObject {
                     }
                     MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
-                else if(err == HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
-                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
-                }
             }
-            else{
-                self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
-            }
+            self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
         }
     }
     
@@ -223,8 +218,13 @@ public class CommManager : NSObject {
                 msg.passthruParams = passThruParams
             }
         print(responseObject.result.error)
-        print(responseObject.response?.statusCode)
-        if(responseObject.result.value != nil){
+        print(responseObject.response!.statusCode)
+        if(responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
+        {
+           msg.params = ["api":api, "error":"notfound"]
+        }
+        else if(responseObject.result.value != nil)
+        {
             if((responseObject.result.value?.isKindOfClass(NSDictionary)) == true){
                 msg.params = ["api":api, "data":responseObject.result.value as! NSDictionary]
             }
@@ -235,8 +235,8 @@ public class CommManager : NSObject {
         else{
             msg.params = ["api":api]
         }
-            msg.passthruAPI = passThruAPI
-            MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+        msg.passthruAPI = passThruAPI
+        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
     }
     
     func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
@@ -244,8 +244,6 @@ public class CommManager : NSObject {
         var headers = [
             "Accept": "application/json"
         ]
-        
-        
         
         if(authtoken.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             let hdr = "Bearer \(authtoken)"
@@ -262,7 +260,7 @@ public class CommManager : NSObject {
                 if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
                 {
                     let msg: Message = Message(routKey: "internal.apierror")
-                    msg.params = ["title":"Error", "message":"User is not recognized","errno":err]
+                    msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
                     msg.callBackPoint = callbackpoint
                     msg.passthruAPI = passThruAPI
                     if(passThruParams != nil){

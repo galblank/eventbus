@@ -91,6 +91,13 @@
 			remoteGlobalIDString = E4202FE01B667AA100C997FB;
 			remoteInfo = "Alamofire watchOS";
 		};
+		C3CC101A1D64B4BC00E747DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C32B05B51D62B6CC00448195 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -352,6 +359,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C3CC101B1D64B4BC00E747DF /* PBXTargetDependency */,
 			);
 			name = mobilesdkfw;
 			productName = mobilesdkfw;
@@ -507,6 +515,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C3CC101B1D64B4BC00E747DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = C3CC101A1D64B4BC00E747DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C1F21F5A1C63B6D6005CB9D3 /* Debug */ = {
