@@ -17,17 +17,17 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "eventbus"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
   non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
-  s.preserve_paths = 'mobilesdkfw/sqlite3/module.modulemap','mobilesdkfw/Network/Alamofire/Alamofire.modulemap'
+  s.preserve_paths = 'mobilesdkfw/sqlite3'
 #s.xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/mobilesdkfw/sqlite3' }
-#  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
+  s.pod_target_xcconfig = {'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/mobilesdkfw/sqlite3/**'}
   s.social_media_url = 'https://twitter.com/galblank'
   s.platform     = :ios, '8.1'
   s.requires_arc = true
-  s.library = 'icucore','sqlite3','Alamofire'
+  s.library = 'icucore','sqlite3'
   s.ios.frameworks = 'CoreFoundation','ExternalAccessory','Security'
 
   # This description is used to generate tags and improve search results.
@@ -89,7 +89,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -99,7 +99,7 @@ Pod::Spec.new do |s|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-  s.source_files  = '**/*','mobilesdkfw/**/*.{swift,info,h,m}'
+  s.source_files  = '**/*','mobilesdkfw/**/*.{swift,info,h,m}','mobilesdkfw/**/**/*.{swift,info,h,m}'
   s.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files
 
   # s.public_header_files = "Classes/**/*.h"
