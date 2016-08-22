@@ -49,7 +49,7 @@
 		C3BF356D1D6B70A500FA881C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355A1D6B70A500FA881C /* Timeline.swift */; };
 		C3BF356E1D6B70A500FA881C /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355B1D6B70A500FA881C /* Upload.swift */; };
 		C3BF356F1D6B70A500FA881C /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BF355C1D6B70A500FA881C /* Validation.swift */; };
-		C3BF35711D6B915300FA881C /* sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = C3BF35701D6B915300FA881C /* sqlite3.h */; };
+		C3BF35731D6B971600FA881C /* usr/include/sqlite3.h in Headers */ = {isa = PBXBuildFile; fileRef = C3BF35721D6B971600FA881C /* usr/include/sqlite3.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE1AD75D1CF38D3C009B8488 /* AlignableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */; };
 		CE2153161D09EF7900094F8B /* DynamicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2153151D09EF7900094F8B /* DynamicTextView.swift */; };
 		CE3967821D18718200153F9C /* ImageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3967811D18718200153F9C /* ImageLabel.swift */; };
@@ -106,7 +106,7 @@
 		C3BF355A1D6B70A500FA881C /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		C3BF355B1D6B70A500FA881C /* Upload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		C3BF355C1D6B70A500FA881C /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
-		C3BF35701D6B915300FA881C /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = ../../sqlite3.h; sourceTree = "<group>"; };
+		C3BF35721D6B971600FA881C /* usr/include/sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usr/include/sqlite3.h; sourceTree = SDKROOT; };
 		CE1AD75C1CF38D3C009B8488 /* AlignableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlignableLabel.swift; sourceTree = "<group>"; };
 		CE2153151D09EF7900094F8B /* DynamicTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicTextView.swift; sourceTree = "<group>"; };
 		CE3967811D18718200153F9C /* ImageLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLabel.swift; sourceTree = "<group>"; };
@@ -288,7 +288,7 @@
 		C339E13A1D3E92330078D2A5 /* sqlite3 */ = {
 			isa = PBXGroup;
 			children = (
-				C3BF35701D6B915300FA881C /* sqlite3.h */,
+				C3BF35721D6B971600FA881C /* usr/include/sqlite3.h */,
 				C339E13B1D3E924B0078D2A5 /* module.modulemap */,
 			);
 			path = sqlite3;
@@ -330,9 +330,9 @@
 			files = (
 				C3BF355D1D6B70A500FA881C /* Alamofire-umbrella.h in Headers */,
 				C3BF355E1D6B70A500FA881C /* Alamofire.h in Headers */,
+				C3BF35731D6B971600FA881C /* usr/include/sqlite3.h in Headers */,
 				C1F21F581C63B6D6005CB9D3 /* mobilesdkfw.h in Headers */,
 				C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */,
-				C3BF35711D6B915300FA881C /* sqlite3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
