@@ -11,7 +11,7 @@ import UIKit
 #if SQLITE_SWIFT_STANDALONE
     import sqlite3
 #else
-    import EBSQLite3Sim
+    import EBSQLite3
 #endif
 
 
