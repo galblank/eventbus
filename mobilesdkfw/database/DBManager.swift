@@ -11,16 +11,9 @@ import UIKit
 #if SQLITE_SWIFT_STANDALONE
     import sqlite3
 #else
-    import EBSQLite3
+    import EBSQLite3Sim
 #endif
 
-/*
-#if (arch(i386) || arch(x86_64)) && os(iOS)
-    import sqlite3Sim
-#else
-    import sqlite3
-#endif
-*/
 
 
 public class DBManager: NSObject {
