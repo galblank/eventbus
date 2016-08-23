@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "eventbus"
-  s.version      = "0.0.6"
+  s.version      = "0.0.7"
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
   s.module_name      = 'mobilesdkfw'
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/galblank/eventbus"
   s.license      = { :type => "MIT", :file => "LICENSE.txt" }
   s.author             = { "Blank, Gal" => "galblank@gmail.com" }
-  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.0.6" }
+  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.0.7" }
  #non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
 
   s.default_subspec  = 'standard'
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
 
 s.subspec 'standalone' do |ss|
     ss.source_files = 'mobilesdkfw/**/*.{c,h,m,swift}'
-    ss.exclude_files = "**/*.{png}","**/*.{pdf}",non_arc_files
+    ss.exclude_files = "**/*.{png}","**/*.{pdf}"
     ss.library = 'icucore','sqlite3'
     ss.xcconfig = { 'OTHER_SWIFT_FLAGS' => '$(inherited) -DSQLITE_SWIFT_STANDALONE' }
     ss.dependency 'sqlite3'
