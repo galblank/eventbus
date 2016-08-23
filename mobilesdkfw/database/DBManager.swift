@@ -7,13 +7,15 @@
 //
 
 import UIKit
+import sqlite3
 
+/*
 #if SQLITE_SWIFT_STANDALONE
     import sqlite3
 #else
     import EBSQLite3
 #endif
-
+*/
 
 
 public class DBManager: NSObject {
