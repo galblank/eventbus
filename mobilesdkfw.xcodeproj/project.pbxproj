@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		C11311891C889609009CF1FD /* socketsutils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11311881C889609009CF1FD /* socketsutils.swift */; };
 		C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */; };
-		C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = C133CC311C99F34600C74716 /* RegexKitLite.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = C133CC321C99F34600C74716 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C133CC361C99F38000C74716 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C133CC351C99F38000C74716 /* libicucore.tbd */; };
 		C18F52BD1C6B9D78009D6805 /* SystemUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */; };
 		C194EE661C89F0CC000397D8 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C194EE651C89F0CC000397D8 /* Observable.swift */; };
@@ -62,8 +60,6 @@
 /* Begin PBXFileReference section */
 		C11311881C889609009CF1FD /* socketsutils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = socketsutils.swift; sourceTree = "<group>"; };
 		C11776D11C88CCD900E564F0 /* IngenicoDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IngenicoDriver.swift; sourceTree = "<group>"; };
-		C133CC311C99F34600C74716 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		C133CC321C99F34600C74716 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		C133CC351C99F38000C74716 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemUtils.swift; sourceTree = "<group>"; };
 		C194EE651C89F0CC000397D8 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -221,8 +217,6 @@
 		C1F21F761C63B701005CB9D3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C133CC311C99F34600C74716 /* RegexKitLite.h */,
-				C133CC321C99F34600C74716 /* RegexKitLite.m */,
 				C11311881C889609009CF1FD /* socketsutils.swift */,
 				C1F21F771C63B701005CB9D3 /* WaitingOverlay.swift */,
 				C18F52BC1C6B9D78009D6805 /* SystemUtils.swift */,
@@ -332,7 +326,6 @@
 				C3BF355E1D6B70A500FA881C /* Alamofire.h in Headers */,
 				C3BF35731D6B971600FA881C /* usr/include/sqlite3.h in Headers */,
 				C1F21F581C63B6D6005CB9D3 /* mobilesdkfw.h in Headers */,
-				C133CC331C99F34600C74716 /* RegexKitLite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +435,6 @@
 				C194EE661C89F0CC000397D8 /* Observable.swift in Sources */,
 				CEBBE7E51CE1151B00CBEA99 /* SdkTextField.swift in Sources */,
 				C11776D21C88CCD900E564F0 /* IngenicoDriver.swift in Sources */,
-				C133CC341C99F34600C74716 /* RegexKitLite.m in Sources */,
 				C3BF35601D6B70A500FA881C /* Download.swift in Sources */,
 				C3BF35671D6B70A500FA881C /* Request.swift in Sources */,
 				C37C56B91D47A5A400BE187C /* Watchdog.swift in Sources */,

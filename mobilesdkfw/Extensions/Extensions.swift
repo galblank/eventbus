@@ -127,7 +127,7 @@ extension String {
         }
     }
     
-    public static func stripHTML(html:String) -> String
+   /* public static func stripHTML(html:String) -> String
     {
         let HTMLTags = "<[^>]*>"; //regex to remove any html tag
         
@@ -135,7 +135,7 @@ extension String {
         stringWithoutHTML = stringWithoutHTML.stringByReplacingOccurrencesOfRegex(HTMLTags, withString: "")
         
         return String(stringWithoutHTML)
-    }
+    }*/
     
     
 }
