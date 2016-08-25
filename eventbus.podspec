@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "eventbus"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "mobile foundation framework"
   s.resources        = 'README.md'
   s.social_media_url = 'https://twitter.com/galblank'
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/galblank/eventbus"
   s.license      = { :type => "MIT", :file => "LICENSE.txt" }
   s.author             = { "Blank, Gal" => "galblank@gmail.com" }
-  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.1.0" }
+  s.source       = { :git => "https://github.com/galblank/eventbus.git", :tag => "0.1.1" }
  #non_arc_files		= "mobilesdkfw/Helpers/RegexKitLite.{h,m}"
   s.preserve_paths = 'mobilesdkfw/sqlite3'
 #s.module_map = 'mobilesdkfw/sqlite3/module.modulemap'

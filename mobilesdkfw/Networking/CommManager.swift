@@ -167,7 +167,7 @@ public class CommManager : NSObject {
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
             }
         }
-
+        
     }
     
     
@@ -183,25 +183,37 @@ public class CommManager : NSObject {
             let hdr = "Bearer \(authtoken)"
             headers["AUTHORIZATION"] = hdr
         }
-
+        
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
         Alamofire.sharedInstance.request(.GET, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.response?.statusCode !=  HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
-                print("Error:\(responseObject.result.error)")
-                responseObject.result.error?.code
-                
-                let err:Int = Int((responseObject.response?.statusCode)!)
-                print("%d",err)
-                if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
-                {
-                    let msg: Message = Message(routKey: "internal.apierror")
-                    msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
-                    msg.callBackPoint = callbackpoint
-                    msg.passthruAPI = passThruAPI
-                    if(passThruParams != nil){
-                        msg.passthruParams = passThruParams
+            if(responseObject.response == nil){
+                let msg: Message = Message(routKey: "internal.apierror")
+                msg.params = ["title":"Error", "message":"Server is down","errno":0]
+                msg.callBackPoint = callbackpoint
+                msg.passthruAPI = passThruAPI
+                if(passThruParams != nil){
+                    msg.passthruParams = passThruParams
+                }
+                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+            }
+            else{
+                if(responseObject.response?.statusCode !=  HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
+                    print("Error:\(responseObject.result.error)")
+                    responseObject.result.error?.code
+                    
+                    let err:Int = Int((responseObject.response?.statusCode)!)
+                    print("%d",err)
+                    if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
+                    {
+                        let msg: Message = Message(routKey: "internal.apierror")
+                        msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
+                        msg.callBackPoint = callbackpoint
+                        msg.passthruAPI = passThruAPI
+                        if(passThruParams != nil){
+                            msg.passthruParams = passThruParams
+                        }
+                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                     }
-                    MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                 }
             }
             self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
@@ -211,16 +223,15 @@ public class CommManager : NSObject {
     
     func returnResponse(api:String, callbackpoint:String, passThruAPI:String, passThruParams:AnyObject?, responseObject:Response<AnyObject,NSError>)
     {
-            let msg: Message = Message(routKey: "internal.apiresponse")
-            msg.callBackPoint = callbackpoint
-            if(passThruParams != nil){
-                msg.passthruParams = passThruParams
-            }
-        print(responseObject.result.error)
-        print(responseObject.response!.statusCode)
-        if(responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
+        let msg: Message = Message(routKey: "internal.apiresponse")
+        msg.callBackPoint = callbackpoint
+        if(passThruParams != nil){
+            msg.passthruParams = passThruParams
+        }
+        
+        if(responseObject.response == nil || responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
         {
-           msg.params = ["api":api, "error":"notfound"]
+            msg.params = ["api":api, "error":"notfound"]
         }
         else if(responseObject.result.value != nil)
         {
@@ -252,27 +263,39 @@ public class CommManager : NSObject {
         let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
         
         Alamofire.sharedInstance.request(.POST, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.result.error != nil){
-                print("Error:\(responseObject.result.error)")
-                let err:Int = Int((responseObject.response?.statusCode)!)
-                print("%d",err)
-                if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
-                {
-                    let msg: Message = Message(routKey: "internal.apierror")
-                    msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
-                    msg.callBackPoint = callbackpoint
-                    msg.passthruAPI = passThruAPI
-                    if(passThruParams != nil){
-                        msg.passthruParams = passThruParams
-                    }
-                    MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+            if(responseObject.response == nil){
+                let msg: Message = Message(routKey: "internal.apierror")
+                msg.params = ["title":"Error", "message":"Server is down","errno":0]
+                msg.callBackPoint = callbackpoint
+                msg.passthruAPI = passThruAPI
+                if(passThruParams != nil){
+                    msg.passthruParams = passThruParams
                 }
-                else if(err >= HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue && err < HTTPERRORCODES.FTHTTPCodesNo400BadRequest.rawValue){
-                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
-                }
+                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
             }
             else{
-                self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
+                if(responseObject.result.error != nil){
+                    print("Error:\(responseObject.result.error)")
+                    let err:Int = Int((responseObject.response?.statusCode)!)
+                    print("%d",err)
+                    if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
+                    {
+                        let msg: Message = Message(routKey: "internal.apierror")
+                        msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
+                        msg.callBackPoint = callbackpoint
+                        msg.passthruAPI = passThruAPI
+                        if(passThruParams != nil){
+                            msg.passthruParams = passThruParams
+                        }
+                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+                    }
+                    else if(err >= HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue && err < HTTPERRORCODES.FTHTTPCodesNo400BadRequest.rawValue){
+                        self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
+                    }
+                }
+                else{
+                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
+                }
             }
             
         }
