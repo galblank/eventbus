@@ -214,6 +214,17 @@ public class CommManager : NSObject {
                         }
                         MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
                     }
+                    else if(err == HTTPERRORCODES.FTHTTPCodesNo403Forbidden.rawValue)
+                    {
+                        let msg: Message = Message(routKey: "internal.apierror")
+                        msg.params = ["title":"Error", "message":"403 Forbidden","errno":err]
+                        msg.callBackPoint = callbackpoint
+                        msg.passthruAPI = passThruAPI
+                        if(passThruParams != nil){
+                            msg.passthruParams = passThruParams
+                        }
+                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+                    }
                 }
             }
             self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
@@ -282,6 +293,17 @@ public class CommManager : NSObject {
                     {
                         let msg: Message = Message(routKey: "internal.apierror")
                         msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
+                        msg.callBackPoint = callbackpoint
+                        msg.passthruAPI = passThruAPI
+                        if(passThruParams != nil){
+                            msg.passthruParams = passThruParams
+                        }
+                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
+                    }
+                    else if(err == HTTPERRORCODES.FTHTTPCodesNo403Forbidden.rawValue)
+                    {
+                        let msg: Message = Message(routKey: "internal.apierror")
+                        msg.params = ["title":"Error", "message":"403 Forbidden","errno":err]
                         msg.callBackPoint = callbackpoint
                         msg.passthruAPI = passThruAPI
                         if(passThruParams != nil){
