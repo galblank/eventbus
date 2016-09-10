@@ -139,94 +139,41 @@ public class CommManager : NSObject {
         }
         
         if msg.httpMethod.caseInsensitiveCompare("get") == NSComparisonResult.OrderedSame {
-            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams:  msg.passthruParams)
+            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams:  msg.passthruParams, shouldAppendRoot: true)
         }
         else if msg.httpMethod.caseInsensitiveCompare("post") == NSComparisonResult.OrderedSame {
-            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams: msg.passthruParams)
+            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams: msg.passthruParams, shouldAppendRoot: true)
         }
         else if msg.httpMethod.caseInsensitiveCompare("fullpost") == NSComparisonResult.OrderedSame {
-            self.postFullAPI(paramsDict["api"] as! String, andParams: payload, passThruAPI:passThruAPI)
+            self.postAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams: msg.passthruParams, shouldAppendRoot: false)
+        }
+        else if msg.httpMethod.caseInsensitiveCompare("fullget") == NSComparisonResult.OrderedSame {
+            self.getAPI(paramsDict["api"] as! String, andParams: payload, callbackpoint: callbackpoint,authtoken: authtoken, passThruAPI: passThruAPI,passThruParams:  msg.passthruParams, shouldAppendRoot: false)
         }
         msg.selfDestruct()
     }
+
     
-    
-    func postFullAPI(api: String, andParams params:AnyObject?, passThruAPI:String) {
-        let headers = [
-            //"Authorization": "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
-            "Accept": "application/json"
-        ]
-        Alamofire.sharedInstance.request(.POST, api, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.result.error != nil){
-                print("Error:\(responseObject.result.error)")
-            }
-            else{
-                let msg: Message = Message(routKey: "internal.apiresponse")
-                msg.params = ["api":api, "data":responseObject.data!]
-                msg.passthruAPI = passThruAPI
-                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-            }
-        }
-        
-    }
-    
-    
-    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
+    func getAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?, shouldAppendRoot:Bool) {
         
         var headers = [
             "Accept": "application/json"
         ]
-        
-        
         
         if(authtoken.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
             let hdr = "Bearer \(authtoken)"
             headers["AUTHORIZATION"] = hdr
         }
         
-        let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
+        var fullAPI: String = ""
+        if(shouldAppendRoot){
+            fullAPI = String(format: "%@/%@",ROOT_API!,api)
+        }
+        else{
+            fullAPI = api
+        }
+        
         Alamofire.sharedInstance.request(.GET, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.response == nil){
-                let msg: Message = Message(routKey: "internal.apierror")
-                msg.params = ["title":"Error", "message":"Server is down","errno":0]
-                msg.callBackPoint = callbackpoint
-                msg.passthruAPI = passThruAPI
-                if(passThruParams != nil){
-                    msg.passthruParams = passThruParams
-                }
-                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-            }
-            else{
-                if(responseObject.response?.statusCode !=  HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue){
-                    print("Error:\(responseObject.result.error)")
-                    responseObject.result.error?.code
-                    
-                    let err:Int = Int((responseObject.response?.statusCode)!)
-                    print("%d",err)
-                    if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
-                    {
-                        let msg: Message = Message(routKey: "internal.apierror")
-                        msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
-                        msg.callBackPoint = callbackpoint
-                        msg.passthruAPI = passThruAPI
-                        if(passThruParams != nil){
-                            msg.passthruParams = passThruParams
-                        }
-                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-                    }
-                    else if(err == HTTPERRORCODES.FTHTTPCodesNo403Forbidden.rawValue)
-                    {
-                        let msg: Message = Message(routKey: "internal.apierror")
-                        msg.params = ["title":"Error", "message":"403 Forbidden","errno":err]
-                        msg.callBackPoint = callbackpoint
-                        msg.passthruAPI = passThruAPI
-                        if(passThruParams != nil){
-                            msg.passthruParams = passThruParams
-                        }
-                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-                    }
-                }
-            }
             self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
         }
     }
@@ -240,9 +187,18 @@ public class CommManager : NSObject {
             msg.passthruParams = passThruParams
         }
         
-        if(responseObject.response == nil || responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
+        if(responseObject.response == nil){
+            msg.routingKey = "internal.apierror"
+            msg.params = ["api":api, "errno":Int((responseObject.result.error?.code)!)]
+        }
+        else if(responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
         {
-            msg.params = ["api":api, "error":"notfound"]
+            msg.routingKey = "internal.apierror"
+            msg.params = ["api":api, "errno":responseObject.response!.statusCode]
+        }
+        else if(responseObject.response!.statusCode == HTTPERRORCODES.FTHTTPCodesNo400BadRequest.rawValue){
+            msg.routingKey = "internal.apierror"
+            msg.params = ["api":api, "errno":responseObject.response!.statusCode]
         }
         else if(responseObject.result.value != nil)
         {
@@ -260,7 +216,7 @@ public class CommManager : NSObject {
         MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
     }
     
-    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?) {
+    func postAPI(api: String, andParams params:AnyObject?, callbackpoint:String, authtoken:String, passThruAPI:String, passThruParams:AnyObject?, shouldAppendRoot:Bool) {
         
         var headers = [
             "Accept": "application/json"
@@ -270,56 +226,16 @@ public class CommManager : NSObject {
             let hdr = "Bearer \(authtoken)"
             headers["AUTHORIZATION"] = hdr
         }
-        
-        let fullAPI: String = String(format: "%@/%@",ROOT_API!,api)
-        
+        var fullAPI: String = ""
+        if(shouldAppendRoot){
+            fullAPI = String(format: "%@/%@",ROOT_API!,api)
+        }
+        else{
+            fullAPI = api
+        }
+        print(fullAPI)
         Alamofire.sharedInstance.request(.POST, fullAPI, parameters: params as? [String:AnyObject], encoding: .JSON, headers: headers).responseJSON { (responseObject) in
-            if(responseObject.response == nil){
-                let msg: Message = Message(routKey: "internal.apierror")
-                msg.params = ["title":"Error", "message":"Server is down","errno":0]
-                msg.callBackPoint = callbackpoint
-                msg.passthruAPI = passThruAPI
-                if(passThruParams != nil){
-                    msg.passthruParams = passThruParams
-                }
-                MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-            }
-            else{
-                if(responseObject.result.error != nil){
-                    print("Error:\(responseObject.result.error)")
-                    let err:Int = Int((responseObject.response?.statusCode)!)
-                    print("%d",err)
-                    if(err == HTTPERRORCODES.FTHTTPCodesNo404NotFound.rawValue)
-                    {
-                        let msg: Message = Message(routKey: "internal.apierror")
-                        msg.params = ["title":"Error", "message":"Invalid Endpoint","errno":err]
-                        msg.callBackPoint = callbackpoint
-                        msg.passthruAPI = passThruAPI
-                        if(passThruParams != nil){
-                            msg.passthruParams = passThruParams
-                        }
-                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-                    }
-                    else if(err == HTTPERRORCODES.FTHTTPCodesNo403Forbidden.rawValue)
-                    {
-                        let msg: Message = Message(routKey: "internal.apierror")
-                        msg.params = ["title":"Error", "message":"403 Forbidden","errno":err]
-                        msg.callBackPoint = callbackpoint
-                        msg.passthruAPI = passThruAPI
-                        if(passThruParams != nil){
-                            msg.passthruParams = passThruParams
-                        }
-                        MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
-                    }
-                    else if(err >= HTTPERRORCODES.FTHTTPCodesNo200OK.rawValue && err < HTTPERRORCODES.FTHTTPCodesNo400BadRequest.rawValue){
-                        self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
-                    }
-                }
-                else{
-                    self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
-                }
-            }
-            
+            self.returnResponse(api, callbackpoint:callbackpoint, passThruAPI: passThruAPI, passThruParams: passThruParams,responseObject: responseObject)
         }
     }
 }
