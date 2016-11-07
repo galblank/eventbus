@@ -14,6 +14,6 @@ class PeripheralDiscoveryPolymorphic: NSObject {
     
     var entitledHardware: NSDictionary?
     
-    func consumeMessage(_ notif:Notification){}
+    func consumeMessage(notif:NSNotification){}
     
 }

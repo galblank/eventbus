@@ -8,29 +8,29 @@
 
 import UIKit
 
-open class SdkTextField: UITextField {
+public class SdkTextField: UITextField {
 
     
         let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
         
-        override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        override public func textRectForBounds(bounds: CGRect) -> CGRect {
             return UIEdgeInsetsInsetRect(bounds, padding)
         }
         
-        override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        override public func placeholderRectForBounds(bounds: CGRect) -> CGRect {
             return UIEdgeInsetsInsetRect(bounds, padding)
         }
         
-        override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        override public func editingRectForBounds(bounds: CGRect) -> CGRect {
             return UIEdgeInsetsInsetRect(bounds, padding)
         }
     
 
-        open func addBottomBorderLine()
+        public func addBottomBorderLine()
         {
             let border = CALayer()
             let width = CGFloat(2.0)
-            border.borderColor = UIColor.darkGray.cgColor
+            border.borderColor = UIColor.darkGrayColor().CGColor
             border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
             
             border.borderWidth = width

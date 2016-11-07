@@ -15,7 +15,7 @@ public extension UIDevice {
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8 , value != 0 else { return identifier }
+            guard let value = element.value as? Int8 where value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
         
@@ -50,14 +50,14 @@ public extension UIDevice {
 }
 
 
-open class SystemUtils: NSObject {
+public class SystemUtils: NSObject {
 
-    open static let sharedSystemUtilsInstance = SystemUtils()
+    public static let sharedSystemUtilsInstance = SystemUtils()
     
-    open func logsystemdetails()
+    public func logsystemdetails()
     {
-        let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-        NSLog("Running: %@, iOs %@, Device: %@",version,ProcessInfo().operatingSystemVersionString,UIDevice.current.modelName)
+        let version = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String
+        NSLog("Running: %@, iOs %@, Device: %@",version,NSProcessInfo().operatingSystemVersionString,UIDevice.currentDevice().modelName)
         
     }
     

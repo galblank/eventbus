@@ -8,18 +8,18 @@
 
 import UIKit
 
-open class Watchdog: NSObject {
+public class Watchdog: NSObject {
 
-    open static let sharedInstance = Watchdog()
+    public static let sharedInstance = Watchdog()
     
-    open var dispsatchTimer:Timer?
+    public var dispsatchTimer:NSTimer?
 
     struct Static {
-        static var token: Int = 0
+        static var token: dispatch_once_t = 0
     }
     
     
-    open func registerSelf(_ anytype:AnyObject)
+    public func registerSelf(anytype:AnyObject)
     {
         
     }

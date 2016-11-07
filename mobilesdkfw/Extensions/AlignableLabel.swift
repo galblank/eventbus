@@ -8,21 +8,21 @@
 
 import UIKit
 
-open class AlignableLabel: UILabel {
+public class AlignableLabel: UILabel {
 
    
-        open override func drawText(in rect: CGRect) {
+        public override func drawTextInRect(rect: CGRect) {
             
-            var newRect = CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: rect.height)
+            var newRect = CGRectMake(rect.origin.x, rect.origin.y, rect.width, rect.height)
             let fittingSize = sizeThatFits(rect.size)
             
-            if contentMode == UIViewContentMode.top {
+            if contentMode == UIViewContentMode.Top {
                 newRect.size.height = min(newRect.size.height, fittingSize.height)
-            } else if contentMode == UIViewContentMode.bottom {
+            } else if contentMode == UIViewContentMode.Bottom {
                 newRect.origin.y = max(0, newRect.size.height - fittingSize.height)
             }
             
-            super.drawText(in: newRect)
+            super.drawTextInRect(newRect)
         }
 
 }
