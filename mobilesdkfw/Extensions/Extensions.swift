@@ -9,13 +9,13 @@
 import Foundation
 
 extension String{
-    func urlEncode(toencode:String) -> String
+    func urlEncode(_ toencode:String) -> String
     {
         let str:String = CFURLCreateStringByAddingPercentEscapes(
             nil,
-            toencode,
+            toencode as CFString!,
             nil,
-            "!*'();:@&=+$,/?%#[]",
+            "!*'();:@&=+$,/?%#[]" as CFString!,
             CFStringBuiltInEncodings.UTF8.rawValue
         ) as String
         
@@ -25,7 +25,7 @@ extension String{
 
 extension NSObject {
     var theClassName: String {
-        return NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").last!
+        return NSStringFromClass(type(of: self)).components(separatedBy: ".").last!
     }
 }
 
@@ -58,25 +58,25 @@ extension Character {
 extension String {    
 
     subscript(integerIndex: Int) -> Character {
-        let index = startIndex.advancedBy(integerIndex)
+        let index = characters.index(startIndex, offsetBy: integerIndex)
         return self[index]
     }
     
     subscript(integerRange: Range<Int>) -> String {
-        let start = startIndex.advancedBy(integerRange.startIndex)
-        let end = startIndex.advancedBy(integerRange.endIndex)
+        let start = characters.index(startIndex, offsetBy: integerRange.lowerBound)
+        let end = characters.index(startIndex, offsetBy: integerRange.upperBound)
         let range = start..<end
         return self[range]
     }
     
     subscript (i: Int) -> String {
-        let index = self.startIndex.advancedBy(i)
-        return String(self[index] as! Character) // returns Character 'o'
+        let index = self.characters.index(self.startIndex, offsetBy: i)
+        return String(self[index] ) // returns Character 'o'
         //return String(self[i] as Character)
     }
     
 
-    public func rangeFromNSRange(nsRange : NSRange) -> Range<String.Index>? {
+    public func rangeFromNSRange(_ nsRange : NSRange) -> Range<String.Index>? {
         let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
         let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
         if let from = String.Index(from16, within: self),
@@ -87,20 +87,21 @@ extension String {
     }
     
     public func urlDecode() -> String? {
-        return stringByRemovingPercentEncoding
+        let nsstr = NSString(string: self)
+        return nsstr.removingPercentEncoding
     }
     
     public func urlEncodedString() -> String? {
-        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
-        let escapedString = self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
+        let customAllowedSet =  CharacterSet.urlQueryAllowed
+        let escapedString = self.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)
         return escapedString
     }
     
     
-    public func validateEmail(email:String) -> Bool{
+    public func validateEmail(_ email:String) -> Bool{
         let emailRegex:String = String("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
         let emailTest: NSPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailTest.evaluateWithObject(email)
+        return emailTest.evaluate(with: email)
     }
     
     public var first: String {
@@ -112,7 +113,7 @@ extension String {
     }
     
     public var uppercaseFirst: String {
-        return first.uppercaseString + String(characters.dropFirst())
+        return first.uppercased() + String(characters.dropFirst())
     }
     
   
@@ -140,25 +141,25 @@ extension String {
     
 }
 
-extension NSDate {
-    func numberOfDaysUntilDateTime(toDateTime: NSDate, inTimeZone timeZone: NSTimeZone? = nil) -> Int {
-        let calendar = NSCalendar.currentCalendar()
+extension Date {
+    func numberOfDaysUntilDateTime(_ toDateTime: Date, inTimeZone timeZone: TimeZone? = nil) -> Int {
+        var calendar = Calendar.current
         if let timeZone = timeZone {
             calendar.timeZone = timeZone
         }
         
-        var fromDate: NSDate?, toDate: NSDate?
+        var fromDate: Date?, toDate: Date?
         
-        calendar.rangeOfUnit(.Day, startDate: &fromDate, interval: nil, forDate: self)
-        calendar.rangeOfUnit(.Day, startDate: &toDate, interval: nil, forDate: toDateTime)
+        (calendar as NSCalendar).range(of: .day, start: &fromDate, interval: nil, for: self)
+        (calendar as NSCalendar).range(of: .day, start: &toDate, interval: nil, for: toDateTime)
         
-        let difference = calendar.components(.Day, fromDate: fromDate!, toDate: toDate!, options: [])
-        return difference.day
+        let difference = (calendar as NSCalendar).components(.day, from: fromDate!, to: toDate!, options: [])
+        return difference.day!
     }
 }
 
 extension Dictionary {
-    mutating public func merge<K, V>(dict: [K: V]){
+    mutating public func merge<K, V>(_ dict: [K: V]){
         for (k, v) in dict {
             self.updateValue(v as! Value, forKey: k as! Key)
         }

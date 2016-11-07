@@ -24,27 +24,27 @@ public struct EMVTags {
 }
 
 @objc public enum RBAStates:Int {
-    case Idle
-    case TxnInitiated
-    case TxnWaitingForUserAmountConfirmation
-    case TxnCancelled
-    case TxnAmountConfirmed
-    case TxnAuthorizing
-    case TxnAuthorized
+    case idle
+    case txnInitiated
+    case txnWaitingForUserAmountConfirmation
+    case txnCancelled
+    case txnAmountConfirmed
+    case txnAuthorizing
+    case txnAuthorized
 }
 
-public class TxnStateMachine:NSObject{
+open class TxnStateMachine:NSObject{
     
     override init() {
         super.init()
     }
-    public var currentState = RBAStates.Idle
+    open var currentState = RBAStates.idle
 }
 
 
-public class RbaPoint{
-    public var x:Int = 0
-    public var y:Int = 0
+open class RbaPoint{
+    open var x:Int = 0
+    open var y:Int = 0
 
     
     func toDic() -> [String:Int]
@@ -55,24 +55,24 @@ public class RbaPoint{
     
 }
 
-public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
-    public static let sharedIngenicoInstance = IngenicoDriver()
-    var inputStream:NSInputStream!
-    var outputStream:NSOutputStream!
-    var statemachine:Observable<RBAStates> = Observable<RBAStates>(RBAStates.Idle)
+open class IngenicoDriver: PolymorphicSwiperService,StreamDelegate {
+    open static let sharedIngenicoInstance = IngenicoDriver()
+    var inputStream:InputStream!
+    var outputStream:OutputStream!
+    var statemachine:Observable<RBAStates> = Observable<RBAStates>(RBAStates.idle)
     var signatureBlockCount = 0
     var fetchingsignatureBlockNum = 0
     var signatureData = ""
     var shouldWaitForSignatureCapture = false
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.discovernetowrkswipers", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.acceptcard", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.connectrba", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.sendresponsetorba", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.txndetails", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.amountconfirmed", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:"internal.closerbaconnection", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.discovernetowrkswipers"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.acceptcard"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.connectrba"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.sendresponsetorba"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.txndetails"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.amountconfirmed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IngenicoDriver.consumeMessage(_:)), name:NSNotification.Name(rawValue: "internal.closerbaconnection"), object: nil)
         devicesArray.didChange.addHandler(self, handler: IngenicoDriver.foundDevices)
         statemachine.didChange.addHandler(self, handler: IngenicoDriver.stateChanged)
     }
@@ -87,24 +87,24 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    public func stream(aStream: NSStream, handleEvent aStreamEvent: NSStreamEvent) {
+    open func stream(_ aStream: Stream, handle aStreamEvent: Stream.Event) {
         switch aStreamEvent {
-        case NSStreamEvent.OpenCompleted:
-            if(aStream.isKindOfClass(NSOutputStream) == true){
+        case Stream.Event.openCompleted:
+            if(aStream.isKind(of: OutputStream.self) == true){
                 NSLog("Initiating EMV Transaction")
-                statemachine.set(RBAStates.TxnInitiated)
+                statemachine.set(RBAStates.txnInitiated)
                 let msg:Message = Message(routKey: "internal.rbaconnected")
                 MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
             }
-        case NSStreamEvent.HasBytesAvailable:
+        case Stream.Event.hasBytesAvailable:
             self.read()
-        case NSStreamEvent.HasSpaceAvailable:
+        case Stream.Event.hasSpaceAvailable:
             break
-        case NSStreamEvent.EndEncountered:
+        case Stream.Event.endEncountered:
             break
-        case NSStreamEvent.None:
+        case Stream.Event():
             break
-        case NSStreamEvent.ErrorOccurred:
+        case Stream.Event.errorOccurred:
             print("NSStreamEvent.ErrorOccurred")
         default:
             print("# something weird happend")
@@ -235,7 +235,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      */
     func sendNack()
     {
-        var buffer = [UInt8](count: 2048, repeatedValue: 0)
+        var buffer = [UInt8](repeating: 0, count: 2048)
         buffer[0] = 0x06
         self.send(nil, buffer: buffer)
     }
@@ -251,7 +251,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      @return None
      */
     func read(){
-        var buffer = [UInt8](count: 2048, repeatedValue: 0)
+        var buffer = [UInt8](repeating: 0, count: 2048)
         var output: String = ""
         while (self.inputStream.hasBytesAvailable){
             let bytesRead: Int = inputStream.read(&buffer, maxLength: buffer.count)
@@ -260,7 +260,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                     //NSLog("RECEVIED ACK", "")
                 }
                 else{
-                    output += NSString(bytes: UnsafePointer(buffer), length: bytesRead, encoding: NSUTF8StringEncoding)! as String
+                    output += NSString(bytes: UnsafePointer(buffer), length: bytesRead, encoding: String.Encoding.utf8.rawValue)! as String
                 }
             } else {
                 print("# error")
@@ -283,14 +283,14 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func send(message:NSData?,buffer:[UInt8]?){
+    func send(_ message:Data?,buffer:[UInt8]?){
         if (self.outputStream.hasSpaceAvailable){
             var bytesWritten = 0
             if(buffer != nil){
                 bytesWritten = self.outputStream.write(UnsafePointer(buffer!), maxLength: buffer!.count)
             }
             else{
-                bytesWritten = self.outputStream.write(UnsafePointer(message!.bytes), maxLength: message!.length)
+                bytesWritten = self.outputStream.write((message! as NSData).bytes.bindMemory(to: UInt8.self, capacity: message!.count), maxLength: message!.count)
             }
             
             if(bytesWritten == 0){
@@ -312,18 +312,18 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func consumeMessage(notif:NSNotification){
-        let msg:Message = notif.userInfo!["message"] as! Message
+    func consumeMessage(_ notif:Notification){
+        let msg:Message = (notif as NSNotification).userInfo!["message"] as! Message
         switch(msg.routingKey){
         case "internal.closerbaconnection":
-            statemachine.set(RBAStates.Idle)
+            statemachine.set(RBAStates.idle)
             self.hardReset()
             break
         case "internal.discovernetowrkswipers":
             let device:String = msg.params!["device"] as! String
             selfIP = msg.params!["selfip"] as! String
-            if(device.caseInsensitiveCompare("ipp320") == NSComparisonResult.OrderedSame){
-                var buf: Array<CChar> = Array(count: 7, repeatedValue: 0)
+            if(device.caseInsensitiveCompare("ipp320") == ComparisonResult.orderedSame){
+                var buf: Array<CChar> = Array(repeating: 0, count: 7)
                 //DISCOVERY PACKET
                 buf[0] = 0x02;
                 buf[1] = 0x35;
@@ -347,14 +347,14 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             break
         case "internal.txndetails":
             var amount:String = msg.params!["amount"] as! String
-            amount = amount.stringByReplacingOccurrencesOfString(".", withString: "")
+            amount = amount.replacingOccurrences(of: ".", with: "")
             let txnType:String = msg.params!["txntype"] as! String
             self.sendEMVTransactionTypeToTerminal(txnType)
             self.sendAmount(amount)
             break
         case "internal.amountconfirmed":
             var amount:String = msg.params!["amount"] as! String
-            amount = amount.stringByReplacingOccurrencesOfString(".", withString: "")
+            amount = amount.replacingOccurrences(of: ".", with: "")
             self.sendAmount(amount)
         default:
             break
@@ -371,7 +371,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func stateChanged(newstate: RBAStates) {
+    func stateChanged(_ newstate: RBAStates) {
         NSLog("stateChanged", "")
         
     }
@@ -386,14 +386,14 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func foundDevices(devices: [AnyObject]) {
+    func foundDevices(_ devices: [AnyObject]) {
         NSLog("Found ingenico devices %@", devices)
         let msg:Message = Message(routKey: "internal.discovereddevices")
         msg.params = ["devices":devices]
         MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
         
         for device:NSDictionary in devices as! [NSDictionary]{
-            self.connectToIngenico(device.objectForKey("ip") as! String)
+            self.connectToIngenico(device.object(forKey: "ip") as! String)
         }
         
     }
@@ -408,9 +408,9 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func requestSignature(data: String) {
-        let str: String = "20.165\u{1C}".stringByAppendingString(data)
-        let msg: NSData = self.buildMessage(str)
+    func requestSignature(_ data: String) {
+        let str: String = "20.165\u{1C}" + data
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -426,7 +426,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      */
     func requestSignatureData() {
         let str: String = "29.10000712"
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -444,7 +444,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     func requestSignatureBlock()
     {
         let str: String = "29.1000070" + String(fetchingsignatureBlockNum)
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         fetchingsignatureBlockNum += 1
         self.send(msg,buffer: nil)
     }
@@ -459,9 +459,9 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func initiateTransaction(data: String) {
-        let str: String = "23.".stringByAppendingString(data)
-        let msg: NSData = self.buildMessage(str)
+    func initiateTransaction(_ data: String) {
+        let str: String = "23." + data
+        let msg: Data = self.buildMessage(str)
         NSLog("%@", msg)
         self.send(msg,buffer: nil)
     }
@@ -476,7 +476,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func sendEmvResponseToTerminal(response:NSDictionary){
+    func sendEmvResponseToTerminal(_ response:NSDictionary){
         var str:String = "33.04.0000\u{1C}"
         let emvtags = response["emvTags"] as? NSDictionary
         var emvtagsarray:[[String:String]] = [[String:String]]()
@@ -493,7 +493,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             }
         }
         str += "\u{1C}"
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -509,12 +509,12 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      */
     func EMVCardDetected()
     {
-        statemachine.set(RBAStates.TxnInitiated)
+        statemachine.set(RBAStates.txnInitiated)
         NSLog("Initiated Smart EMV", "")
         var str = "33.00.0000"
         str += "\u{1C}\u{1C}\u{1C}"
         str += "\u{1C}\u{1C}"
-        let msg: NSData  = self.buildMessage(str)
+        let msg: Data  = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -528,11 +528,11 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func sendEMVTransactionTypeToTerminal(txnType:String)
+    func sendEMVTransactionTypeToTerminal(_ txnType:String)
     {
         var str = "14."
         str += txnType
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -550,7 +550,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     {
         var str = "04.0"
         str += RBAProtocolConst.sharedRBAConstsInstance.creditCardType
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -564,11 +564,11 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func sendAmount(amount:String)
+    func sendAmount(_ amount:String)
     {
         var str = "13."
         str += amount
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -583,8 +583,8 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func setavailability(running: Bool) {
-        var data: NSData
+    func setavailability(_ running: Bool) {
+        var data: Data
         if running {
             data  = self.buildMessage("01.00000000")
         }
@@ -609,7 +609,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
     {
         var str = "33.01.0000"
         str += "\u{1C}\u{1C}\u{1C}\u{1C}"
-        let msg: NSData = self.buildMessage(str)
+        let msg: Data = self.buildMessage(str)
         self.send(msg,buffer: nil)
     }
     
@@ -624,7 +624,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func buildMessage(text: String) -> NSData {
+    func buildMessage(_ text: String) -> Data {
         //NSLog("MSG->OUT: %@", text)
         let bytes = self.stringToHex(text)
         let lrc = self.calculateLRC(bytes)
@@ -645,7 +645,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func connectToIngenico(address:String) {
+    func connectToIngenico(_ address:String) {
         /*NSString *thePath = [[NSBundle mainBundle] pathForResource:@"CLIENT2" ofType:@"p12"];
          NSData *PKCS12Data = [[NSData alloc] initWithContentsOfFile:thePath];
          CFDataRef inPKCS12Data = (__bridge CFDataRef)PKCS12Data;
@@ -663,7 +663,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         var readStream:  Unmanaged<CFReadStream>?
         var writeStream: Unmanaged<CFWriteStream>?
         
-        CFStreamCreatePairWithSocketToHost(nil,address,12000, &readStream, &writeStream)
+        CFStreamCreatePairWithSocketToHost(nil,address as CFString!,12000, &readStream, &writeStream)
         
         // Documentation suggests readStream and writeStream can be assumed to
         // be non-nil. If you believe otherwise, you can test if either is nil
@@ -675,8 +675,8 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         self.inputStream.delegate = self
         self.outputStream.delegate = self
         
-        self.inputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-        self.outputStream.scheduleInRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
+        self.inputStream.schedule(in: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+        self.outputStream.schedule(in: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
         
         self.inputStream.open()
         self.outputStream.open()
@@ -724,7 +724,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func processResponseBytes(output: String) {
+    func processResponseBytes(_ output: String) {
         let byteArray = output.utf8
         let data: NSMutableData = NSMutableData()
         for value in byteArray{
@@ -733,45 +733,45 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             }
             else{
                 var int:UInt32 = UInt32(value)
-                data.appendBytes(&int, length: 1)
+                data.append(&int, length: 1)
             }
         }
         
-        let newstring = String(data: data, encoding: NSUTF8StringEncoding)!
+        let newstring = String(data: data as Data, encoding: String.Encoding.utf8)!
         NSLog("MSG->IN: %@", newstring)
         
-        let cmdrange = Range(start: newstring.startIndex, end: newstring.startIndex.advancedBy(2))
-        let cmd:String = newstring.substringWithRange(cmdrange)
+        let cmdrange = (newstring.startIndex ..< newstring.characters.index(newstring.startIndex, offsetBy: 2))
+        let cmd:String = newstring.substring(with: cmdrange)
         let command:Int = Int(cmd)!
         
-        if newstring.rangeOfString("23.0S") != nil {
+        if newstring.range(of: "23.0S") != nil {
             self.clearDisplay()
             self.EMVCardDetected()
             return;
         }
-        else if(newstring.rangeOfString("23.1S") != nil) {
+        else if(newstring.range(of: "23.1S") != nil) {
             NSLog("BAD EMV CARD", "")
             self.hardReset()
             return;
         }
-        else if(cmd.caseInsensitiveCompare("04") == NSComparisonResult.OrderedSame){
-            statemachine.set(RBAStates.TxnWaitingForUserAmountConfirmation)
+        else if(cmd.caseInsensitiveCompare("04") == ComparisonResult.orderedSame){
+            statemachine.set(RBAStates.txnWaitingForUserAmountConfirmation)
             let msg:Message = Message(routKey: "internal.confirmamountrequest")
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
             return
         }
-        else if(cmd.caseInsensitiveCompare("00") == NSComparisonResult.OrderedSame){
+        else if(cmd.caseInsensitiveCompare("00") == ComparisonResult.orderedSame){
             NSLog("Offline Response Message %@", newstring)
             return
         }
-        else if(newstring.rangeOfString("20.0") != nil) {
+        else if(newstring.range(of: "20.0") != nil) {
             NSLog("Signature Data", "")
             self.requestSignatureData()
             return
         }
-        else if(newstring.rangeOfString("29.20000712") != nil) {
-            let range = Range<String.Index>(start: newstring.startIndex.advancedBy(11), end: newstring.startIndex.advancedBy(12))
-            let blok = newstring.substringWithRange(range)
+        else if(newstring.range(of: "29.20000712") != nil) {
+            let range = (newstring.characters.index(newstring.startIndex, offsetBy: 11) ..< newstring.characters.index(newstring.startIndex, offsetBy: 12))
+            let blok = newstring.substring(with: range)
             //let numblocks:NSString = blok.stringByMatching("(.*?)\u{3}\u{12}",capture:1)
             signatureBlockCount = Int(blok)!
             NSLog("Signature Block Count %@", blok)
@@ -779,8 +779,8 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             
             return
         }
-        else if(newstring.rangeOfString("29.2000070") != nil){
-            signatureData += newstring.substringFromIndex(newstring.startIndex.advancedBy(11))
+        else if(newstring.range(of: "29.2000070") != nil){
+            signatureData += newstring.substring(from: newstring.characters.index(newstring.startIndex, offsetBy: 11))
             NSLog("%@", signatureData)
             if(fetchingsignatureBlockNum < signatureBlockCount){
                 self.requestSignatureBlock()
@@ -796,13 +796,13 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         case 1:
             break
         case 9:
-            if(output.rangeOfString("09.020201R") != nil){
+            if(output.range(of: "09.020201R") != nil){
                 NSLog("Card removed", "")
                 self.clearDisplay()
                 self.hardReset()
             }
         case 4:
-            statemachine.set(RBAStates.TxnInitiated)
+            statemachine.set(RBAStates.txnInitiated)
             let msg:Message = Message(routKey: "internal.confirmamountrequest")
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
         case 7:
@@ -810,12 +810,12 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         //self.lblOutput.text = [@"Terminal stats: " stringByAppendingString:output];
         case 10:
             NSLog("User cancelled transaction", "")
-            statemachine.set(RBAStates.TxnCancelled)
+            statemachine.set(RBAStates.txnCancelled)
             self.hardReset()
         case 33:
             var subcommand = 0
-            let subcmdrange = Range(start:newstring.startIndex.advancedBy(4), end: newstring.startIndex.advancedBy(6))
-            let subcmd: String = output.substringWithRange(subcmdrange)
+            let subcmdrange = (newstring.characters.index(newstring.startIndex, offsetBy: 4) ..< newstring.characters.index(newstring.startIndex, offsetBy: 6))
+            let subcmd: String = output.substring(with: subcmdrange)
             subcommand = Int(subcmd)!
             switch subcommand {
             case 0:
@@ -827,11 +827,11 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             case 2:
                 self.sendPaymentRequestTypeToTerminal()
             case 3:
-                statemachine.set(RBAStates.TxnAuthorizing)
+                statemachine.set(RBAStates.txnAuthorizing)
                 self.parseEMVCardData(output,messagetype: RBAProtocolConst.sharedRBAConstsInstance.AuthorizationRequestMessage)
             case 5:
-                if(statemachine.get() == RBAStates.TxnAuthorizing){
-                    statemachine.set(RBAStates.TxnAuthorized)
+                if(statemachine.get() == RBAStates.txnAuthorizing){
+                    statemachine.set(RBAStates.txnAuthorized)
                     
                     shouldWaitForSignatureCapture = true
                     
@@ -847,8 +847,8 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                 break
             }
         case 23:
-            let range = Range(start: output.startIndex.advancedBy(5), end: output.endIndex.advancedBy(-7))
-            let carddata = output.substringWithRange(range)
+            let range = (output.characters.index(output.startIndex, offsetBy: 5) ..< output.characters.index(output.endIndex, offsetBy: -7))
+            let carddata = output.substring(with: range)
             self.parseCardData(carddata)
             break
         case 50:
@@ -875,41 +875,41 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func parseEMVCardData(param:String, messagetype:String)
+    func parseEMVCardData(_ param:String, messagetype:String)
     {
-        let components = param.componentsSeparatedByString("\u{1C}")
+        let components = param.components(separatedBy: "\u{1C}")
         var tags:[NSString:AnyObject] = [NSString:AnyObject]()
         
         var arrayOfTagsToSend:[[String:String]] = [[String:String]]()
         
         var i = 0
         for nstr:NSString in components{
-            var matched:[String]? = nstr.componentsSeparatedByString(":")
-            if(matched != nil && matched!.count > 1 && matched![0].substringToIndex(matched![0].startIndex.advancedBy(1)) == "T"){
+            var matched:[String]? = nstr.components(separatedBy: ":")
+            if(matched != nil && matched!.count > 1 && matched![0].substring(to: matched![0].characters.index(matched![0].startIndex, offsetBy: 1)) == "T"){
                 var emvtag = EMVTags()
                 emvtag.tagfullid = matched![0]
-                emvtag.tagshortid = matched![0].substringFromIndex(matched![0].startIndex.advancedBy(1))
+                emvtag.tagshortid = matched![0].substring(from: matched![0].characters.index(matched![0].startIndex, offsetBy: 1))
                 emvtag.taglen = matched![1]
                 
                 
                 var value:NSString = matched![2]
                 
                 let key:NSString = matched![0]
-                if(value.substringToIndex(1) == "a" || value.substringToIndex(1) == "h"){
-                    value = value.substringFromIndex(1)
+                if(value.substring(to: 1) == "a" || value.substring(to: 1) == "h"){
+                    value = value.substring(from: 1)
                     matched![2] = value as String
                 }
                 
                 emvtag.tagdata = value as String
                 arrayOfTagsToSend.append(emvtag.tagToDic())
                 
-                if(key.caseInsensitiveCompare(RBAProtocolConst.sharedRBAConstsInstance.emvTrack2Data) == NSComparisonResult.OrderedSame){
-                    let emvtrack = value.componentsSeparatedByString("=")
+                if(key.caseInsensitiveCompare(RBAProtocolConst.sharedRBAConstsInstance.emvTrack2Data) == ComparisonResult.orderedSame){
+                    let emvtrack = value.components(separatedBy: "=")
                     var expdate = emvtrack[1] as! NSString
-                    expdate = expdate.substringToIndex(4)
+                    expdate = expdate.substring(to: 4)
                     tags[RBAProtocolConst.sharedRBAConstsInstance.ExpirationDate] = expdate
                 }
-                else if(key.caseInsensitiveCompare(RBAProtocolConst.sharedRBAConstsInstance.track3Data) == NSComparisonResult.OrderedSame){
+                else if(key.caseInsensitiveCompare(RBAProtocolConst.sharedRBAConstsInstance.track3Data) == ComparisonResult.orderedSame){
                     tags[RBAProtocolConst.sharedRBAConstsInstance.track3Data] = [matched![2],matched![4],matched![5]]
                 }
                 if(tags[key] == nil){
@@ -922,7 +922,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             NSLog("%@", tags)
             //send data to emv switch
             let msg:Message = Message(routKey: "internal.carddata")
-            let st = NSNumber(integer: statemachine.get().rawValue)
+            let st = NSNumber(value: statemachine.get().rawValue as Int)
             msg.params = ["carddata":tags,"emvtags":arrayOfTagsToSend,"messagetype":messagetype,"currentstate":st,"shouldwaitforsignature":shouldWaitForSignatureCapture]
             MessageDispatcher.sharedDispacherInstance.addMessageToBus(msg)
         }
@@ -942,7 +942,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func parseCardData(param:String)
+    func parseCardData(_ param:String)
     {
         let byteArray = param.utf8
         let data: NSMutableData = NSMutableData()
@@ -975,7 +975,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         
         if (source != 0x35)
         {
-            var tracks = param.componentsSeparatedByString("\u{1C}")
+            var tracks = param.components(separatedBy: "\u{1C}")
             if(param.characters.count > 12 && param.characters.count < 30){
                 if(tracks.count > 0){
                     cardData["Data"] = tracks[1]
@@ -1008,22 +1008,22 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func parseTrack2(track2:String) -> [String : String]
+    func parseTrack2(_ track2:String) -> [String : String]
     {
         var track2Data:[String : String] = [String : String]()
         
         if (track2.characters.count > 0)
         {
-            let accountNumber = track2.substringToIndex((track2.rangeOfString("=")?.startIndex)!)
-            var range:Range = Range(start: (track2.rangeOfString("=")?.startIndex.advancedBy(1))!, end:(track2.rangeOfString("=")?.startIndex.advancedBy(4))!)
-            let expirationDate = track2.substringWithRange(range)
-            range = Range(start: (track2.rangeOfString("=")?.startIndex)!.advancedBy(5), end: (track2.rangeOfString("=")?.startIndex)!.advancedBy(5+3))
-            let serviceCode = track2.substringWithRange(range)
-            range = Range(start: (track2.rangeOfString("=")?.startIndex)!.advancedBy(8), end: (track2.rangeOfString("=")?.startIndex)!.advancedBy(8+5))
-            let pvv = track2.substringWithRange(range)
+            let accountNumber = track2.substring(to: (track2.range(of: "=")?.lowerBound)!)
+            var range:Range = ((<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(track2.range(of: "=")?.lowerBound, offsetBy: 1))! ..< (<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(track2.range(of: "=")?.lowerBound, offsetBy: 4))!)
+            let expirationDate = track2.substring(with: range)
+            range = (<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index((track2.range(of: "=")?.lowerBound)!, offsetBy: 5) ..< <#T##String.CharacterView corresponding to your index##String.CharacterView#>.index((track2.range(of: "=")?.lowerBound)!, offsetBy: 5+3))
+            let serviceCode = track2.substring(with: range)
+            range = (<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index((track2.range(of: "=")?.lowerBound)!, offsetBy: 8) ..< <#T##String.CharacterView corresponding to your index##String.CharacterView#>.index((track2.range(of: "=")?.lowerBound)!, offsetBy: 8+5))
+            let pvv = track2.substring(with: range)
             
-            range = Range(start: (track2.rangeOfString("=")?.startIndex)!.advancedBy(13), end: track2.endIndex)
-            let discretionaryData = track2.substringWithRange(range)
+            range = (<#T##String.CharacterView corresponding to your index##String.CharacterView#>.index((track2.range(of: "=")?.lowerBound)!, offsetBy: 13) ..< track2.endIndex)
+            let discretionaryData = track2.substring(with: range)
             
             track2Data = [
                 "Track2Data" : track2,
@@ -1048,24 +1048,24 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func parseTrack1(track1: String) -> [String : String] {
+    func parseTrack1(_ track1: String) -> [String : String] {
         var track1Data: [String : String]?
-        if track1.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            let components = track1.componentsSeparatedByString("^")
-            var range = Range(start: track1.startIndex.advancedBy(2), end: (track1.rangeOfString("^")?.startIndex)!)
+        if track1.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            let components = track1.components(separatedBy: "^")
+            var range = (track1.characters.index(track1.startIndex, offsetBy: 2) ..< (track1.range(of: "^")?.lowerBound)!)
             let accountNumber: String = components[0]
             let name : String = components[1]
             let restdata : String = components[2]
             
-            let restcomps = restdata.componentsSeparatedByString("\u{1C}")
+            let restcomps = restdata.components(separatedBy: "\u{1C}")
             var expirationDate: String = ""
             
-            range = Range(start: restcomps[0].startIndex, end: restcomps[0].startIndex.advancedBy(4))
-            expirationDate =  restcomps[0].substringWithRange(range)
+            range = (restcomps[0].startIndex ..< restcomps[0].characters.index(restcomps[0].startIndex, offsetBy: 4))
+            expirationDate =  restcomps[0].substring(with: range)
             
-            range = Range(start: restcomps[0].startIndex.advancedBy(4), end: restcomps[0].startIndex.advancedBy(7))
-            let serviceCode = restcomps[0].substringWithRange(range)
-            var fnamlastname = name.componentsSeparatedByString("/")
+            range = (restcomps[0].characters.index(restcomps[0].startIndex, offsetBy: 4) ..< restcomps[0].characters.index(restcomps[0].startIndex, offsetBy: 7))
+            let serviceCode = restcomps[0].substring(with: range)
+            var fnamlastname = name.components(separatedBy: "/")
             
             let lastName: String = fnamlastname[0]
             let firstName: String = fnamlastname[1]
@@ -1087,7 +1087,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
      
      @return None
      */
-    func parseSignatureData(SigData3BA:String)
+    func parseSignatureData(_ SigData3BA:String)
     {
         var points:NSMutableArray = NSMutableArray()
         var minX = 2147483647
@@ -1104,19 +1104,19 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
         var point1 = RbaPoint()
         point1.x = 0
         point1.y = 0
-        points.addObject(point1)
+        points.add(point1)
         numPts += 1
         
         let byteArray = SigData3BA.utf8
         
         
         
-        for idx=0; idx<SigData3BA.lengthOfBytesUsingEncoding(NSUTF8StringEncoding); idx+=1{
-            if(idx + 2  >= SigData3BA.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)){
+        for idx=0; idx<SigData3BA.lengthOfBytes(using: String.Encoding.utf8); idx+=1{
+            if(idx + 2  >= SigData3BA.lengthOfBytes(using: String.Encoding.utf8)){
                 break
             }
             
-            var index = SigData3BA.startIndex.advancedBy(idx)
+            var index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx)
             var source:Int = Int(SigData3BA[index].utf8Value())
             var apoint = RbaPoint()
             apoint.x = 0
@@ -1131,10 +1131,10 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             else if (source >= 0x60 && source <= 0x6f)
             {
                 //segment start
-                var index = SigData3BA.startIndex.advancedBy(idx + 1)
+                var index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx + 1)
                 let value2 = SigData3BA[index]
                 
-                index = SigData3BA.startIndex.advancedBy(idx + 3)
+                index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx + 3)
                 let value3 = SigData3BA[index]
                 
                 let uin2:Int = Int(value2.utf8Value())
@@ -1146,7 +1146,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                 X |= ((uin3 - 0x20) & 0x38) >> 3
                 
                 
-                index = SigData3BA.startIndex.advancedBy(idx + 2)
+                index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx + 2)
                 let value4 = SigData3BA[index]
                 var uin4:Int = Int(value4.utf8Value())
                 
@@ -1176,7 +1176,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
             else
             {
                 //actual values
-                var index = SigData3BA.startIndex.advancedBy(idx + 2)
+                var index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx + 2)
                 let value2 = SigData3BA[index]
                 var uin2:Int = Int(value2.utf8Value())
                 
@@ -1186,7 +1186,7 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                 idx += 1
                 
                 
-                index = SigData3BA.startIndex.advancedBy(idx + 1)
+                index = SigData3BA.characters.index(SigData3BA.startIndex, offsetBy: idx + 1)
                 let value1 = SigData3BA[index]
                 var uin1:Int = Int(value1.utf8Value())
                 
@@ -1215,13 +1215,13 @@ public class IngenicoDriver: PolymorphicSwiperService,NSStreamDelegate {
                 }
             }
             
-            points.addObject(apoint)
+            points.add(apoint)
         }
         
         
         var pointsArray:NSMutableArray = NSMutableArray()
         for onepoint:RbaPoint in points as! [RbaPoint]{
-            pointsArray.addObject(onepoint.toDic())
+            pointsArray.add(onepoint.toDic())
         }
         
         let msg:Message = Message(routKey: "internal.drawpoints")

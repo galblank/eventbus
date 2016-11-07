@@ -18,9 +18,9 @@ import sqlite3
 */
 
 
-public class DBManager: NSObject {
+open class DBManager: NSObject {
     
-    public static let sharedInstance = DBManager()
+    open static let sharedInstance = DBManager()
     
     var  databaseFullPath:String = ""
     var  dbname:NSString = ""
@@ -28,7 +28,7 @@ public class DBManager: NSObject {
     var documentsDirectory:NSString = ""
     var arraysmatrix:NSMutableDictionary = NSMutableDictionary()
     var currentIndexMatrix:NSMutableDictionary = NSMutableDictionary()
-    var databaseQueue:dispatch_queue_t? = nil
+    var databaseQueue:DispatchQueue? = nil
     var bundleDatabaseVersion = 0
     var lastInsertedRowID:CLongLong = 0
     
@@ -52,14 +52,14 @@ public class DBManager: NSObject {
         //
         // Since if the user deletes the app, both NSDocumentDirectory & NSUserDefaults are wiped.
         // App updates do not wipe the NSUserDefaults (or the NSDocumentDirectory).
-        databaseQueue = dispatch_queue_create("com.gb.app.dbqueue", DISPATCH_QUEUE_SERIAL)
+        databaseQueue = DispatchQueue(label: "com.gb.app.dbqueue", attributes: [])
         
-        dbname = NSBundle.mainBundle().infoDictionary!["databasename"] as! String
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        dbname = Bundle.main.infoDictionary!["databasename"] as! String as NSString
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docPath = paths[0]
         databaseFullPath += "\(docPath)/" + "\(dbname)"
         print(databaseFullPath)
-        let bundleDBVersionString = NSBundle.mainBundle().infoDictionary!["BundleDBVersion"] as? String
+        let bundleDBVersionString = Bundle.main.infoDictionary!["BundleDBVersion"] as? String
         if(bundleDBVersionString != nil){
             bundleDatabaseVersion = Int(bundleDBVersionString!)!
         }
@@ -67,7 +67,7 @@ public class DBManager: NSObject {
         
         // Get Install DB version.
         var installDatabaseVersion = 0;
-        let installDatabaseVersionString = NSUserDefaults.standardUserDefaults().objectForKey("kDB_BUNDLE_VERSION_KEY") as? String
+        let installDatabaseVersionString = UserDefaults.standard.object(forKey: "kDB_BUNDLE_VERSION_KEY") as? String
         if(installDatabaseVersionString != nil)
         {
             installDatabaseVersion = Int(installDatabaseVersionString!)!
@@ -89,10 +89,10 @@ public class DBManager: NSObject {
             if(bundleDatabaseVersion > installDatabaseVersion)
             {
                 print("Upgrade DB Flow")
-                if (NSFileManager.defaultManager().isDeletableFileAtPath(databaseFullPath) == true)
+                if (FileManager.default.isDeletableFile(atPath: databaseFullPath) == true)
                 {
                     do{
-                        try NSFileManager.defaultManager().removeItemAtPath(databaseFullPath)
+                        try FileManager.default.removeItem(atPath: databaseFullPath)
                         copyDatabaseIntoDocumentsDirectory()
                     }
                     catch{
@@ -107,11 +107,11 @@ public class DBManager: NSObject {
         }
     }
     
-    public func hasDatabaseBeenInstalled() -> Bool
+    open func hasDatabaseBeenInstalled() -> Bool
     {
         var isinstalled = false
-        if(databaseFullPath.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
-            isinstalled = NSFileManager.defaultManager().fileExistsAtPath(databaseFullPath)
+        if(databaseFullPath.lengthOfBytes(using: String.Encoding.utf8) > 0){
+            isinstalled = FileManager.default.fileExists(atPath: databaseFullPath)
             if(isinstalled == true){
                 print("db exists at : \(databaseFullPath)")
             }
@@ -119,21 +119,21 @@ public class DBManager: NSObject {
         return isinstalled
     }
     
-    public func copyDatabaseIntoDocumentsDirectory()
+    open func copyDatabaseIntoDocumentsDirectory()
     {
         var bForceCopy = false
         #if (TARGET_IPHONE_SIMULATOR)
             bForceCopy = true
         #endif
-        if(NSFileManager.defaultManager().fileExistsAtPath(databaseFullPath) == false || bForceCopy == true){
-            let dbnameWithoutSyffix = dbname.stringByDeletingPathExtension
+        if(FileManager.default.fileExists(atPath: databaseFullPath) == false || bForceCopy == true){
+            let dbnameWithoutSyffix = dbname.deletingPathExtension
             let dbextension = dbname.pathExtension
-            let dbFullPath = NSBundle.mainBundle().pathForResource(dbnameWithoutSyffix, ofType: dbextension)
+            let dbFullPath = Bundle.main.path(forResource: dbnameWithoutSyffix, ofType: dbextension)
             do{
-                try NSFileManager.defaultManager().copyItemAtPath(dbFullPath!, toPath: databaseFullPath)
+                try FileManager.default.copyItem(atPath: dbFullPath!, toPath: databaseFullPath)
                 print("db installed from main bundle")
-                NSUserDefaults.standardUserDefaults().setInteger(bundleDatabaseVersion, forKey: "kDB_BUNDLE_VERSION_KEY")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(bundleDatabaseVersion, forKey: "kDB_BUNDLE_VERSION_KEY")
+                UserDefaults.standard.synchronize()
             }
             catch{
                 print("failed to install db")
@@ -141,22 +141,22 @@ public class DBManager: NSObject {
         }
     }
     
-    public func deleteAllDataFromDB()
+    open func deleteAllDataFromDB()
     {
         let query = "delete from person"
         //[self executeQuery:query];
         print("Deleted the whole DB")
     }
     
-    public func runQuery(query:String, isQueryExecutable:Bool) -> Bool{
+    open func runQuery(_ query:String, isQueryExecutable:Bool) -> Bool{
         var didQueryRun = false
-        var sqlite3Database:COpaquePointer = nil
+        var sqlite3Database:OpaquePointer? = nil
         var arrResults:NSMutableArray = NSMutableArray()
         print(databaseFullPath)
         var openDatabaseResult = SQLITE_ERROR
         openDatabaseResult = sqlite3_open(databaseFullPath, &sqlite3Database)
         if(openDatabaseResult == SQLITE_OK){
-            var compiledStatement: COpaquePointer = nil
+            var compiledStatement: OpaquePointer? = nil
             if(sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, nil) != SQLITE_OK){
                 let errmsg = String.fromCString(sqlite3_errmsg(sqlite3Database))
                 print("error preparing insert: \(errmsg)")
@@ -187,10 +187,10 @@ public class DBManager: NSObject {
                         // Keep the current column name.
                         rowValuesMap.setObject(columnValue, forKey: strColumnName!)
                     }
-                    arrResults.addObject(rowValuesMap)
+                    arrResults.add(rowValuesMap)
                 }
-                arraysmatrix.setObject(arrResults, forKey: currentMatrixIndex)
-                currentIndexMatrix.setObject(0, forKey: currentMatrixIndex)
+                arraysmatrix.setObject(arrResults, forKey: currentMatrixIndex as NSCopying)
+                currentIndexMatrix.setObject(0, forKey: currentMatrixIndex as NSCopying)
             }
             else{
                 // This is the case of an executable query (insert, update, ...).
@@ -227,56 +227,56 @@ public class DBManager: NSObject {
     }
     
     
-    public func rowCountForIndex(matrixIndex:Int) -> Int
+    open func rowCountForIndex(_ matrixIndex:Int) -> Int
     {
-        let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        let tempArr = arraysmatrix.object(forKey: matrixIndex)
         if(tempArr != nil){
-            return tempArr!.count
+            return (tempArr! as AnyObject).count
         }
         return 0;
     }
     
-    public func hasDataForIndex(matrixIndex:Int) -> Bool
+    open func hasDataForIndex(_ matrixIndex:Int) -> Bool
     {
-        let tempArr = arraysmatrix.objectForKey(matrixIndex)
+        let tempArr = arraysmatrix.object(forKey: matrixIndex)
         if(tempArr == nil){
             return false
         }
-        let currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
-        if(currentIndexForThisArray < tempArr!.count){
+        let currentIndexForThisArray = currentIndexMatrix.object(forKey: matrixIndex) as! Int
+        if(currentIndexForThisArray < (tempArr! as AnyObject).count){
             return true
         }
-        arraysmatrix.removeObjectForKey(matrixIndex)
-        currentIndexMatrix.removeObjectForKey(matrixIndex)
+        arraysmatrix.removeObject(forKey: matrixIndex)
+        currentIndexMatrix.removeObject(forKey: matrixIndex)
         
         return false;
     }
     
     
-    public func nextForIndex(matrixIndex:Int) -> NSMutableDictionary?
+    open func nextForIndex(_ matrixIndex:Int) -> NSMutableDictionary?
     {
         if(currentIndexMatrix.count == 0){
             return nil
         }
-        let tempArr = arraysmatrix.objectForKey(matrixIndex) as! NSArray
-        var currentIndexForThisArray = currentIndexMatrix.objectForKey(matrixIndex) as! Int
+        let tempArr = arraysmatrix.object(forKey: matrixIndex) as! NSArray
+        var currentIndexForThisArray = currentIndexMatrix.object(forKey: matrixIndex) as! Int
         if(currentIndexForThisArray < tempArr.count){
             let valuesMap = tempArr[currentIndexForThisArray] as! NSMutableDictionary
             currentIndexForThisArray += 1
-            currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex)    //(currentIndexForThisArray forKey:matrixIndex)
+            currentIndexMatrix.setObject(currentIndexForThisArray, forKey: matrixIndex as NSCopying)    //(currentIndexForThisArray forKey:matrixIndex)
             return valuesMap
         }
         
-        arraysmatrix.removeObjectForKey(matrixIndex)
-        currentIndexMatrix.removeObjectForKey(matrixIndex)
+        arraysmatrix.removeObject(forKey: matrixIndex)
+        currentIndexMatrix.removeObject(forKey: matrixIndex)
         
         return nil
     }
     
-    public func loadDataFromDB(query:String) -> Int
+    open func loadDataFromDB(_ query:String) -> Int
     {
-        if(query.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
-            dispatch_sync(databaseQueue!, {
+        if(query.lengthOfBytes(using: String.Encoding.utf8) > 0){
+            databaseQueue!.sync(execute: {
                 self.currentMatrixIndex += 1
                 self.runQuery(query, isQueryExecutable: false)
             })
@@ -286,11 +286,11 @@ public class DBManager: NSObject {
     }
     
     
-    public func executeQuery(query:String) -> Bool
+    open func executeQuery(_ query:String) -> Bool
     {
         var isQueryExecuted = false
-        if(query.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0){
-            dispatch_sync(databaseQueue!, {
+        if(query.lengthOfBytes(using: String.Encoding.utf8) > 0){
+            databaseQueue!.sync(execute: {
                 isQueryExecuted = self.runQuery(query, isQueryExecutable: true)
             })
         }

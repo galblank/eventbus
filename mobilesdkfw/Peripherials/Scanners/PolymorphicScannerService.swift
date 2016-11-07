@@ -12,9 +12,9 @@ class PolymorphicScannerService: NSObject {
 
     func startService(){}
     
-    func consumeMessage(notif:NSNotification){}
+    func consumeMessage(_ notif:Notification){}
     
-    func calculateCheckDigitOfUPC(upc: String) -> Float {
+    func calculateCheckDigitOfUPC(_ upc: String) -> Float {
         var total: Int = 0
         var characters: [AnyObject] = NSMutableArray(capacity: upc.characters.count) as [AnyObject]
         for i in 0 ..< upc.characters.count {
@@ -32,18 +32,18 @@ class PolymorphicScannerService: NSObject {
         return ceilf(Float(total) / 10.0) * 10.0 - Float(total)
     }
     
-    func convertUPCEToUPCA(upce: String) -> String {
+    func convertUPCEToUPCA(_ upce: String) -> String {
         var ManufacturerNumber: String = ""
         var ItemNumber: String = ""
         var UPCEstring: String = ""
         // = [upce mutableCopy];
-        if upce.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) == 7 {
-            UPCEstring = upce.substringToIndex(upce.startIndex.advancedBy(6))
+        if upce.lengthOfBytes(using: String.Encoding.utf8) == 7 {
+            UPCEstring = upce.substring(to: upce.characters.index(upce.startIndex, offsetBy: 6))
             //DLog(@"it is 7");
         }
         else {
             if upce.characters.count == 8 || upce.characters.count == 9 {
-                UPCEstring = upce.substringWithRange(upce.rangeFromNSRange(NSMakeRange(1, 6))!)
+                UPCEstring = upce.substring(with: upce.rangeFromNSRange(NSMakeRange(1, 6))!)
                 //DLog(@"it is 8 or 9");
             }
             else {
@@ -91,7 +91,8 @@ class PolymorphicScannerService: NSObject {
     }
     
     
-    func handleBarcodeScan(var scannedUPC: String) {
+    func handleBarcodeScan(_ scannedUPC: String) {
+        var scannedUPC = scannedUPC
         //DLog(@"scannedUPC:%@", scannedUPC);
         if scannedUPC.hasPrefix("DS") {
             
@@ -103,7 +104,7 @@ class PolymorphicScannerService: NSObject {
             }
             else {
                 if scannedUPC.characters.count >= 13 {
-                    scannedUPC = scannedUPC.substringWithRange(scannedUPC.rangeFromNSRange(NSMakeRange(1, 12))!)
+                    scannedUPC = scannedUPC.substring(with: scannedUPC.rangeFromNSRange(NSMakeRange(1, 12))!)
                 }
             }
             

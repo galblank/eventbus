@@ -8,23 +8,23 @@
 
 import UIKit
 
-public class ImageLabel: UIView {
+open class ImageLabel: UIView {
 
-    public var image:UIImage? = nil
-    public var text:String = ""
-    public var label:UILabel!
-    public var imageview:UIImageView? = nil
-    public  func initLabel(_image:UIImage, _text:String, _font:UIFont) {
+    open var image:UIImage? = nil
+    open var text:String = ""
+    open var label:UILabel!
+    open var imageview:UIImageView? = nil
+    open  func initLabel(_ _image:UIImage, _text:String, _font:UIFont) {
         image = _image
         text = _text
         let fr = image?.size
-        imageview = UIImageView(frame: CGRect(origin: CGPointMake(0, 0), size: image!.size))
+        imageview = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: image!.size))
         imageview!.image = image
         addSubview(imageview!)
  
         let frame = CGRect(x: imageview!.frame.size.width + 5, y: 0, width: self.frame.size.width - (imageview!.frame.size.width + 5), height: self.frame.size.height)
         label = UILabel(frame: frame)
-        label.textAlignment = .Left
+        label.textAlignment = .left
         label.font = _font
         label.text = _text
         addSubview(label)
@@ -32,7 +32,7 @@ public class ImageLabel: UIView {
    
 
 
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         let lblframe = CGRect(x: imageview!.frame.size.width + 5, y: 0, width: self.frame.size.width - (imageview!.frame.size.width + 5), height: self.frame.size.height)
         label.frame = lblframe

@@ -7,18 +7,38 @@
 //
 
 import UIKit
-
-public protocol DynamicTextViewDelegate {
-    func dynamicTextViewDidResizeHeight(textview: DynamicTextView, height: CGFloat)
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
 }
 
-public class DynamicTextView: UITextView {
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+
+public protocol DynamicTextViewDelegate {
+    func dynamicTextViewDidResizeHeight(_ textview: DynamicTextView, height: CGFloat)
+}
+
+open class DynamicTextView: UITextView {
     
-    public var dynamicDelegate: DynamicTextViewDelegate?
-    public var addBottomBorder = false
+    open var dynamicDelegate: DynamicTextViewDelegate?
+    open var addBottomBorder = false
     var minHeight: CGFloat!
     var maxHeight: CGFloat?
-    private var contentOffsetCenterY: CGFloat!
+    fileprivate var contentOffsetCenterY: CGFloat!
     var bottomborder:CALayer? = nil
     
     public init(frame: CGRect, offset: CGFloat = 0.0) {
@@ -26,11 +46,11 @@ public class DynamicTextView: UITextView {
         minHeight = frame.size.height
         
         //center first line
-        let size = self.sizeThatFits(CGSizeMake(self.bounds.size.width, CGFloat.max))
+        let size = self.sizeThatFits(CGSize(width: self.bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
         contentOffsetCenterY = (-(frame.size.height - size.height * self.zoomScale) / 2.0) + offset
         
         //listen for text changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textChanged), name: UITextViewTextDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(textChanged), name: NSNotification.Name.UITextViewTextDidChange, object: nil)
         //update offsets
         layoutSubviews()
     }
@@ -45,7 +65,7 @@ public class DynamicTextView: UITextView {
         let height = CGFloat(1.0)
         if(bottomborder == nil){
             bottomborder = CALayer()
-            bottomborder!.borderColor = UIColor.darkGrayColor().CGColor
+            bottomborder!.borderColor = UIColor.darkGray.cgColor
             bottomborder!.borderWidth = 1.0
             self.layer.addSublayer(bottomborder!)
             self.layer.masksToBounds = false
@@ -53,7 +73,7 @@ public class DynamicTextView: UITextView {
         bottomborder!.frame = CGRect(x: 0, y: self.frame.size.height - height, width:  self.frame.size.width, height: height)
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         
         if(addBottomBorder == true){
@@ -82,7 +102,7 @@ public class DynamicTextView: UITextView {
     }
     
     func textChanged() {
-        let caretRect = self.caretRectForPosition(self.selectedTextRange!.start)
+        let caretRect = self.caretRect(for: self.selectedTextRange!.start)
         let overflow = caretRect.size.height + caretRect.origin.y - (self.contentOffset.y + self.bounds.size.height - self.contentInset.bottom - self.contentInset.top)
         if overflow > 0 {
             //Fix wrong offset when cursor jumps to next line un explisitly

@@ -14,11 +14,11 @@ class PolymorphicPrinterService: NSObject {
     
     func startService(){}
     
-    func consumeMessage(notif:NSNotification){}
+    func consumeMessage(_ notif:Notification){}
     
     func searchForAllConnectedPrinters(){}
     
-    func printerDidConnect(notif:NSNotification){}
+    func printerDidConnect(_ notif:Notification){}
     
     /**
      *  Process Non-Enhanced/Plain Text Receipts
@@ -31,18 +31,18 @@ class PolymorphicPrinterService: NSObject {
      // The output below is limited by 1 KB.
      // Please Sign Up (Free!) to remove this limitation.
     
-    func textToPrinterImage(printString: NSString, withFontSize textSize: CGFloat) -> UIImage {
+    func textToPrinterImage(_ printString: NSString, withFontSize textSize: CGFloat) -> UIImage {
         let width: CGFloat = 576.0
         let fontName: String = "Courier"
         var fontSize: CGFloat = textSize
         fontSize *= 2
         let font: UIFont = UIFont(name: fontName, size: fontSize)!
-        let size: CGSize = CGSizeMake(width, CGFloat.max)
-        let tmpRect: CGRect = printString.boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let size: CGSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let tmpRect: CGRect = printString.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
         var messuredSize: CGSize = tmpRect.size
         messuredSize.height += 100
-        if UIScreen.mainScreen().respondsToSelector("scale") {
-            if UIScreen.mainScreen().scale == 2.0 {
+        if UIScreen.main.responds(to: #selector(NSDecimalNumberBehaviors.scale)) {
+            if UIScreen.main.scale == 2.0 {
                 UIGraphicsBeginImageContextWithOptions(messuredSize, false, 1)
             }
             else {
@@ -52,21 +52,21 @@ class PolymorphicPrinterService: NSObject {
         else {
             UIGraphicsBeginImageContext(messuredSize)
         }
-        let ctr: CGContextRef = UIGraphicsGetCurrentContext()!
+        let ctr: CGContext = UIGraphicsGetCurrentContext()!
         
-        var color: UIColor = UIColor.whiteColor()
+        var color: UIColor = UIColor.white
         color.set()
-        let rect: CGRect = CGRectMake(0, 0, messuredSize.width, messuredSize.height + 100)
-        CGContextFillRect(ctr, rect)
+        let rect: CGRect = CGRect(x: 0, y: 0, width: messuredSize.width, height: messuredSize.height + 100)
+        ctr.fill(rect)
         
-        color = UIColor.blackColor()
+        color = UIColor.black
         color.set()
-        let style: NSMutableParagraphStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        style.alignment = .Center
+        let style: NSMutableParagraphStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        style.alignment = .center
         var attr: [String : AnyObject] = [String : AnyObject]()
         attr[NSFontAttributeName] = font
-        printString.drawInRect(CGRectMake(rect.origin.x, rect.origin.y + 44, rect.size.width, rect.size.height), withAttributes: attr)
-        let imageToPrint: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        printString.draw(in: CGRect(x: rect.origin.x, y: rect.origin.y + 44, width: rect.size.width, height: rect.size.height), withAttributes: attr)
+        let imageToPrint: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return imageToPrint
     }

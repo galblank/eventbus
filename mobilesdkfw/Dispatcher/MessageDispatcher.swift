@@ -6,27 +6,67 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
 
-public class MessageDispatcher:NSObject {
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+
+open class MessageDispatcher:NSObject {
     
-    public static let sharedDispacherInstance = MessageDispatcher()
+    open var dispsatchTimer:Timer?
+    open var messageBus:[Message] = [Message]()
+    open var dispatchedMessages:[Message] = [Message]()
     
-    public let wtchdog = Watchdog.sharedInstance
+    private static var __once: () = { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
+                if MessageDispatcher.sharedDispacherInstance.dispsatchTimer == nil {
+                    MessageDispatcher.sharedDispacherInstance.startDispatching()
+                }
+            })
+            
+        }()
     
-    public var dispsatchTimer:NSTimer?
-    public var messageBus:[Message] = [Message]()
-    public var dispatchedMessages:[Message] = [Message]()
+    open static let sharedDispacherInstance = MessageDispatcher()
+    
+    open let wtchdog = Watchdog.sharedInstance
+    
+    
     struct Static {
-        static var token: dispatch_once_t = 0
+        static var token: Int = 0
     }
     
-    public func consumeMessage(notif:NSNotification){
-        let msg:Message = notif.userInfo!["message"] as! Message
+    open func consumeMessage(_ notif:Notification){
+        let msg:Message = (notif as NSNotification).userInfo!["message"] as! Message
         switch(msg.routingKey){
         case "msg.selfdestruct":
-            let Index = messageBus.indexOf(msg)
+            let Index = messageBus.index(of: msg)
             if(Index >= 0){
-                messageBus.removeAtIndex(Index!)
+                messageBus.remove(at: Index!)
             }
             break
         default:
@@ -34,85 +74,78 @@ public class MessageDispatcher:NSObject {
         }
     }
     
-    public func addMessageToBus(newmessage: Message) {
-        if(newmessage.shouldselfdestruct == false && newmessage.routingKey.caseInsensitiveCompare("msg.selfdestruct") == NSComparisonResult.OrderedSame)
+    open func addMessageToBus(_ newmessage: Message) {
+        if(newmessage.shouldselfdestruct == false && newmessage.routingKey.caseInsensitiveCompare("msg.selfdestruct") == ComparisonResult.orderedSame)
         {
-            let index:Int = messageBus.indexOf(newmessage)!
+            let index:Int = messageBus.index(of: newmessage)!
             if(index >= 0 ){
-                messageBus.removeAtIndex(index)
+                messageBus.remove(at: index)
             }
         }
         
         messageBus.append(newmessage)
-        dispatch_once(&Static.token) { () -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                if self.dispsatchTimer == nil {
-                    self.startDispatching()
-                }
-            })
-            
-        }
+        _ = MessageDispatcher.__once
     }
     
-    public func clearDispastchedMessages() {
+    open func clearDispastchedMessages() {
         for msg:Message in dispatchedMessages {
-            let Index = messageBus.indexOf(msg)
+            let Index = messageBus.index(of: msg)
             if(Index >= 0){
-                messageBus.removeAtIndex(Index!)
+                messageBus.remove(at: Index!)
             }
         }
         dispatchedMessages.removeAll()
     }
     
     
-    public func startDispatching() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageDispatcher.consumeMessage(_:)), name: "msg.selfdestruct", object: nil)
-        dispsatchTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(MessageDispatcher.leave), userInfo: nil, repeats: true)
+    open func startDispatching() {
+        NotificationCenter.default.addObserver(self, selector: #selector(MessageDispatcher.consumeMessage(_:)), name: NSNotification.Name(rawValue: "msg.selfdestruct"), object: nil)
+        dispsatchTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MessageDispatcher.leave), userInfo: nil, repeats: true)
     }
     
-    public func stopDispathing() {
+    open func stopDispathing() {
         if dispsatchTimer != nil {
             dispsatchTimer!.invalidate()
             dispsatchTimer = nil
         }
     }
     
-    public func leave() {
+    open func leave() {
         let goingAwayBus:[Message] = NSArray(array: messageBus) as! [Message]
         for msg: Message in goingAwayBus {
             if(msg.shouldselfdestruct == false){
                 self.dispatchMessage(msg)
                 msg.shouldselfdestruct = true
-                let index:Int = messageBus.indexOf(msg)!
+                let index:Int = messageBus.index(of: msg)!
                 if(index != NSNotFound){
-                    messageBus.removeAtIndex(index)
+                    messageBus.remove(at: index)
                 }
             }
             
         }
     }
     
-    public func dispatchMessage(message: Message) {
-        var messageDic: [NSObject : AnyObject] = [NSObject : AnyObject]()
+    open func dispatchMessage(_ message: Message) {
+        var messageDic: [AnyHashable: Any] = [AnyHashable: Any]()
         messageDic["message"] = message
         if(message.routingKey == "api.*"){
             //make sure comms are initialized
             //CommManager.sharedCommSingletonDelegate
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(message.routingKey, object: nil, userInfo: messageDic)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: message.routingKey), object: nil, userInfo: messageDic)
     }
     
-    public func routeMessageToServerWithType(message: Message) {
+    open func routeMessageToServerWithType(_ message: Message) {
         if message.params == nil {
-            message.params? = [NSObject : AnyObject]()
+            message.params? = [AnyHashable: Any]() as AnyObject
         }
-        let sectoken: String? = NSUserDefaults.standardUserDefaults().objectForKey("securitytoken") as? String
-        if sectoken != nil && sectoken?.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            message.params?.setObject(sectoken, forKey: "securitytoken")
+        let sectoken: String? = UserDefaults.standard.object(forKey: "securitytoken") as? String
+        if sectoken != nil && sectoken?.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            message.params?.set(sectoken, forKey: "securitytoken")
         }
     }
     
-    public func canSendMessage(message: Message) -> Bool {
+    open func canSendMessage(_ message: Message) -> Bool {
         return true
     }
 }
