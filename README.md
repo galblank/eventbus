@@ -20,7 +20,7 @@ Contains the following modules:<br />
 <br />
 <br />
 <a href="http://www.goemerchant.com">
-<img src="http://www.goemerchant.com/images/goe-logo-shadow.png" width="350" height="100"><br />
+<img src="https://www.goemerchant.com/images/goemerchant-logo.png" width="350" height="100"><br />
 <b>First American Payment Systems</b></a>
 <br />
 <br />
